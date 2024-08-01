@@ -116,11 +116,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+
+
+# settings.py
+
 STATIC_URL = 'static/'
-STATIC_ROOT=os.path.join(BASE_DIR,'static')
-STATIC_DIRS=[
-    os.path.join(BASE_DIR,'projetlead/static')
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Cela sera utilisé pour le stockage des fichiers collectés
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'projetlead/static')]  # Dossier où se trouvent les fichiers statiques pendant le développement
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
