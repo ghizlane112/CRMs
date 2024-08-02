@@ -1,0 +1,20 @@
+{%include 'parts/nav.html'%}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Détails du Lead</title>
+</head>
+<body>
+    <h1>Détails du Lead</h1>
+    <p><strong>Nom:</strong> {{ lead.nom }}</p>
+    <p><strong>Prénom:</strong> {{ lead.prenom }}</p>
+    <p><strong>Email:</strong> {{ lead.email }}</p>
+    <p><strong>Téléphone:</strong> {{ lead.telephone }}</p>
+    <p><strong>Source:</strong> {{ lead.source }}</p>
+    <p><strong>Statut:</strong> {{ lead.statut }}</p>
+    <p><strong>Note:</strong> {{ lead.note }}</p>
+    <a href="{% url 'lead_list' %}">Retour à la liste</a>
+</body>
+</html>

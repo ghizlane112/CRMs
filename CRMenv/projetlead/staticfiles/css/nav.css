@@ -1,0 +1,49 @@
+/* Style de la barre de navigation */
+.navbar {
+    background-color: #f8f9fa; /* Couleur de fond */
+    border-bottom: 1px solid #e0e0e0; /* Bordure en bas */
+    padding: 10px 20px; /* Espacement intérieur */
+  }
+  
+  /* Style du conteneur de la barre de navigation */
+  .container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Style du logo */
+  .navbar-brand img {
+    max-width: 100%; /* Pour s'assurer que l'image ne dépasse pas le conteneur */
+    height: auto; /* Garder les proportions de l'image */
+  }
+  
+  /* Style du formulaire de recherche */
+  form.d-flex {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Style du champ de recherche */
+  .form-control {
+    border-radius: 20px; /* Coins arrondis */
+    padding: 10px; /* Espacement intérieur */
+    border: 1px solid #ced4da; /* Bordure */
+  }
+  
+  /* Style du bouton de recherche */
+  .btn-outline-success {
+    border-radius: 20px; /* Coins arrondis */
+    border: 1px solid #28a745; /* Bordure verte */
+    color: #28a745; /* Texte vert */
+    padding: 8px 16px; /* Espacement intérieur */
+    margin-left: 10px; /* Espace à gauche du bouton */
+    transition: background-color 0.3s, color 0.3s; /* Transition pour les effets de survol */
+  }
+  
+  /* Style lors du survol du bouton de recherche */
+  .btn-outline-success:hover {
+    background-color: #28a745; /* Fond vert */
+    color: #fff; /* Texte blanc */
+  }
+  

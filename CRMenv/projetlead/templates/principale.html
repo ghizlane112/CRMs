@@ -1,5 +1,407 @@
 
-{%extends  'partbase/base.html' %}
+<style>
+  * {
+  margin: 0%;
+  padding: 0%;
+}
+body {
+  font-size: 14px;
+}
+.navbar{
+  width: 100%;
+  background: rgb(255, 255, 255);
+  height: 100px;
+max-width: 100%;
+max-height: 100px;
+  
+}
+
+.logo img {
+  width: 130px;
+  height: 126px;
+  opacity: 1;
+  
+}
+.ul-container{
+margin-left: 160px;
+position: absolute;
+top:36px;
+right: 13px;
+}
+.ul-container ul li{
+display: inline;
+margin-left: 34px;
+
+}
+.ul-container ul li a {
+
+  color: rgba(52,64,83,1);
+  font-family: Inter;
+  font-weight: Semi Bold;
+  font-size: 24px;
+}
+
+.button-login {
+  width: 181px;
+  height: 52px;
+  background: rgba(217,217,217,1);
+  opacity: 1;
+  float: right;
+ border-radius: 29px;
+  color: rgba(52,64,83,0.8999999761581421);
+  font-family: Inter;
+  font-weight: Semi Bold;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+.button-SignUp {
+  width: 170px;
+  height: 52px;
+  color: rgba(52,64,83,0.800000011920929);
+  font-family: Inter;
+  font-weight: Semi Bold;
+  font-size: 24px;
+  opacity: 1;
+  float: right;
+  margin-right: 34px;
+  text-align: center;
+  border-radius: 29px;
+  background-color: rgb(255, 255, 255) ;
+  cursor: pointer;
+}
+.container{
+  width: 100%;
+  height: 2400px;
+  background: rgba(238,245,251,1);
+  opacity: 1;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+}
+.purple-div {
+  width: 100%;
+  max-width: 100%;
+  max-height: 889px;
+  height: 869px;
+ background: rgba(61,70,242,0.800000011920929);
+  opacity: 1;
+  position: absolute;
+  top: 2px;
+  left: 0px;
+  
+}
+.left-side-main1{
+  width: 430px;
+  height: 470px;
+ position: relative;
+ top: 210px;
+ left: 34px;
+}
+/* Notre mission est de simplifier la gestion de vos leads et de vous aider à augmenter vos taux de conversion. Grâce à notre outil intuitif, vous pourrez : */
+
+.GrandeTitre1-main1 {
+  color: rgba(255,255,255,1);
+  font-family: Ibarra Real Nova;
+  font-weight: Regular;
+  font-size: 33px;
+  line-height: 49px;
+  opacity: 1;
+  text-align: center;
+
+}
+
+.button-main1{
+  font-family: Inter;
+  font-weight: Semi Bold;
+  font-size: 24px;
+  width: 270px;
+  height: 52px;
+  background: rgb(255, 254, 254);
+  color: rgba(52,64,83,0.800000011920929);
+  border-radius: 29px;
+  cursor: pointer;
+ position: relative;
+ top: 110px;
+right:47px;
+}
+.image1-main1 {
+  width: 834px;
+  height: 591px;
+  background: url("../images/v1360_10770.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 1;
+  position: absolute;
+  top: 78px;
+  left: 462px;
+  overflow: hidden;
+  z-index: 1;
+}
+.gray-div-img {
+  width: 835px;
+  height: 208px;
+  background: rgba(255,255,255,0.5);
+  opacity: 1;
+  position: absolute;
+  top: 421px;
+  left: 470px;
+  border-top-left-radius: 38px;
+  border-top-right-radius: 38px;
+  border-bottom-left-radius: 38px;
+  border-bottom-right-radius: 38px;
+  overflow: hidden;
+}
+.main2{
+  position: absolute;
+  top:900px;
+  width: 100%;
+  height: 700px;
+  border-color: black;
+  border-style: dotted;
+
+}
+.main2-titre {
+  text-align: center;
+  overflow: hidden;
+}
+.GrandeTitre1 {
+  color: rgba(24,24,27,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Bold;
+  font-size: 42px;
+  text-align: center;
+}
+.petiteTitre1 {
+  width: 557px;
+  color: rgba(82,82,91,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Regular;
+  font-size: 18px;
+  opacity: 1;
+  text-align: center;
+}
+
+.qualities {
+  width: 100%;
+  height: 572px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.div1-qualites{
+  width: 255px;
+  height: 216px;
+  opacity: 1;
+  overflow: hidden;
+}
+.Grandtext1-div1 {
+  width: 243px;
+  color: rgba(24,24,27,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Bold;
+  font-size: 21px;
+  opacity: 1;
+  text-align: center;
+}
+.text1-div1 {
+  width: 255px;
+  color: rgba(82,82,91,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Regular;
+  font-size: 16px;
+  opacity: 1;
+  text-align: center;
+}
+.div2-qualites {
+  width: 255px;
+  height: 215px;
+  opacity: 1;
+  overflow: hidden;
+}
+.Grandtext1-div2 {
+  width: 243px;
+  color: rgba(24,24,27,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Bold;
+  font-size: 21px;
+  opacity: 1;
+  text-align: center;
+}
+
+.text1-div2 {
+  width: 255px;
+  color: rgba(82,82,91,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Regular;
+  font-size: 16px;
+  opacity: 1;
+  text-align: center;
+}
+
+/*div sales should be perfect*/
+.div3-qualites {
+  width: 255px;
+  height: 218px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+
+.Grandtext1-div3 {
+  width: 243px;
+  color: rgba(24,24,27,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Bold;
+  font-size: 21px;
+  opacity: 1;
+  text-align: center;
+}
+
+.text1-div3 {
+  width: 255px;
+  color: rgba(82,82,91,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Regular;
+  font-size: 16px;
+  opacity: 1;
+  text-align: center;
+}
+
+/*Quality***/
+.div4-qualites{
+  width: 255px;
+  height: 215px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.Grandtext1-div4 {
+  width: 243px;
+  color: rgba(24,24,27,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Bold;
+  font-size: 21px;
+  opacity: 1;
+  text-align: center;
+}
+.text1-div4 {
+  width: 255px;
+  color: rgba(82,82,91,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Regular;
+  font-size: 16px;
+  opacity: 1;
+  text-align: center;
+}
+
+.div5-qualites{
+  width: 255px;
+  height: 214px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.Grandtext1-div5 {
+  width: 243px;
+  color: rgba(24,24,27,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Bold;
+  font-size: 21px;
+  opacity: 1;
+  text-align: center;
+}
+
+.text1-div5 {
+  width: 255px;
+  color: rgba(82,82,91,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Regular;
+  font-size: 16px;
+  opacity: 1;
+  text-align: center;
+}
+
+.div6-qualites {
+  width: 255px;
+  height: 216px;
+  opacity: 1;
+  overflow: hidden;
+}
+
+.Grandtext1-div6 {
+  width: 243px;
+  color: rgba(24,24,27,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Bold;
+  font-size: 21px;
+  opacity: 1;
+  text-align: center;
+}
+.text1-div6 {
+  width: 255px;
+  color: rgba(82,82,91,1);
+  font-family: Plus Jakarta Sans;
+  font-weight: Regular;
+  font-size: 16px;
+  opacity: 1;
+  text-align: center;
+}
+
+.main3 {
+  width:100%;
+  height: 790px;
+  opacity: 1;background-color: #E7DDFC;
+  position: relative;
+ top:1610px;
+ border-color: black;
+border-style: double;
+}
+.left-div-main3{
+width: 700px;
+height: 550px;
+border-color: black;
+border-style: double;
+position: relative;
+top:120px;
+left:33px;
+}
+
+
+.left-div-main3 .span-main3{
+  font-family: Inter;
+  font-weight:Bold;
+  font-size: 27px;
+  line-height: 39px;
+ 
+}
+.span1-main3{
+  width: 460px;
+  font-weight: Regular;
+  font-size: 19px;
+  font-family: Ibarra Real Nova;
+  font-weight: Regular;
+  line-height: 25px;
+  margin-left: 38px;
+}
+.button-main3 {
+  width: 150px;
+  height: 45px;
+  background: linear-gradient(rgba(67,187,255,1), rgba(67,176,255,1));
+  opacity: 1;
+  overflow: hidden;
+  margin-left: 59px;
+  color: white;
+  margin-top: 34px;
+  border-radius: 21px;
+}
+
+
+</style>
+
 
 {%block container%}
 <!DOCTYPE html>
@@ -105,9 +507,6 @@
     
     
     </div>
-    
-    
-    
     </div>
     
     
@@ -115,67 +514,7 @@
     </main>
     </div>
     <!-- Site footer -->
-    <footer class="site-footer">
-    <div class="container">
-    <div class="row">
-    <div><h1>Explorez nos ressources,💪 obtenez de l'aide, et restez connectés avec nous pour tout ce dont vous avez besoin.</h1></div>
-    <div class="col-sm-12 col-md-6">
-      <h6>About</h6>
-      <p class="text-justify">Scanfcode.com <i>CODE WANTS TO BE SIMPLE </i> is an initiative  to help the upcoming programmers with the code. Scanfcode focuses on providing the most efficient code or snippets as the code wants to be simple. We will help programmers build up concepts in different programming languages that include C, C++, Java, HTML, CSS, Bootstrap, JavaScript, PHP, Android, SQL and Algorithm.</p>
-    </div>
     
-    <div class="col-xs-6 col-md-3">
-      <h6>Categories</h6>
-      <ul class="footer-links">
-        <li><a href="">C</a></li>
-        <li><a href="">UI Design</a></li>
-        <li><a href="">PHP</a></li>
-        <li><a href="">Java</a></li>
-        <li><a href="">Android</a></li>
-        <li><a href="">Templates</a></li>
-      </ul>
-    </div>
-    
-    <div class="col-xs-6 col-md-3">
-      <h6>Quick Links</h6>
-      <ul class="footer-links">
-        <li><a href="">About Us</a></li>
-        <li><a href="">Contact Us</a></li>
-        <li><a href="">Contribute</a></li>
-        <li><a href="">Privacy Policy</a></li>
-        <li><a href="">Sitemap</a></li>
-      </ul>
-    </div>
-    </div>
-    <hr>
-    </div>
-    <div class="container">
-    <div class="row">
-    <div class="col-md-8 col-sm-6 col-xs-12">
-      <p class="copyright-text">Copyright &copy; 2017 All Rights Reserved by 
-    <a href="#">Scanfcode</a>.
-      </p>
-    </div>
-    
-    <div class="col-md-4 col-sm-6 col-xs-12">
-      <ul class="social-icons">
-        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>   
-      </ul>
-    </div>
-    </div>
-    </div>
-    </footer>
-
-
-
-
-
-
-
-
     
 </body>
 </html>

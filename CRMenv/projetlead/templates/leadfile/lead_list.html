@@ -1,0 +1,43 @@
+{%include 'parts/nav.html'%}
+
+
+
+{%block navbar%}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des Leads</title>
+</head>
+<body>
+    <h1>Liste des Leads</h1>
+    <a href="{% url 'lead_create' %}">Ajouter un Lead</a>
+  <a href="{% url 'lead_import' %}">Importer des Leads</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Source</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lead in leads %}
+            <tr>
+                <td>{{ lead.nom }}</td>
+                <td>{{ lead.prenom }}</td>
+                <td>{{ lead.email }}</td>
+                <td>{{ lead.telephone }}</td>
+                <td>{{ lead.source }}</td>
+                <td>{{ lead.statut }}</td>
+                <td><a href="{% url 'lead_detail' lead.pk %}">Détails</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+{% endblock %}

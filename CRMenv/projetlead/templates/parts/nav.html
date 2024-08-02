@@ -1,7 +1,70 @@
+<style>
+  /* Style de la barre de navigation */
+  *{
+    margin: 0%;
+    padding: 0%;
+  }
+.navbar {
+  background-color: #a580f570; /* Couleur de fond */
+  border-bottom: 1px solid #e0e0e0; /* Bordure en bas */
+  padding: 10px 20px; /* Espacement intérieur */
+}
+
+/* Style du conteneur de la barre de navigation */
+.container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Style du logo */
+.navbar-brand img {
+  width: 100px;
+  height: 100px;
+  max-width: 100%; /* Pour s'assurer que l'image ne dépasse pas le conteneur */
+  /* Garder les proportions de l'image */
+}
+
+/* Style du formulaire de recherche */
+form.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+/* Style du champ de recherche */
+.form-control {
+  /* Coins arrondis */
+  padding-left: 60px;
+  padding-right: 60px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+   /* Espacement intérieur */
+  border: 1px solid #ced4da; /* Bordure */
+}
+
+/* Style du bouton de recherche */
+.btn-outline-success {
+  border-radius: 20px; /* Coins arrondis */
+  border: 1px solid #28a745; /* Bordure verte */
+  color: #28a745; /* Texte vert */
+  padding: 8px 16px; /* Espacement intérieur */
+  margin-left: 10px; /* Espace à gauche du bouton */
+  transition: background-color 0.3s, color 0.3s; /* Transition pour les effets de survol */
+}
+
+/* Style lors du survol du bouton de recherche */
+.btn-outline-success:hover {
+  background-color: #28a745; /* Fond vert */
+  color: #fff; /* Texte blanc */
+}
+
+</style>
+<body>
 <nav class="navbar bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <img src="/images/v1360_10778.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        {%load static%}
+        <img src="{% static '/images/v1360_10778.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       </a>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -9,3 +72,7 @@
       </form>
     </div>
   </nav>
+
+</body>
+
+
