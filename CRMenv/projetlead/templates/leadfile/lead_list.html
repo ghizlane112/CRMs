@@ -7,12 +7,65 @@
 <html>
 <head>
     <title>Liste des Leads</title>
+
+<style>
+.right{   
+background-color:#F6F2F2; 
+border-radius: 15px;
+height: 100%;
+width: 81%;
+position: absolute;
+top: 131px;
+left:17.5%;
+border-color: black;
+border-style: dotted;
+overflow: hidden;
+
+}
+.header-container {
+   display: inline;
+     /* Espace sous le conteneur de l'en-tête */
+   margin-top: 23px;
+}
+h1 {
+    margin:    10px; /* Supprime les marges par défaut du h1 */
+}
+
+.header-container a {
+    margin-left: 20px; /* Ajoute de l'espace entre les liens */
+    text-decoration: none; /* Supprime le soulignement par défaut des liens */
+    color: #007bff; /* Couleur des liens */
+}
+
+.header-container a:hover {
+    text-decoration: underline; /* Ajoute un soulignement au survol */
+}
+
+.table1{
+    position: relative;
+    top:100px;
+   left:23px ;
+    width: 80%;
+    border-color: black;
+    border-style: dotted;
+}
+</style>
 </head>
 <body>
-    <h1>Liste des Leads</h1>
-    <a href="{% url 'lead_create' %}">Ajouter un Lead</a>
-  <a href="{% url 'lead_import' %}">Importer des Leads</a>
-    <table>
+     <div class="left">
+        {%include 'parts/button.html'%}
+     </div>
+    <div class="right">
+        <div class="header-container">
+            <h1>La liste des Leads</h1>
+            <div>
+                <a href="{% url 'lead_create' %}">Ajouter un Lead</a>
+                <a href="{% url 'lead_import' %}">Importer des Leads</a>
+            </div>
+
+
+   <div class="table1">
+  <table>
         <thead>
             <tr>
                 <th>Nom</th>
@@ -38,6 +91,8 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
+</div>
 </body>
 </html>
 {% endblock %}
