@@ -11,6 +11,11 @@ def one(request):
 def two(request):
     return render(request,'parts/nav.html')
 
+def three(request):
+    return render(request,'parts/button.html')
+
+
+
 
 def lead_list(request):
     leads = Lead.objects.all()
