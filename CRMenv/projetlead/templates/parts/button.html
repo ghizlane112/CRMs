@@ -8,8 +8,8 @@ position: relative;
 top: 26px;
 left: 12px;
 border: 1px solid #cccccccf; /* Bordure du div */
-box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5);
-
+box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5),
+2px 2px 5px rgba(0, 0, 0, 0.2);/* Première ombre */
 }
 .div-container1 {
     border-radius: 15px;
@@ -60,7 +60,7 @@ box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5);
 
 
 
-
+<body>
 <div class="container1">
     <div class="div-container1">
         {% load static %}
@@ -102,3 +102,4 @@ box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5);
     </div>
 
 </div>
+</body>
