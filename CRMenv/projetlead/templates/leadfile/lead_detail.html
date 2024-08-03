@@ -7,6 +7,11 @@
     <title>Détails du Lead</title>
 </head>
 <body>
+<div class="left-side">
+{%include 'parts/button'%}
+</div>
+
+    <div class="right-side">
     <h1>Détails du Lead</h1>
     <p><strong>Nom:</strong> {{ lead.nom }}</p>
     <p><strong>Prénom:</strong> {{ lead.prenom }}</p>
@@ -16,5 +21,7 @@
     <p><strong>Statut:</strong> {{ lead.statut }}</p>
     <p><strong>Note:</strong> {{ lead.note }}</p>
     <a href="{% url 'lead_list' %}">Retour à la liste</a>
+
+</div>
 </body>
 </html>
