@@ -1,0 +1,8 @@
+/* static/styles.css */
+input, select, textarea {
+    width: 300px; /* Ajuste la largeur des champs */
+}
+
+textarea {
+    height: 100px; /* Ajuste la hauteur de la zone de texte */
+}
