@@ -1,6 +1,42 @@
 /* static/styles.css */
+.left-side{
+    background-color:#989df889; 
+    border-radius: 15px;
+    height: 100%;
+    width: 81%;
+    position: absolute;
+    top: 131px;
+    left:17.5%;
+    overflow: hidden;
+    box-shadow: 
+            2px 2px 5px rgba(0, 0, 0, 0.2), /* Première ombre */
+            4px 4px 10px rgba(0, 0, 0, 0.4), /* Deuxième ombre */
+            6px 6px 15px rgba(0, 0, 0, 0.6); /* Troisième ombre */
+    }
+    
+    
+     h1{
+    
+        position: relative;
+        top: 60px; 
+        left: 23px;
+        color: white;
+     }   
+     .left-side-container{
+        position: relative;
+        top: 60px;
+        left: 23px;
+     }
+input{
+    padding-top: 10px;
+    margin-top: 12px;
+    margin-left: 23px;
+}
+
+
 input, select, textarea {
     width: 300px; /* Ajuste la largeur des champs */
+
 }
 
 textarea {

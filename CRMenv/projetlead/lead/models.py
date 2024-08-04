@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Lead(models.Model):
@@ -18,7 +19,7 @@ class Lead(models.Model):
     statut=models.CharField(max_length=50,choices=STATUTS)
     note=models.TextField(blank=True,null=True)
     date_creation=models.DateTimeField(auto_now_add=True)
-
+    responsable = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='leads')
 
     def __str__(self):
         return f"{self.prenom} {self.nom}"

@@ -2,11 +2,18 @@ from django import forms
 from .models import Lead
 import csv
 from io import StringIO
+from django.contrib.auth.models import User
 
 class LeadForm(forms.ModelForm):
     class Meta:
         model = Lead
-        fields = ['nom', 'prenom', 'email', 'telephone', 'source', 'statut', 'note']
+        fields = ['nom', 'prenom', 'email', 'telephone', 'source', 'statut', 'note','responsable']
+
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['responsable'].queryset = User.objects.all()
+
 
 
 class CSVImportForm(forms.Form):
@@ -26,4 +33,7 @@ class CSVImportForm(forms.Form):
                 statut=row['statut'],
                 note=row.get('note', ''),
             )
+
+
+
 
