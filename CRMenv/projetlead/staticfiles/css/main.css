@@ -155,11 +155,11 @@ right:47px;
 }
 .main2{
   position: absolute;
-  top:900px;
+  top:912px;
   width: 100%;
   height: 700px;
-  border-color: black;
-  border-style: dotted;
+ /* border-color: black;
+  border-style: dotted;*/
 
 }
 .main2-titre {
@@ -183,175 +183,65 @@ right:47px;
   text-align: center;
 }
 
+/* Container principal */
+/* Container principal */
 .qualities {
+  margin-top: 123px;
+  display: grid; /* Utilisation de Grid Layout */
+  grid-template-columns: repeat(3, 1fr); /* Trois colonnes de largeur égale */
+  grid-gap: 20px; /* Espace entre les éléments */
   width: 100%;
-  height: 572px;
-  opacity: 1;
-  overflow: hidden;
+  padding: 20px; /* Ajoute un padding autour du container */
+  box-sizing: border-box; /* Inclut le padding dans la largeur totale */
 }
 
-.div1-qualites{
-  width: 255px;
-  height: 216px;
+/* Style commun pour chaque div */
+.qualities > div {
+  width: 100%; /* Largeur complète pour chaque div dans la grille */
+  height: 216px; /* Hauteur fixe pour chaque div */
   opacity: 1;
   overflow: hidden;
+  text-align: center; /* Centrage du texte */
 }
-.Grandtext1-div1 {
-  width: 243px;
+
+/* Styles spécifiques aux textes */
+.qualities .Grandtext1-div1,
+.qualities .Grandtext1-div2,
+.qualities .Grandtext1-div3,
+.qualities .Grandtext1-div4,
+.qualities .Grandtext1-div5,
+.qualities .Grandtext1-div6 {
   color: rgba(24,24,27,1);
   font-family: Plus Jakarta Sans;
   font-weight: Bold;
   font-size: 21px;
-  opacity: 1;
-  text-align: center;
 }
-.text1-div1 {
-  width: 255px;
+
+.qualities .text1-div1,
+.qualities .text1-div2,
+.qualities .text1-div3,
+.qualities .text1-div4,
+.qualities .text1-div5,
+.qualities .text1-div6 {
   color: rgba(82,82,91,1);
   font-family: Plus Jakarta Sans;
   font-weight: Regular;
   font-size: 16px;
-  opacity: 1;
-  text-align: center;
-}
-.div2-qualites {
-  width: 255px;
-  height: 215px;
-  opacity: 1;
-  overflow: hidden;
-}
-.Grandtext1-div2 {
-  width: 243px;
-  color: rgba(24,24,27,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Bold;
-  font-size: 21px;
-  opacity: 1;
-  text-align: center;
 }
 
-.text1-div2 {
-  width: 255px;
-  color: rgba(82,82,91,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Regular;
-  font-size: 16px;
-  opacity: 1;
-  text-align: center;
-}
-
-/*div sales should be perfect*/
-.div3-qualites {
-  width: 255px;
-  height: 218px;
-  opacity: 1;
-  overflow: hidden;
+/* Styles pour les images (si nécessaire) */
+.qualities img {
+  max-width: 100%; /* Assure que l'image ne dépasse pas la largeur de son conteneur */
+  height: auto; /* Maintient les proportions de l'image */
+  display: block;
+  margin: 0 auto 10px; /* Centre l'image et ajoute un espace en bas */
 }
 
 
-.Grandtext1-div3 {
-  width: 243px;
-  color: rgba(24,24,27,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Bold;
-  font-size: 21px;
-  opacity: 1;
-  text-align: center;
-}
-
-.text1-div3 {
-  width: 255px;
-  color: rgba(82,82,91,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Regular;
-  font-size: 16px;
-  opacity: 1;
-  text-align: center;
-}
-
-/*Quality***/
-.div4-qualites{
-  width: 255px;
-  height: 215px;
-  opacity: 1;
-  overflow: hidden;
-}
-
-.Grandtext1-div4 {
-  width: 243px;
-  color: rgba(24,24,27,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Bold;
-  font-size: 21px;
-  opacity: 1;
-  text-align: center;
-}
-.text1-div4 {
-  width: 255px;
-  color: rgba(82,82,91,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Regular;
-  font-size: 16px;
-  opacity: 1;
-  text-align: center;
-}
-
-.div5-qualites{
-  width: 255px;
-  height: 214px;
-  opacity: 1;
-  overflow: hidden;
-}
-
-.Grandtext1-div5 {
-  width: 243px;
-  color: rgba(24,24,27,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Bold;
-  font-size: 21px;
-  opacity: 1;
-  text-align: center;
-}
-
-.text1-div5 {
-  width: 255px;
-  color: rgba(82,82,91,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Regular;
-  font-size: 16px;
-  opacity: 1;
-  text-align: center;
-}
-
-.div6-qualites {
-  width: 255px;
-  height: 216px;
-  opacity: 1;
-  overflow: hidden;
-}
-
-.Grandtext1-div6 {
-  width: 243px;
-  color: rgba(24,24,27,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Bold;
-  font-size: 21px;
-  opacity: 1;
-  text-align: center;
-}
-.text1-div6 {
-  width: 255px;
-  color: rgba(82,82,91,1);
-  font-family: Plus Jakarta Sans;
-  font-weight: Regular;
-  font-size: 16px;
-  opacity: 1;
-  text-align: center;
-}
 
 .main3 {
   width:100%;
-  height: 790px;
+  height: 750px;
   opacity: 1;background-color: #E7DDFC;
   position: relative;
  top:1610px;
@@ -360,7 +250,6 @@ right:47px;
 .left-div-main3{
 width: 700px;
 height: 550px;
-
 position: relative;
 top:120px;
 left:33px;
@@ -370,7 +259,7 @@ left:33px;
 .left-div-main3 .span-main3{
   font-family: Inter;
   font-weight:Bold;
-  font-size: 27px;
+  font-size: 26px;
   line-height: 39px;
  
 }
@@ -393,5 +282,85 @@ left:33px;
   color: white;
   margin-top: 34px;
   border-radius: 21px;
+}
+
+
+
+.right-div-main3{
+  float: right;
+ transform: translateY(-400px);
+  
+}
+/* Footer container */
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Footer sections container */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Footer section */
+.footer-section {
+  flex: 1;
+  margin: 0 20px;
+}
+
+.footer-section h2 {
+  border-bottom: 2px solid #fff;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.footer-section p {
+  margin: 0;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Social media icons */
+.footer-section .social-media {
+  display: flex;
+  gap: 10px;
+}
+
+.footer-section .social-icon img {
+  width: 24px;
+  height: auto;
+}
+
+/* Footer bottom */
+.footer-bottom {
+  text-align: center;
+  padding: 10px 0;
+  background-color: #222;
+}
+
+.footer-bottom p {
+  margin: 0;
 }
 

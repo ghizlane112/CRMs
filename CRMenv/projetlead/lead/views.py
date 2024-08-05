@@ -14,6 +14,8 @@ def two(request):
 def three(request):
     return render(request,'parts/button.html')
 
+def four(request):
+    return render(request,'dashboard.html')
 
 
 
@@ -58,4 +60,4 @@ def lead_import(request):
             )
         return redirect('lead_list')
 
-    return render(request, 'leads/lead_import.html')
+    return render(request, 'leadfile/import_leads.html')

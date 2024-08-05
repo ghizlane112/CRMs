@@ -34,13 +34,21 @@ form.d-flex {
 /* Style du champ de recherche */
 .form-control {
   /* Coins arrondis */
-  padding-left: 60px;
-  padding-right: 60px;
+  padding-left: 90px;
+  padding-right: 90px;
   padding-top: 12px;
   padding-bottom: 12px;
    /* Espacement intérieur */
   border: 1px solid #ced4da; /* Bordure */
 }
+.search-icon {
+  width: 24px; /* Ajustez la largeur de l'image selon vos besoins */
+  height: 24px; /* Ajustez la hauteur de l'image selon vos besoins */
+  /* Vous pouvez ajouter plus de styles ici si nécessaire */
+}
+
+
+
 
 /* Style du bouton de recherche */
 .btn-outline-success {
@@ -68,7 +76,9 @@ form.d-flex {
       </a>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-success" type="submit">
+          {%load static%}
+        <img src="{%static 'images/recherche.png'%}" alt="Recherche" class="search-icon"></button>
       </form>
     </div>
   </nav>
