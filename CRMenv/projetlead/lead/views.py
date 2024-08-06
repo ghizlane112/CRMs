@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
+from rest_framework import generics
 from .models import Lead
 from .forms import LeadForm
+from .serializers import LeadSerializer
 
 # Create your views here.
 def one(request):
@@ -61,3 +63,11 @@ def lead_import(request):
         return redirect('lead_list')
 
     return render(request, 'leadfile/import_leads.html')
+
+class LeadListCreate(generics.ListCreateAPIView):
+    queryset = Lead.objects.all()
+    serializer_class = LeadSerializer
+
+class LeadDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Lead.objects.all()
+    serializer_class = LeadSerializer
