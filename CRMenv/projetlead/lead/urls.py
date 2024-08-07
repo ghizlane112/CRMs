@@ -12,6 +12,8 @@ urlpatterns = [
     path('lead/<int:pk>/', views.lead_detail, name='lead_detail'),
     path('lead/new/', views.lead_create, name='lead_create'),
     path('lead/import/', views.lead_import, name='lead_import'),
+
+    path('interaction_list/', views.interaction_list, name='interaction_list'),
    
 
    path('api/leads/', LeadListCreate.as_view(), name='lead-list-create'),

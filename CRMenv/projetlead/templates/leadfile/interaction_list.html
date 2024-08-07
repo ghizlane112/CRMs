@@ -1,0 +1,8 @@
+<h1>Liste des Interactions</h1>
+<ul>
+    {% for interaction in interactions %}
+        <li>
+            {{ interaction.type }} le {{ interaction.date }} avec {{ interaction.lead }} par {{ interaction.user }} : {{ interaction.description }}
+        </li>
+    {% endfor %}
+</ul>

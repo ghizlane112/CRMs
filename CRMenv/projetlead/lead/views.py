@@ -5,6 +5,8 @@ from rest_framework import generics
 from .models import Lead
 from .forms import LeadForm
 from .serializers import LeadSerializer
+from .models import Interaction, Lead
+from .forms import InteractionForm
 
 # Create your views here.
 def one(request):
@@ -64,6 +66,22 @@ def lead_import(request):
 
     return render(request, 'leadfile/import_leads.html')
 
+
+
+def add_interaction(request):
+    if request.method == 'POST':
+        form = InteractionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lead_detail', pk=form.cleaned_data['lead'].id)
+    else:
+        form = InteractionForm()
+    return render(request, 'leadfile/add_interaction.html', {'form': form})
+
+def interaction_list(request):
+    interactions = Interaction.objects.all()
+    return render(request, 'leadfile/interaction_list.html', {'interactions': interactions})
+
 class LeadListCreate(generics.ListCreateAPIView):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
@@ -71,3 +89,9 @@ class LeadListCreate(generics.ListCreateAPIView):
 class LeadDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
+
+
+
+
+
+

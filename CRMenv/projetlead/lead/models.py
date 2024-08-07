@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 class Lead(models.Model):
@@ -23,6 +24,25 @@ class Lead(models.Model):
 
     def __str__(self):
         return f"{self.prenom} {self.nom}"
+    
+class Interaction(models.Model):
+    TYPE_CHOICES = [
+        ('Appel', 'Appel'),
+        ('SMS','SMS'),
+        ('Email', 'Email'),
+        ('Autre', 'Autre'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    type = models.CharField(max_length=10, choices=TYPE_CHOICES)
+    date = models.DateTimeField(default=timezone.now)
+    description = models.TextField(blank=True, null=True)
+    lead = models.ForeignKey(Lead, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return f"Interaction avec {self.lead} le {self.date}"
+
 
 
 
