@@ -12,49 +12,58 @@
 .right{   
 background-color:#F6F2F2; 
 border-radius: 15px;
-height: 100%;
+height: auto;
 width: 81%;
 position: absolute;
 top: 131px;
 left:17.5%;
-overflow: hidden;
+/*overflow: hidden;*/
 box-shadow: 
         2px 2px 5px rgba(0, 0, 0, 0.2), /* Première ombre */
         4px 4px 10px rgba(0, 0, 0, 0.4), /* Deuxième ombre */
         6px 6px 15px rgba(0, 0, 0, 0.6); /* Troisième ombre */
 }
 .header-container {
-   margin-top: 50px;
+   margin-top: 26px;
    margin-left: 28px;
    margin-right: 12px;
    width:20%px;
-   height: 90px;
+   height: 90px
 }
 h1 {
-    margin:    10px; /* Supprime les marges par défaut du h1 */
+    margin:    7px; /* Supprime les marges par défaut du h1 */
 }
-
 .header-container a {
     margin-left: 20px;
     margin-right: 12px; /* Ajoute de l'espace entre les liens */
     text-decoration: none; /* Supprime le soulignement par défaut des liens */
     color: #007bff; /* Couleur des liens */
     float: right;
-    transform: translateY(-25px);
+    transform: translateY(-23px);
 }
 
 .header-container a:hover {
     text-decoration: underline; /* Ajoute un soulignement au survol */
 }
+.buttonfilter input{
+margin-left: 12px;
+padding-left: 18px;
+padding-right:18px ;
+padding-top: 6px;
+width: 333px;
+padding-bottom: 6px;
+
+}
+
 
 .table1{
     position: relative;
-    top:50px;
+    top:26px;
    left:20px ;
    padding-left: 12px;
    padding-right: 42px;
    border-collapse: collapse;
-    width: 84%;
+    width: 81%;
  
 }
 .table1 thead {
@@ -94,11 +103,36 @@ h1 {
 .table1 tbody tr:hover {
     background-color: #e9ecef; /* Couleur de fond au survol */
 }
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
 
+.pagination a {
+    color: #333;
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
 
+.pagination a:hover {
+    background-color: #ddd;
+}
+
+.pagination .current {
+    background-color: #007bff;
+    color: #fff;
+}
 
 
 </style>
+
 </head>
 <body>
      <div class="left">
@@ -113,8 +147,40 @@ h1 {
             </div>
         </div>
 
-   <div class="table1">
-  <table>
+
+
+        <div class="buttonfilter">
+            <!-- Formulaire de filtre -->
+            <form id="filter-form" method="GET" action="">
+                   
+                    <input type="text" name="search" value="{% if search_text %}{{ search_text }}{% endif %}" placeholder="Rechercher: Nom, Prénom, Email, etc.">
+                    <button type="submit">Rechercher</button>
+
+            </form>
+        </div>
+
+
+<!---pour trier-->
+<div class="sort-section">
+    <!-- Formulaire de tri -->
+    <form id="sort-form" method="GET" action="">
+            <select name="sort" onchange="submitSortForm()">
+                <option value="">--Tri Par --</option>
+                <option value="nom" {% if sort_field == 'nom' %}selected{% endif %}>Nom</option>
+                <option value="prenom" {% if sort_field == 'prenom' %}selected{% endif %}>Prénom</option>
+                <option value="email" {% if sort_field == 'email' %}selected{% endif %}>Email</option>
+                <option value="telephone" {% if sort_field == 'telephone' %}selected{% endif %}>Téléphone</option>
+                <option value="source" {% if sort_field == 'source' %}selected{% endif %}>Source</option>
+                <option value="statut" {% if sort_field == 'statut' %}selected{% endif %}>Statut</option>
+                <option value="note" {% if sort_field == 'note' %}selected{% endif %}>Note</option>
+            </select>
+    </form>
+</div>
+
+
+<!-----pour la table------->
+      <div class="table1">
+     <table>
         <thead>
             <tr>
                 <th>Nom</th>
@@ -137,11 +203,53 @@ h1 {
                 <td>{{ lead.statut }}</td>
                 <td><a href="{% url 'lead_detail' lead.pk %}">Détails</a></td>
             </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">Aucun lead trouvé.</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
+     </div>
+
+
+
+
+
+     <!-- Pagination -->
+
+     <div class="pagination">
+    <span class="step-links">
+        {% if leads.has_previous %}
+            <a href="?{% if search_text %}search={{ search_text }}&{% endif %}{% if sort_field %}sort={{ sort_field }}&{% endif %}page=1">&laquo; Première</a>
+            <a href="?{% if search_text %}search={{ search_text }}&{% endif %}{% if sort_field %}sort={{ sort_field }}&{% endif %}page={{ leads.previous_page_number }}">Précédente</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ leads.number }} sur {{ leads.paginator.num_pages }}.
+        </span>
+
+        {% if leads.has_next %}
+            <a href="?{% if search_text %}search={{ search_text }}&{% endif %}{% if sort_field %}sort={{ sort_field }}&{% endif %}page={{ leads.next_page_number }}">Suivante</a>
+            <a href="?{% if search_text %}search={{ search_text }}&{% endif %}{% if sort_field %}sort={{ sort_field }}&{% endif %}page={{ leads.paginator.num_pages }}">Dernière &raquo;</a>
+        {% endif %}
+      </span>
+      </div>
+ 
 </div>
-</div>
+
+
+<script>
+    function applyFilters() {
+        document.getElementById('filter-form').submit();
+    }
+    
+        // Fonction pour soumettre automatiquement le formulaire de tri
+        function submitSortForm() {
+            document.getElementById('sort-form').submit();
+        }
+    
+</script>
 </body>
 </html>
 {% endblock %}

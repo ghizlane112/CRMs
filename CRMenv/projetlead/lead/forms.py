@@ -17,6 +17,21 @@ class LeadForm(forms.ModelForm):
 
 
 
+
+class LeadSortForm(forms.Form):
+    SORT_CHOICES = [
+        ('first_name', 'Prénom'),
+        ('last_name', 'Nom'),
+        ('email', 'Email'),
+        ('phone', 'Téléphone'),
+        ('source', 'Source'),
+        ('status', 'Statut'),
+        ('created_at', 'Date de création'),
+    ]
+    ordering = forms.ChoiceField(choices=SORT_CHOICES, required=True, label='Trier par')
+
+
+
 class CSVImportForm(forms.Form):
    csv_file = forms.FileField()
    
@@ -41,6 +56,6 @@ class InteractionForm(forms.ModelForm):
     class Meta:
         model = Interaction
         fields = ['type', 'date', 'description', 'lead', 'user']
-        
+
 
 

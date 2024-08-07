@@ -3,10 +3,14 @@ from django.http import HttpResponse
 from django.template import loader
 from rest_framework import generics
 from .models import Lead
+from django.views.generic import ListView
+from .forms import LeadSortForm
 from .forms import LeadForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import LeadSerializer
 from .models import Interaction, Lead
 from .forms import InteractionForm
+from django.db.models import Q
 
 # Create your views here.
 def one(request):
@@ -25,8 +29,64 @@ def four(request):
 
 def lead_list(request):
     leads = Lead.objects.all()
-    return render(request, 'leadfile/lead_list.html', {'leads': leads})
 
+
+    #return render(request, 'leadfile/lead_list.html', {'leads': leads})
+
+
+    search_text = request.GET.get('search', '')
+    sort_field = request.GET.get('sort', '')
+
+
+    # Appliquer les filtres si le texte de recherche est présent
+    if search_text:
+        leads = leads.filter(
+            Q(nom__icontains=search_text) |
+            Q(prenom__icontains=search_text) |
+            Q(email__icontains=search_text) |
+            Q(telephone__icontains=search_text) |
+            Q(source__icontains=search_text) |
+            Q(statut__icontains=search_text) |
+            Q(note__icontains=search_text)
+        )
+
+
+     # Appliquer le tri si un champ de tri est sélectionné
+    if sort_field:
+        leads = leads.order_by(sort_field)
+    # Rendre les options de filtre disponibles pour le template
+
+
+
+   
+    # Pagination
+    paginator = Paginator(leads, 5)  # 5 leads par page
+    page_number = request.GET.get('page', 1)  # Utiliser 1 comme page par défaut
+
+    try:
+        leads_page = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        leads_page = paginator.get_page(1)  # Page 1 si la page demandée n'est pas un entier
+    except EmptyPage:
+        leads_page = paginator.get_page(paginator.num_pages)  # Dernière page si la page demandée est vide
+
+
+
+    return render(request, 'leadfile/lead_list.html', {
+        'leads': leads,
+        'search_text': search_text,
+        'sort_field': sort_field
+    })
+
+
+
+
+
+
+
+
+
+#### pour details
 def lead_detail(request, pk):
     lead = Lead.objects.get(pk=pk)
     return render(request, 'leadfile/lead_detail.html', {'lead': lead})
@@ -68,15 +128,7 @@ def lead_import(request):
 
 
 
-def add_interaction(request):
-    if request.method == 'POST':
-        form = InteractionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('lead_detail', pk=form.cleaned_data['lead'].id)
-    else:
-        form = InteractionForm()
-    return render(request, 'leadfile/add_interaction.html', {'form': form})
+
 
 def interaction_list(request):
     interactions = Interaction.objects.all()
