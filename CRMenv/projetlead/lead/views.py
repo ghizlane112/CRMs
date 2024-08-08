@@ -22,9 +22,13 @@ def two(request):
 def three(request):
     return render(request,'parts/button.html')
 
-def four(request):
+def dashboard(request):
     return render(request,'dashboard.html')
 
+
+
+def four(request):
+    return render(request,'parts/state.html')
 
 
 def lead_list(request):

@@ -2,12 +2,12 @@
 .left-side{
     background-color:#989df889; 
     border-radius: 15px;
-    height: 100%;
+    height: auto;
     width: 81%;
     position: absolute;
     top: 131px;
     left:17.5%;
-    overflow: hidden;
+    /*overflow: hidden;*/
     box-shadow: 
             2px 2px 5px rgba(0, 0, 0, 0.2), /* Première ombre */
             4px 4px 10px rgba(0, 0, 0, 0.4), /* Deuxième ombre */
