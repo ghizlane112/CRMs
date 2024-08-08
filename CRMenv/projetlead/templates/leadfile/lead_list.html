@@ -24,7 +24,7 @@ box-shadow:
         6px 6px 15px rgba(0, 0, 0, 0.6); /* Troisième ombre */
 }
 .header-container {
-   margin-top: 26px;
+   margin-top: 30px;
    margin-left: 28px;
    margin-right: 12px;
    width:20%px;
@@ -39,14 +39,14 @@ h1 {
     text-decoration: none; /* Supprime le soulignement par défaut des liens */
     color: #007bff; /* Couleur des liens */
     float: right;
-    transform: translateY(-23px);
+    transform: translateY(-20px);
 }
 
 .header-container a:hover {
     text-decoration: underline; /* Ajoute un soulignement au survol */
 }
 .buttonfilter input{
-margin-left: 12px;
+margin-left:240px;
 padding-left: 18px;
 padding-right:18px ;
 padding-top: 6px;
@@ -54,12 +54,27 @@ width: 333px;
 padding-bottom: 6px;
 
 }
+.buttonfilter button{
+width: 100px;
+padding-top:6px ;
+padding-bottom: 6px;
+}
+/****trier button****/
+.sort-section select{
+float: right;
+padding-top:6px ;
+padding-bottom: 6px;
+transform: translateY(-32px);
+margin-right: 23px;
+background-color: #dee2e6ee;
+}
 
 
+/***table css***/
 .table1{
     position: relative;
     top:26px;
-   left:20px ;
+   left:10px ;
    padding-left: 12px;
    padding-right: 42px;
    border-collapse: collapse;
@@ -165,7 +180,7 @@ padding-bottom: 6px;
     <!-- Formulaire de tri -->
     <form id="sort-form" method="GET" action="">
             <select name="sort" onchange="submitSortForm()">
-                <option value="">--Tri Par --</option>
+                <option value="">Tri Par</option>
                 <option value="nom" {% if sort_field == 'nom' %}selected{% endif %}>Nom</option>
                 <option value="prenom" {% if sort_field == 'prenom' %}selected{% endif %}>Prénom</option>
                 <option value="email" {% if sort_field == 'email' %}selected{% endif %}>Email</option>

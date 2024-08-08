@@ -7,6 +7,17 @@
     <title>Ajouter un Lead</title>
     {%load static%}
     <link rel="stylesheet"  type="text/css" href="{%static 'css/lead_form.css'%}"/>
+
+  <style>
+    input{
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-right: 5px;
+    margin-top: 12px;
+    margin-left: 56px;
+}
+  </style>
+
 </head>
 <body>
     <div class="right-side">
@@ -24,6 +35,15 @@
         {{ form.as_p }}
         <button type="submit">Enregistrer</button>
     </form>
+    {% if form.non_field_errors %}
+        <div class="errors">
+            <ul>
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <a href="{% url 'lead_list' %}">Retour à la liste</a>
 </div>
 </div>

@@ -14,7 +14,7 @@ class Lead(models.Model):
     ]
     nom=models.CharField(max_length=20)
     prenom=models.CharField(max_length=20)
-    email=models.EmailField()
+    email=models.EmailField(unique=True)
     telephone=models.CharField(max_length=10)
     source=models.CharField(max_length=100)
     statut=models.CharField(max_length=50,choices=STATUTS)

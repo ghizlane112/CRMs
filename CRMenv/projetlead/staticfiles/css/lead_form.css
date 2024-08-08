@@ -16,29 +16,46 @@
     
     
      h1{
-    
+        text-align: center;
         position: relative;
         top: 60px; 
         left: 23px;
-        color: white;
+        color: #000000;
      }   
      .left-side-container{
         position: relative;
         top: 60px;
         left: 23px;
      }
+     .left-side-container label {
+        display: block;
+        margin-bottom: 5px;
+      }
 input{
     padding-top: 10px;
     margin-top: 12px;
-    margin-left: 23px;
+    margin-left: 29px;
 }
 
 
-input, select, textarea {
-    width: 300px; /* Ajuste la largeur des champs */
-
+.left-side-container input,
+.left-side-container textarea,
+.left-side-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 textarea {
     height: 100px; /* Ajuste la hauteur de la zone de texte */
 }
+.left-side-container button {
+    background-color: #1976D2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

@@ -56,19 +56,16 @@ def lead_list(request):
         leads = leads.order_by(sort_field)
     # Rendre les options de filtre disponibles pour le template
 
-
-
-   
     # Pagination
-    paginator = Paginator(leads, 5)  # 5 leads par page
-    page_number = request.GET.get('page', 1)  # Utiliser 1 comme page par défaut
+    paginator = Paginator(leads, 8)  # 5 leads par page
+    page_number = request.GET.get('page')  # Utiliser 1 comme page par défaut
 
     try:
-        leads_page = paginator.get_page(page_number)
+        leads = paginator.get_page(page_number)
     except PageNotAnInteger:
-        leads_page = paginator.get_page(1)  # Page 1 si la page demandée n'est pas un entier
+        leads = paginator.get_page(1)  # Page 1 si la page demandée n'est pas un entier
     except EmptyPage:
-        leads_page = paginator.get_page(paginator.num_pages)  # Dernière page si la page demandée est vide
+        leads = paginator.get_page(paginator.num_pages)  # Dernière page si la page demandée est vide
 
 
 
@@ -100,6 +97,9 @@ def lead_create(request):
     else:
         form = LeadForm()
     return render(request, 'leadfile/lead_form.html', {'form': form})
+
+
+
 
 def lead_import(request):
     if request.method == 'POST':

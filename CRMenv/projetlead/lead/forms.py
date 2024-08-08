@@ -14,7 +14,12 @@ class LeadForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['responsable'].queryset = User.objects.all()
-
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Lead.objects.filter(email=email).exists():
+            raise forms.ValidationError("Un lead avec cet email existe déjà.")
+        return email
 
 
 
