@@ -12,6 +12,7 @@ class Lead(models.Model):
       ('Perdu','Perdu')
 
     ]
+    id=models.AutoField(primary_key=True)
     nom=models.CharField(max_length=20)
     prenom=models.CharField(max_length=20)
     email=models.EmailField(unique=True)
