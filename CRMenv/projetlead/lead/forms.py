@@ -12,8 +12,10 @@ class LeadForm(forms.ModelForm):
 
         
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['responsable'].queryset = User.objects.all()
+          super().__init__(*args, **kwargs)
+          self.fields['responsable'].queryset = User.objects.all()
+          if not self.instance.pk:
+           self.fields['statut'].widget = forms.HiddenInput()
     
     def clean_email(self):
         email = self.cleaned_data.get('email')

@@ -18,7 +18,7 @@ class Lead(models.Model):
     email=models.EmailField(unique=True)
     telephone=models.CharField(max_length=10)
     source=models.CharField(max_length=100)
-    statut=models.CharField(max_length=50,choices=STATUTS)
+    statut=models.CharField(max_length=50,choices=STATUTS,default='Nouveau')
     note=models.TextField(blank=True,null=True)
     date_creation=models.DateTimeField(auto_now_add=True)
     responsable = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='leads')
