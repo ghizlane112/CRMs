@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     'campaigns',
     'clients',
     'communication',
-    'members',
     'reports',
+    'users',
     
 ]
 
@@ -90,9 +90,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 
-   # 'default':{
-  #   'ENGINE': 'django.db.backends.mysql',
-   #  'NAME':'django',
+    # 'default':{
+    #   'ENGINE': 'django.db.backends.mysql',
+    #  'NAME':'django',
     # 'USER':'root',
     # 'PASSWORD':'',
     # 'HOST':'localhost',
