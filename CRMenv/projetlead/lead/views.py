@@ -16,6 +16,8 @@ from django.db.models import Q
 def one(request):
     return render(request,'principale.html')
 
+
+
 def two(request):
     return render(request,'parts/nav.html')
 

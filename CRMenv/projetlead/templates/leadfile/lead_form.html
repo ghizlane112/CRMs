@@ -9,14 +9,72 @@
     <link rel="stylesheet"  type="text/css" href="{%static 'css/lead_form.css'%}"/>
 
   <style>
- 
- .left-side-container input{
+ /* static/styles.css */
+.left-side{
+    background-color:#bbbffd89; 
+    border-radius: 15px;
+    height: 800px;
+    width: 81%;
+    position: absolute;
+    top: 131px;
+    left:17.5%;
+    /*overflow: hidden;*/
+    box-shadow: 
+            2px 2px 5px rgba(0, 0, 0, 0.2), /* Première ombre */
+            4px 4px 10px rgba(0, 0, 0, 0.4), /* Deuxième ombre */
+            6px 6px 15px rgba(0, 0, 0, 0.6); /* Troisième ombre */
+    }
+    
+    
+     h1{
+        text-align: center;
+        position: relative;
+        top: 40px; 
+        left: 23px;
+        color: #3837D3;
+     }   
+     .left-side-container{
+        position: relative;
+        top: 60px;
+        left: 23px;
+     }
+     .left-side-container label {
+        display: block;
+      
+      }
+    .left-side-container input{
+  
+    margin-top: 12px;
+    margin-left: 29px;
     padding-top: 8px;
     padding-bottom: 8px;
-    margin-top: 7px;
    position: relative;
-   left: 32px;
+   left: 30px;
 }
+
+
+.left-side-container input,
+.left-side-container textarea,
+.left-side-container select {
+  width: 79%;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+    height: 100px; /* Ajuste la hauteur de la zone de texte */
+    margin-left: 56px;
+}
+.left-side-container button {
+    background-color: #1976D2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
 .left-side-container select{
     padding-top: 9px;
     padding-bottom: 9px;
