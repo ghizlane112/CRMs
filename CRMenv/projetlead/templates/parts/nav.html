@@ -41,29 +41,26 @@ form.d-flex {
    /* Espacement intérieur */
   border: 1px solid #ced4da; /* Bordure */
 }
-.search-icon {
-  width: 24px; /* Ajustez la largeur de l'image selon vos besoins */
-  height: 24px; /* Ajustez la hauteur de l'image selon vos besoins */
-  /* Vous pouvez ajouter plus de styles ici si nécessaire */
+
+
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-grow: 1; /* Pour que le champ de recherche prenne tout l'espace disponible */
 }
 
-
-
-
-/* Style du bouton de recherche */
-.btn-outline-success {
-  border-radius: 20px; /* Coins arrondis */
-  border: 1px solid #28a745; /* Bordure verte */
-  color: #28a745; /* Texte vert */
-  padding: 8px 16px; /* Espacement intérieur */
-  margin-left: 10px; /* Espace à gauche du bouton */
-  transition: background-color 0.3s, color 0.3s; /* Transition pour les effets de survol */
-}
-
-/* Style lors du survol du bouton de recherche */
-.btn-outline-success:hover {
-  background-color: #28a745; /* Fond vert */
-  color: #fff; /* Texte blanc */
+#search-input {
+    padding-left: 40px; /* Espace pour l'icône */
+    padding-right: 10px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border: 1px solid #ced4da; /* Bordure */
+    border-radius: 20px; /* Coins arrondis */
+    width: 100%; /* Pour que le champ de recherche occupe toute la largeur disponible */
+   
+ 
 }
 
 </style>
@@ -74,14 +71,41 @@ form.d-flex {
         {%load static%}
         <img src="{% static '/images/v1360_10778.png' %}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       </a>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">
-          {%load static%}
-        <img src="{%static 'images/recherche.png'%}" alt="Recherche" class="search-icon"></button>
-      </form>
+
+
+      <form class="d-flex" role="search" id="search-form">
+        <div class="search-container">
+            <input id="search-input" class="form-control me-2" type="search" placeholder="Rechercher..." aria-label="Rechercher">
+        </div>
+    </form>
+
+
+
+
+
+     
     </div>
   </nav>
+
+
+<script>
+document.getElementById('search-form').addEventListener('submit', function(event) {
+   event.preventDefault(); // Empêche le formulaire de se soumettre de manière traditionnelle
+   performSearch();
+});
+
+function performSearch() {
+    const query = document.getElementById('search-input').value;
+    if (query.trim()) {
+     console.log('Recherche effectuée pour :', query);
+        // Ici, tu peux remplacer le console.log par l'appel de ta fonction de recherche ou redirection
+        // Par exemple, envoie la requête à un serveur, change la page, etc.
+    }
+}
+
+</script>
+
+
 
 </body>
 

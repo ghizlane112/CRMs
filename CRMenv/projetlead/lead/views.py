@@ -8,8 +8,8 @@ from .forms import LeadSortForm
 from .forms import LeadForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import LeadSerializer
-from .models import Interaction, Lead
-from .forms import InteractionForm
+#from .models import Interaction, Lead
+#from .forms import InteractionForm
 from django.db.models import Q
 
 # Create your views here.
@@ -36,10 +36,7 @@ def four(request):
 def lead_list(request):
     leads = Lead.objects.all()
 
-
     #return render(request, 'leadfile/lead_list.html', {'leads': leads})
-
-
     search_text = request.GET.get('search', '')
     sort_field = request.GET.get('sort', '')
 
@@ -136,9 +133,9 @@ def lead_import(request):
 
 
 
-def interaction_list(request):
-    interactions = Interaction.objects.all()
-    return render(request, 'leadfile/interaction_list.html', {'interactions': interactions})
+#def interaction_list(request):
+ #   interactions = Interaction.objects.all()
+  #  return render(request, 'leadfile/interaction_list.html', {'interactions': interactions})
 
 class LeadListCreate(generics.ListCreateAPIView):
     queryset = Lead.objects.all()

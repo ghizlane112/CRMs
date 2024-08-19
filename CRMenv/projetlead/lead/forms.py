@@ -3,7 +3,7 @@ from .models import Lead
 import csv
 from io import StringIO
 from django.contrib.auth.models import User
-from .models import Interaction
+#from .models import Interaction
 
 class LeadForm(forms.ModelForm):
     class Meta:
@@ -59,10 +59,10 @@ class CSVImportForm(forms.Form):
 
 
 
-class InteractionForm(forms.ModelForm):
-    class Meta:
-        model = Interaction
-        fields = ['type', 'date', 'description', 'lead', 'user']
+#class InteractionForm(forms.ModelForm):
+ #   class Meta:
+  #      model = Interaction
+   #     fields = ['type', 'date', 'description', 'lead', 'user']
 
 
 

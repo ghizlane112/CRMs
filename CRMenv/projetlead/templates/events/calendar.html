@@ -1,0 +1,100 @@
+{%include 'parts/nav.html'%}
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/locales/fr.js'></script> <!-- Pour la localisation en français -->
+</head>
+<style>
+.right-side{
+
+background-color:#F6F2F2; 
+border-radius: 15px;
+height: 100%;
+width: 81%;
+position: absolute;
+top: 131px;
+left:17.5%;
+overflow: hidden;
+box-shadow: 
+        2px 2px 5px rgba(0, 0, 0, 0.2), /* Première ombre */
+        4px 4px 10px rgba(0, 0, 0, 0.4), /* Deuxième ombre */
+        6px 6px 15px rgba(0, 0, 0, 0.6); /* Troisième ombre */
+}
+.right-side-calendar{
+    position: relative;
+    top:23px;
+    left:5px;
+    right:5px;
+}
+
+</style>
+
+
+
+
+<body>
+
+ <div class="left-side">
+    {%include 'parts/button.html'%} 
+
+
+ </div>
+
+    <div class="right-side">
+    <div class="right-side-calendar">   
+    <div id='calendar'></div>
+   </div>
+</div> 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',  // Vue par défaut
+                locale: 'fr',                // Langue française
+                headerToolbar: {
+                    left: 'prev,next today',   // Boutons de navigation
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'  // Les vues disponibles
+                },
+                editable: true,
+                selectable: true,
+                events: '/event/events/',  // URL pour obtenir les événements
+                dateClick: function(info) {
+                    var title = prompt('Titre de l\'événement:');
+                    if (title) {
+                        var start = info.dateStr;
+                        fetch('/event/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: new URLSearchParams({
+                                title: title,
+                                start_date: start,
+                                heur: '00:00',
+                                description: ''
+                            })
+                        }).then(response => response.json())
+                          .then(data => {
+                              if (data.status === 'success') {
+                                  calendar.refetchEvents();
+                              }
+                          });
+                    }
+                },
+                eventClick: function(info) {
+                    alert('Événement: ' + info.event.title);
+                }
+            });
+            calendar.render();
+        });
+    </script>
+</body>
+</html>

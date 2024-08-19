@@ -27,24 +27,28 @@
   }
   
   .logo img {
-    width: 130px;
-    height: 126px;
+    width: 126px;
+    height: 120px;
     opacity: 1;
     
   }
   .ul-container{
-  margin-left: 160px;
+    width: 490px;
+    display: inline;
+  margin-left: 90px;
   position: absolute;
-  top:36px;
-  right: 13px;
+  top:30px;
+  right: 40px;
+  }
+  .ul-container ul{
+    display: flex;
   }
   .ul-container ul li{
   display: inline;
-  margin-left: 30px;
+  margin-left: 34px;
   
   }
   .ul-container ul li a {
-  
     color: rgba(52,64,83,1);
     font-family: Inter;
     font-weight: Semi Bold;
@@ -57,12 +61,13 @@
     background: rgba(217,217,217,1);
     opacity: 1;
     float: right;
-   border-radius: 29px;
+    border-radius: 29px;
     color: rgba(52,64,83,0.8999999761581421);
     font-family: Inter;
     font-weight: Semi Bold;
     font-size: 24px;
     cursor: pointer;
+    border: none;
   }
   
   
@@ -120,6 +125,7 @@
     background: rgb(255, 254, 254);
     color: rgba(52,64,83,0.800000011920929);
     border-radius: 29px;
+    border: none;
     cursor: pointer;
    position: relative;
    top: 110px;
@@ -132,7 +138,7 @@
     width: 834px;
     height: 591px;
     position: absolute;
-    top: 78px;
+    top: 65px;
     left: 462px;
     overflow: hidden;
    
@@ -141,6 +147,8 @@
     z-index: 2 !important;
     width: 834px;
     height: 591px;
+    position: relative;
+    top:2px;
   }
   .gray-div-img {
     width: 835px;
@@ -148,7 +156,7 @@
     background: rgba(255,255,255,0.5);
     opacity: 1;
     position: absolute;
-    top: 380px;
+    top: 400px;
     left: 30px;
     z-index: 0;
     border-top-left-radius: 38px;
@@ -285,6 +293,7 @@
     overflow: hidden;
     margin-left: 59px;
     color: white;
+    border: none;
     margin-top: 34px;
     border-radius: 21px;
   }
@@ -300,12 +309,17 @@
 .footer {
     background-color: #FAFAFB;
     color: #000000;
+
     padding: 20px 0;
    height: 300px;
     font-family: Arial, sans-serif;
     transform: translateY(-40px);
   }
-  
+  .footer h1{
+    color: #000000;
+    margin-left: 41px;
+    margin-bottom: 12px;
+  }
   /* Footer sections container */
   .footer-container {
     display: flex;
@@ -384,8 +398,8 @@
         </div>
         <div   class="ul-container">
             <ul>
-                <li><a>About us</a></li>
-                <li><a>Contact us</a></li>
+                <li><a >About us</a></li>
+                <li><a >Contact us</a></li>
                 <li>  {% load static %}<form method="get" action="{%url  'login'%}"><button type="submit" class="button-login" >Login</button></form></li>
                
             </ul></div>

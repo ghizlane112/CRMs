@@ -146,6 +146,32 @@ background-color: #dee2e6ee;
 }
 
 
+
+ /* Styles pour le menu contextuel */
+ .context-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            border-radius: 4px;
+        }
+        .context-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .context-menu ul li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        .context-menu ul li:hover {
+            background: #f0f0f0;
+        }
+        .dots {
+            cursor: pointer;
+        }
 </style>
 
 </head>
@@ -216,7 +242,10 @@ background-color: #dee2e6ee;
                 <td>{{ lead.telephone }}</td>
                 <td>{{ lead.source }}</td>
                 <td>{{ lead.statut }}</td>
-                <td><a href="{% url 'lead_detail' lead.pk %}">Détails</a></td>
+                <td>
+                    <span class="dots" data-id="{{ lead.pk }}">...</span>
+                </td>
+               <!--- <td><a href="{% url 'lead_detail' lead.pk %}">Détails</a></td>--->
             </tr>
             {% empty %}
             <tr>
@@ -251,15 +280,52 @@ background-color: #dee2e6ee;
       </span>
       </div>
  
+
+
+       <!-- Menu contextuel -->
+    <div id="context-menu" class="context-menu">
+        <ul>
+            <li id="view-details">Voir les détails</li>
+            <li id="edit-lead">Modifier</li>
+        </ul>
+    </div>
 </div>
 
 
 <script>
-    function applyFilters() {
-        document.getElementById('filter-form').submit();
-    }
-    
-        // Fonction pour soumettre automatiquement le formulaire de tri
+     document.addEventListener('DOMContentLoaded', function() {
+            var contextMenu = document.getElementById('context-menu');
+            var currentLeadId;
+
+            document.querySelectorAll('.dots').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentLeadId = el.getAttribute('data-id');
+                    contextMenu.style.top = e.pageY + 'px';
+                    contextMenu.style.left = e.pageX + 'px';
+                    contextMenu.style.display = 'block';
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!contextMenu.contains(e.target) && !document.querySelector('.dots').contains(e.target)) {
+                    contextMenu.style.display = 'none';
+                }
+            });
+
+            document.getElementById('view-details').addEventListener('click', function() {
+                window.location.href = '/leads/' + currentLeadId + '/';
+            });
+
+            document.getElementById('edit-lead').addEventListener('click', function() {
+                window.location.href = '/leads/' + currentLeadId + '/edit/';
+            });
+        });
+
+        function applyFilters() {
+            document.getElementById('filter-form').submit();
+        }
+
         function submitSortForm() {
             document.getElementById('sort-form').submit();
         }

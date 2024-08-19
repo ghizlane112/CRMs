@@ -19,12 +19,9 @@ from django.urls import path,include
 from django.conf.urls.static import static
 
 
-
-
-
 urlpatterns = [
-     path('',include('lead.urls')),
-     path('',include('appointments.urls')),
-     path('',include('django.contrib.auth.urls')),
+    path('',include('lead.urls')),
+    path('event/', include('Rendez.urls')), 
     path('admin/', admin.site.urls),
+    path('',include('django.contrib.auth.urls')),
 ]
