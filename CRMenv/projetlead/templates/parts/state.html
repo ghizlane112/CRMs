@@ -1,7 +1,11 @@
 
+<!DOCTYPE html>
+<head>
 
-
-
+<!-- FullCalendar CSS -->
+<link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.2/main.min.css' rel='stylesheet' />
+<!-- FullCalendar JS -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.2/main.min.js'></script>
 
 
 <style>
@@ -36,18 +40,40 @@ font-size: 14px;
 }
 #second-card{
 border-radius: 17px;
-border-color: rgba(71, 71, 71, 0.721);
-border-style: dotted;
-width: 340px;
+/*border-color: rgba(71, 71, 71, 0.721);
+border-style: dotted;*/
+width: 359px;
 height: 312px;
 float: right;
 position: relative;
 top:-300px;
-right: 40px;
+right: 30px;
 
 }
-</style>
+#calendar {
+            width: 349px; /* Largeur du calendrier */
+            height: 312px; /* Hauteur du calendrier */
+            background-color: #ffffff; /* Fond blanc */
+            margin: 0 auto; /* Centre le calendrier horizontalement */
+            border: 1px solid #ddd; /* Bordure légère pour mieux voir le calendrier */
+            border-radius: 8px; /* Coins arrondis */
+            border-radius: 17px;
+        }
+        .fc-toolbar-title {
+            font-size: 1em; /* Taille du titre du calendrier, ajustez si nécessaire */
+        }
+        .fc-daygrid-day-number {
+            font-size: 0.8em; /* Taille du texte des jours, ajustez si nécessaire */
+        }
 
+#second-card   .card-body{
+ position: relative;
+ right: 85px;
+ 
+}     
+</style>
+</head>
+<body>
 <div class="row">
 <div class="col">
 <div class="col-md">
@@ -67,8 +93,8 @@ right: 40px;
     <!----deuxieme card--->
     <div class="card text-center text-white mb-3" id="second-card">
         <div class="card-body" style="width: 33rem;">
-          
-           
+        
+                <div id="calendar"></div>
         
           </div>
     </div>
@@ -89,3 +115,31 @@ right: 40px;
 </div>
 </div>
 </div>
+
+
+
+
+
+
+
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.2/main.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: '/events/',  // URL de votre endpoint Django pour les événements
+            eventClick: function(info) {
+                alert('Event: ' + info.event.title + '\nDescription: ' + info.event.extendedProps.description + '\nDate: ' + info.event.start.toISOString());
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+
+</body>
+</html>
