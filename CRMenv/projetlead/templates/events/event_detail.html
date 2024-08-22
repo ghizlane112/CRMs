@@ -1,0 +1,19 @@
+
+
+
+<!-- templates/events/event_detail.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Détails du Rendez-vous</title>
+</head>
+<body>
+    <h1>{{ event.title }}</h1>
+    <p>Date : {{ event.start_date }}</p>
+    <p>Heure : {{ event.heur }}</p>
+    <p>Lieu : {{ event.lieu }}</p>
+    <p>Description : {{ event.description }}</p>
+    <p>Notes : {{ event.notes }}</p>
+    <a href="{% url 'history_view' %}">Retour à l'historique</a>
+</body>
+</html>

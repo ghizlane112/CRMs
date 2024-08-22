@@ -33,27 +33,91 @@
             font-weight: 600;
             font-size: 32px;
             line-height: 20px;
+            position: relative;
+            top: 43px;
+            left: 35px;
         }
+
+
+
+
+
+
 
         .right-side-calendar {
             position: relative;
-            top: 23px;
+            top: 73px;
             left: 15px;
             right: 5px;
         }
+
+        .right-side-calendar h2{
+         color: #3837D3;
+
+          
+        }
+        .right-side-calendar form{
+            margin-top: 23px;
+         width: 50%;
+         height: auto;
+         margin-left: 84px;
+        }
+
+
+        .right-side-calendar form label{
+             margin-top: 12px;
+            font-family: 'Inter';
+            font-style:  Bold italic;
+            font-weight: 600;
+            font-size: 18px;
+            color: #1a056e;
+        }
+        .right-side-calendar form input{
+         width: 330px;
+         border-radius: 12px;
+         padding-top: 8px;
+         padding-bottom: 8px;
+         margin-top: 12px;
+         margin-bottom: 12px;
+         border: none;
+        }
+        .right-side-calendar form textarea{
+            width: 330px;
+            height: 100px;
+            margin-top: 12px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+        }
+
+        .right-side-calendar form button{
+            width: 290px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            padding-left: 8px;
+            padding-right: 8px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+          margin-right: 34px;
+          border: none;
+          cursor: pointer;
+          background-color: #784089;
+          color: white;
+          font-family: 'Inter';
+            font-style:  Bold italic;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
         #calendar {
             width: 96%;
             background-color: white;
         }
         /* Style pour la fenêtre modale */
-        #eventModal{
-        z-index: 2;
-
-
-        }
-
 
         #eventModal {
+            z-index: 2;
             display: none; /* Masqué par défaut */
             position: fixed;
             left: 0;
@@ -65,12 +129,46 @@
             align-items: center;
         }
         #eventModalContent {
-            background: white;
+            background-color: #E7DDFC;
             padding: 20px;
             border-radius: 8px;
             max-width: 500px;
             width: 100%;
+
+
+            animation: scale-up-center 0.6s;
         }
+        .right-side-calendar form .button-container {
+    display: flex; /* Aligne les boutons horizontalement */
+    gap: 10px; /* Espace entre les boutons */
+}
+
+
+
+
+       
+
+@-webkit-keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+@keyframes scale-up-center {
+  0% {
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
     </style>
 </head>
 <body>
@@ -87,14 +185,19 @@
         <h2 id="eventModalTitle">Ajouter un événement</h2>
         <form id="eventForm">
             <label for="title">Titre:</label>
-            <input type="text" id="title" name="title" required><br>
+            <input type="text" id="title" name="title" required placeholder="     entrer le titre"><br>
             <label for="heur">Heure:</label>
             <input type="time" id="heur" name="heur" required><br>
+            <label  for="lieu">Lieu:</label>
+            <input type="text" id="lieu" name="lieu" placeholder="entrer le lieu"/>
             <label for="description">Description:</label>
-            <textarea id="description" name="description"></textarea><br>
+            <textarea id="description" name="description" placeholder="   entrer une description"></textarea><br>
+             
+            <div class="button-container">
             <button type="submit" id="saveEventBtn">Enregistrer</button>
             <button type="button" id="deleteEventBtn" style="display: none;">Supprimer</button>
             <button type="button" id="cancelBtn">Annuler</button>
+            </div>
         </form>
     </div>
 </div>

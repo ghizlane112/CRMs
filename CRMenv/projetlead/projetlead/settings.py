@@ -144,7 +144,11 @@ GOOGLE_ADS_API_KEY = 'AIzaSyBuczTLadYXrFfOGl0gjIdO3sh47jiJxJc'
 
 
 
+
+
+
 LOGIN_REDIRECT_URL="dashboard"
+
 
 # settings.py
 

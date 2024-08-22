@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Event
 import logging
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 
@@ -19,12 +20,14 @@ def add_event(request):
         title = request.POST.get('title')
         start_date = request.POST.get('start_date')
         heur = request.POST.get('heur')
+        lieu=request.POST.get('lieu')
         description = request.POST.get('description')
 
         event = Event(
             title=title,
             start_date=start_date,
             heur=heur,
+            lieu=lieu,
             description=description
         )
         event.save()
@@ -38,12 +41,14 @@ def update_event(request):
         title = request.POST.get('title')
         start_date = request.POST.get('start_date')
         heur = request.POST.get('heur')
+        lieu=request.POST.get('lieu')
         description = request.POST.get('description')
 
         event = get_object_or_404(Event, id=event_id)
         event.title = title
         event.start_date = start_date
         event.heur = heur
+        event.lieu=lieu
         event.description = description
         event.save()
         
@@ -82,3 +87,27 @@ def event_list(request):
         'description': event.description,
     } for event in events]
     return JsonResponse(events_data, safe=False)
+
+
+
+
+
+def history_view(request):
+    today = timezone.now().date()
+    past_events = Event.objects.filter(start_date__lt=today)
+    future_events = Event.objects.filter(start_date__gte=today)
+    
+    context = {
+        'past_events': past_events,
+        'future_events': future_events,
+    }
+    
+    return render(request, 'events/history.html', context)
+
+def event_detail(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    context = {
+        'event': event,
+    }
+    return render(request, 'events/event_detail.html', context)
+

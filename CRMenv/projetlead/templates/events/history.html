@@ -1,0 +1,37 @@
+
+
+
+
+<!-- templates/events/history.html -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Historique des Rendez-vous</title>
+</head>
+<body>
+    <h1>Rendez-vous Passés</h1>
+    <ul>
+        {% for event in past_events %}
+            <li>
+                <a href="{% url 'event_detail' event.id %}">{{ event.title }} - {{ event.start_date }}</a>
+            </li>
+        {% empty %}
+            <li>Aucun rendez-vous passé.</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Rendez-vous Futurs</h1>
+    <ul>
+        {% for event in future_events %}
+            <li>
+                <a href="{% url 'event_detail' event.id %}">{{ event.title }} - {{ event.start_date }}</a>
+            </li>
+        {% empty %}
+            <li>Aucun rendez-vous futur.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
