@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'communication',
     'reports',
     'users',
+    'notification',
 ]
 
 MIDDLEWARE = [
@@ -148,6 +149,13 @@ GOOGLE_ADS_API_KEY = 'AIzaSyBuczTLadYXrFfOGl0gjIdO3sh47jiJxJc'
 
 
 LOGIN_REDIRECT_URL="dashboard"
+
+# settings.py
+#CELERY_BROKER_URL = 'redis://localhost:6379/0'  # URL du broker Redis
+#CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Backend des résultats Redis
+
+
+
 
 
 # settings.py

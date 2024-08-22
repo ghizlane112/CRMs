@@ -32,6 +32,22 @@ def add_event(request):
         )
         event.save()
         return JsonResponse({'status': 'success'})
+        # Créer une notification de confirmation
+       # notification_message = f'Votre rendez-vous \"{title}\" est confirmé pour le {start_date} à {heur} au {lieu}."
+        #Notification.objects.create(
+         #   lead_email=lead_email,
+          #  message=notification_message,
+        #)
+
+        #return JsonResponse({'status': 'success'})
+    #return JsonResponse({'status': 'error', 'message': 'Méthode de requête invalide'})
+    
+
+
+
+
+
+
 
 
 @csrf_exempt
