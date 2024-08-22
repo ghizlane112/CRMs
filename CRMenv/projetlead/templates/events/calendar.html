@@ -56,6 +56,33 @@
 
           
         }
+
+        .btn-history {
+           
+            display: inline-block;
+            float: right;
+            width: 270px;
+          
+            padding-top: 14px;
+            padding-bottom: 14px;
+            margin: 20px 0;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #3D46F2;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-history:hover {
+            background-color: #0056b3;
+        }
+
+
+
+
+
         .right-side-calendar form{
             margin-top: 23px;
          width: 50%;
@@ -169,6 +196,9 @@
   }
 }
 
+
+
+
     </style>
 </head>
 <body>
@@ -178,6 +208,12 @@
 
     <div class="right-side">
     <h1>Appoitement</h1>
+
+    <div>{% load static %}<form method="get" action="{%url  'history_view'%}"><button type="submit" class="btn-history" ><img src="{%static 'images/Rectangle2093.png'%}" alt="calendanr logo"/>   l'Historique des Rendez-vous</button></form></div>
+    
+
+
+
     <div class="right-side-calendar">
 <!-- Modal pour ajouter/modifier un événement -->
 <div id="eventModal">

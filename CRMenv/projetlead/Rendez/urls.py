@@ -8,6 +8,6 @@ urlpatterns = [
     path('update-event/', views.update_event, name='update_event'),
     path('delete-event/', views.delete_event, name='delete_event'),
     path('dashboard/', views.dashboard_view, name='dashboard_view'), # L'URL pour obtenir les événements
-    path('history/', views.history_view, name='history_view'),  # Nouvelle URL pour l'historique
+    path('event/history/', views.history_view, name='history_view'),  # Nouvelle URL pour l'historique
     path('event/<int:event_id>/', views.event_detail, name='event_detail'),  # Nouvelle URL pour les détails
 ]
