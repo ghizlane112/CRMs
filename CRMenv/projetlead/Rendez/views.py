@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Event
+
+from .models import Event, History  # Ajoutez History ici
+
 import logging
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
 
@@ -32,15 +35,7 @@ def add_event(request):
         )
         event.save()
         return JsonResponse({'status': 'success'})
-        # Créer une notification de confirmation
-       # notification_message = f'Votre rendez-vous \"{title}\" est confirmé pour le {start_date} à {heur} au {lieu}."
-        #Notification.objects.create(
-         #   lead_email=lead_email,
-          #  message=notification_message,
-        #)
-
-        #return JsonResponse({'status': 'success'})
-    #return JsonResponse({'status': 'error', 'message': 'Méthode de requête invalide'})
+       
     
 
 
@@ -73,15 +68,28 @@ def update_event(request):
     return JsonResponse({'status': 'error', 'message': 'Méthode de requête invalide'})
 
 
+
+
+
+
 @csrf_exempt
 def delete_event(request):
     if request.method == 'POST':
         event_id = request.POST.get('id')
+        reason = request.POST.get('reason', '')  # Obtenez la raison de la suppression
         event = get_object_or_404(Event, id=event_id)
+        
+        # Créez un enregistrement dans le modèle History avant de supprimer l'événement
+        History.objects.create(
+            event=event,
+            action='delete',
+            reason=reason,
+           # user=request.user  # Enregistrez l'utilisateur connecté
+        )
+        
         event.delete()
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error', 'message': 'Méthode de requête invalide'})
-
 
 
 
@@ -112,18 +120,38 @@ def history_view(request):
     today = timezone.now().date()
     past_events = Event.objects.filter(start_date__lt=today)
     future_events = Event.objects.filter(start_date__gte=today)
+    histories = History.objects.all()  # Inclure les informations de l'historique
     
     context = {
         'past_events': past_events,
         'future_events': future_events,
+        'histories': histories  # Passer les données d'historique au template
     }
     
     return render(request, 'events/history.html', context)
 
+
+
+
+
+
+
 def event_detail(request, event_id):
+    # Essayez de récupérer l'événement
     event = get_object_or_404(Event, id=event_id)
+    
+    # Vérifiez s'il existe un historique de suppression pour cet événement
+    try:
+        deletion_history = History.objects.get(event=event)
+        is_deleted = True
+    except History.DoesNotExist:
+        deletion_history = None
+        is_deleted = False
+
     context = {
         'event': event,
+        'deletion_history': deletion_history,
+        'is_deleted': is_deleted
     }
-    return render(request, 'events/event_detail.html', context)
 
+    return render(request, 'events/event_detail.html', context)

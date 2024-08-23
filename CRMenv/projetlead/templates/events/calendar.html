@@ -227,8 +227,20 @@
             <label  for="lieu">Lieu:</label>
             <input type="text" id="lieu" name="lieu" placeholder="entrer le lieu"/>
             <label for="description">Description:</label>
-            <textarea id="description" name="description" placeholder="   entrer une description"></textarea><br>
+            <textarea id="description" name="description" placeholder="   entrer une description"></textarea>
+            <br>
              
+            <!-- Champ caché pour raison de suppression -->
+            <div id="deleteReasonContainer" style="display: none;">
+                <label for="deleteReason">Raison de la suppression:</label>
+                <textarea id="deleteReason" name="reason" placeholder="Entrez la raison ici"></textarea>
+            </div>
+
+            
+
+
+
+
             <div class="button-container">
             <button type="submit" id="saveEventBtn">Enregistrer</button>
             <button type="button" id="deleteEventBtn" style="display: none;">Supprimer</button>
@@ -238,134 +250,155 @@
     </div>
 </div>
 
+
             <div id='calendar'></div>
         </div>
     </div>
 
    
+
+
+
+    
     <script>
      document.addEventListener('DOMContentLoaded', function() {
-            const calendarEl = document.getElementById('calendar');
-            const modal = document.getElementById('eventModal');
-            const form = document.getElementById('eventForm');
-            const saveEventBtn = document.getElementById('saveEventBtn');
-            const deleteEventBtn = document.getElementById('deleteEventBtn');
-            const cancelBtn = document.getElementById('cancelBtn');
-            const eventModalTitle = document.getElementById('eventModalTitle');
-            
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                locale: 'fr',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
-                editable: true,
-                selectable: true,
-                events: '/events/',
+    const calendarEl = document.getElementById('calendar');
+    const modal = document.getElementById('eventModal');
+    const form = document.getElementById('eventForm');
+    const saveEventBtn = document.getElementById('saveEventBtn');
+    const deleteEventBtn = document.getElementById('deleteEventBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const eventModalTitle = document.getElementById('eventModalTitle');
+    const deleteReasonContainer = document.getElementById('deleteReasonContainer');
+    const deleteReason = document.getElementById('deleteReason');
+    
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'fr',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        editable: true,
+        selectable: true,
+        events: '/events/',
 
-                dateClick: function(info) {
-                    form.reset();
-                    eventModalTitle.textContent = 'Ajouter un événement';
-                    form.dataset.action = 'add';
-                    form.removeAttribute('data-event-id');
-                    deleteEventBtn.style.display = 'none';
+        dateClick: function(info) {
+            form.reset();
+            eventModalTitle.textContent = 'Ajouter un événement';
+            form.dataset.action = 'add';
+            form.removeAttribute('data-event-id');
+            deleteEventBtn.style.display = 'none';
+            deleteReasonContainer.style.display = 'none';  // Cache le champ de raison
 
-                    saveEventBtn.textContent = 'Ajouter';
-                    modal.style.display = 'flex';
+            saveEventBtn.textContent = 'Ajouter';
+            modal.style.display = 'flex';
 
-                    cancelBtn.onclick = function() {
-                        modal.style.display = 'none';
-                    };
+            cancelBtn.onclick = function() {
+                modal.style.display = 'none';
+            };
 
-                    form.onsubmit = function(e) {
-                        e.preventDefault();
-                        const title = document.getElementById('title').value;
-                        const heur = document.getElementById('heur').value;
-                        const description = document.getElementById('description').value;
-                        const action = form.dataset.action;
-                        const url = action === 'add' ? '/add-event/' : '/update-event/';
+            form.onsubmit = function(e) {
+                e.preventDefault();
+                const title = document.getElementById('title').value;
+                const heur = document.getElementById('heur').value;
+                const description = document.getElementById('description').value;
+                const action = form.dataset.action;
+                const url = action === 'add' ? '/add-event/' : '/update-event/';
 
-                        if (title && heur) {
-                            fetch(url, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded',
-                                    'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                                },
-                                body: new URLSearchParams({
-                                    id: form.dataset.eventId || '',
-                                    title: title,
-                                    start_date: info.dateStr,
-                                    heur: heur,
-                                    description: description
-                                })
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    calendar.refetchEvents();
-                                    modal.style.display = 'none';
-                                } else {
-                                    console.error('Erreur:', data.message);
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Erreur:', error);
-                            });
+                if (title && heur) {
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: new URLSearchParams({
+                            id: form.dataset.eventId || '',
+                            title: title,
+                            start_date: info.dateStr,
+                            heur: heur,
+                            description: description
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            calendar.refetchEvents();
+                            modal.style.display = 'none';
                         } else {
-                            alert('Veuillez remplir tous les champs obligatoires.');
+                            console.error('Erreur:', data.message);
                         }
-                    };
-                },
-
-                eventClick: function(info) {
-                    eventModalTitle.textContent = 'Modifier l\'événement';
-                    form.dataset.action = 'update';
-                    form.dataset.eventId = info.event.id;
-
-                    document.getElementById('title').value = info.event.title;
-                    document.getElementById('heur').value = info.event.extendedProps.heur;
-                    document.getElementById('description').value = info.event.extendedProps.description;
-
-                    saveEventBtn.textContent = 'Modifier';
-                    deleteEventBtn.style.display = 'inline-block';
-                    deleteEventBtn.onclick = function() {
-                        fetch('/delete-event/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded',
-                                'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            body: new URLSearchParams({
-                                id: form.dataset.eventId
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                calendar.refetchEvents();
-                                modal.style.display = 'none';
-                            } else {
-                                console.error('Erreur:', data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Erreur:', error);
-                        });
-                    };
-
-                    cancelBtn.onclick = function() {
-                        modal.style.display = 'none';
-                    };
-
-                    modal.style.display = 'flex';
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                    });
+                } else {
+                    alert('Veuillez remplir tous les champs obligatoires.');
                 }
-            });
+            };
+        },
 
-            calendar.render();
-        });
+        eventClick: function(info) {
+            eventModalTitle.textContent = 'Modifier l\'événement';
+            form.dataset.action = 'update';
+            form.dataset.eventId = info.event.id;
+
+            document.getElementById('title').value = info.event.title;
+            document.getElementById('heur').value = info.event.extendedProps.heur;
+            document.getElementById('description').value = info.event.extendedProps.description;
+
+            saveEventBtn.textContent = 'Modifier';
+            deleteEventBtn.style.display = 'inline-block';
+            deleteReasonContainer.style.display = 'none';  // Cache le champ de raison au début
+
+            deleteEventBtn.onclick = function() {
+                deleteReasonContainer.style.display = 'block';  // Affiche le champ de raison
+
+                // Lorsqu'on clique sur le bouton de suppression, on récupère la raison
+                const reason = deleteReason.value;
+
+                if (!reason) {
+                    alert('Veuillez entrer une raison pour la suppression.');
+                    return;
+                }
+
+                fetch('/delete-event/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: new URLSearchParams({
+                        id: form.dataset.eventId,
+                        reason: reason  // Envoie la raison au serveur
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        calendar.refetchEvents();
+                        modal.style.display = 'none';
+                    } else {
+                        console.error('Erreur:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                });
+            };
+
+            cancelBtn.onclick = function() {
+                modal.style.display = 'none';
+            };
+
+            modal.style.display = 'flex';
+        }
+    });
+
+    calendar.render();
+});
 
     </script>
 </body>

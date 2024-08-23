@@ -81,7 +81,7 @@ right: 30px;
    <div class="card text-center text-white mb-3" id="first-card" >
     <div class="card-body" style="width: 33rem;">
         <br>
-        <h2 class="card-title">Welcome James Kalvin</h2>
+        <h2 class="card-title">Welcome  {{ user.username }} </h2>
         <br>
         <p class="card-text">"Bienvenue sur votre tableau de bord : ici, vous pouvez suivre en un coup d'œil vos leads, rendez-vous et activités récentes pour une gestion efficace de vos prospects.".</p>
         {%load static%}
@@ -91,6 +91,7 @@ right: 30px;
 
 
     <!----deuxieme card--->
+    <a href="{% url 'calendar_view' %}" class="calendar-link">
     <div class="card text-center text-white mb-3" id="second-card">
         <div class="card-body" style="width: 33rem;">
         
@@ -98,6 +99,11 @@ right: 30px;
         
           </div>
     </div>
+    </a>
+
+
+
+
     <!----troisieme card-->
     <div class="card text-center text-white mb-3" id="thrid-card">
         <div class="card-body" style="width: 33rem;">

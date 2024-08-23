@@ -39,6 +39,15 @@
     <p>Lieu : {{ event.lieu }}</p>
     <p>Description : {{ event.description }}</p>
     <p>Notes : {{ event.notes }}</p>
+    
+    {% if is_deleted %}
+    <h2>Information Supplémentaire</h2>
+    <p><strong>Raison de la Suppression :</strong> {{ deletion_history.reason }}</p>
+    <p><strong>Supprimé par :</strong> {{ deletion_history.user.username }} le {{ deletion_history.timestamp }}</p>
+    {% endif %}
+
+
+    
     <a href="{% url 'history_view' %}">Retour à l'historique</a>
 </div>
 </body>

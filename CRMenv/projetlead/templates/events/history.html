@@ -77,6 +77,24 @@
         {% endfor %}
     </ul>
 
+    
+ <!-- Section Historique des Suppressions -->
+ <div class="history-section">
+    <h1>Historique des Suppressions</h1>
+    <ul>
+        {% for history in histories %}
+            <li>
+                <a href="{% url 'event_detail' history.event.id %}">
+                    {{ history.event.title }} - le {{ history.timestamp }}<br>
+                    Raison : {{ history.reason }}
+                </a>
+            </li>
+        {% empty %}
+            <li>Aucune suppression enregistrée.</li>
+        {% endfor %}
+    </ul>
+</div>
+
 
 
  <!-- Bouton pour revenir au calendrier -->
