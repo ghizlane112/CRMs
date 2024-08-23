@@ -149,6 +149,7 @@ GOOGLE_ADS_API_KEY = 'AIzaSyBuczTLadYXrFfOGl0gjIdO3sh47jiJxJc'
 
 
 LOGIN_REDIRECT_URL="dashboard"
+LOGOUT_REDIRECT_URL = 'one'
 
 # settings.py
 #CELERY_BROKER_URL = 'redis://localhost:6379/0'  # URL du broker Redis

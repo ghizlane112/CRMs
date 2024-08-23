@@ -34,6 +34,7 @@ form.d-flex {
 /* Style du champ de recherche */
 .form-control {
   /* Coins arrondis */
+ 
   padding-left: 90px;
   padding-right: 90px;
   padding-top: 12px;
@@ -80,7 +81,11 @@ form.d-flex {
     </form>
 
 
-
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button type="submit">Logout</button>
+  </form>
+  
 
 
      

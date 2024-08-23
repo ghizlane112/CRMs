@@ -62,6 +62,9 @@ box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5),
 
 <body>
 <div class="container1">
+
+
+    
     <div class="div-container1">
         {% load static %}
         <a href="{%url 'dashboard'%}" class="button"><img src="{% static 'images/Rectangle_364.png' %}" alt="dashboard icon">dashboard</a>
@@ -96,10 +99,17 @@ box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5),
         {% load static %}
         <a href="#" class="button"><img src="{% static 'images/Rectangle_368.png' %}" alt="Campagne icon">Campagne</a>
     </div>
+
+
+
+    {% if is_admin %}
     <div class="div-container1">
         {% load static %}
         <a href="#" class="button"><img src="{% static 'images/Rectangle_367.png' %}" alt="Ajouter member icon">Ajouter member</a>
     </div>
+    {% endif %}
+    
+
 
 </div>
 </body>
