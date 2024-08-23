@@ -10,4 +10,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard_view, name='dashboard_view'), # L'URL pour obtenir les événements
     path('history/', views.history_view, name='history_view'),  # Nouvelle URL pour l'historique
     path('<int:event_id>/', views.event_detail, name='event_detail'),  # Nouvelle URL pour les détails
+   
 ]

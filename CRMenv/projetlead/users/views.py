@@ -21,4 +21,4 @@ def permission(request):
         # Ajouter d'autres contextes ici si nécessaire
     }
     
-   return render(request, 'dashb', context)
+   return render(request, 'parts/button.html', context)

@@ -80,12 +80,13 @@ form.d-flex {
         </div>
     </form>
 
-
+   
+    <div class="button-logout">
     <form action="{% url 'logout' %}" method="post">
       {% csrf_token %}
       <button type="submit">Logout</button>
   </form>
-  
+</div>
 
 
      
