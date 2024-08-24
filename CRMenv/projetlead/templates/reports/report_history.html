@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Historique des Rapports</title>
+</head>
+<body>
+    <h1>Historique des Rapports</h1>
+    <ul>
+        {% for report in reports %}
+            <li><a href="{% url 'report_detail' report.id %}">{{ report.title }}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'report_dashboard' %}">Retour au tableau de bord</a>
+</body>
+</html>

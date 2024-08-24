@@ -23,7 +23,7 @@ urlpatterns = [
     path('',include('lead.urls')),
     path('admin/', admin.site.urls),
     path('', include('Rendez.urls')),
-  
+    path('',include('reports.urls')),
     path('',include('django.contrib.auth.urls')),
     path('logout/', LogoutView.as_view(), name='logout'),  
 ]

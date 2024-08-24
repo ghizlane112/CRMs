@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Détails du Rapport</title>
+</head>
+<body>
+    <h1>{{ report.title }}</h1>
+    <p><strong>Type de Rapport :</strong> {{ report.get_report_type_display }}</p>
+    <p><strong>Créé par :</strong> {{ report.created_by }}</p>
+    <p><strong>Date de Création :</strong> {{ report.created_at }}</p>
+    <pre>{{ report.content }}</pre>
+    <a href="{% url 'report_dashboard' %}">Retour au tableau de bord</a>
+</body>
+</html>

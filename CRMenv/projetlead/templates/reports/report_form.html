@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Créer un Rapport</title>
+</head>
+<body>
+    <h1>Créer un Rapport</h1>
+    <h2>{{ report_type }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Générer ce Rapport</button>
+    </form>
+    <a href="{% url 'report_dashboard' %}">Retour au tableau de bord</a>
+</body>
+</html>
