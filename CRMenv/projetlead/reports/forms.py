@@ -1,6 +1,5 @@
 from django import forms
 from .models import Report
-from datetime import date
 
 class ReportForm(forms.ModelForm):
     start_date = forms.DateField(required=False, widget=forms.TextInput(attrs={'type': 'date'}))
@@ -10,17 +9,18 @@ class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
         fields = ['title', 'content', 'report_type']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 5}),
+        }
 
     def save(self, commit=True):
         report = super().save(commit=False)
         filters = {
-            'start_date': self.cleaned_data.get('start_date').strftime('%Y-%m-%d') if self.cleaned_data.get('start_date') else None,
-            'end_date': self.cleaned_data.get('end_date').strftime('%Y-%m-%d') if self.cleaned_data.get('end_date') else None,
+            'start_date': self.cleaned_data.get('start_date'),
+            'end_date': self.cleaned_data.get('end_date'),
             'category': self.cleaned_data.get('category')
         }
-        # Supprimer les valeurs None pour éviter d'enregistrer des clés avec des valeurs nulles
-        filters = {k: v for k, v in filters.items() if v is not None}
-        report.filters = filters
+        report.filters = {k: v for k, v in filters.items() if v is not None}
         if commit:
             report.save()
         return report

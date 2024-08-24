@@ -51,14 +51,26 @@ box-shadow:
         </form>
     {% endif %}
 
+
+
+
     {% if reports %}
-        <h2>Historique des Rapports</h2>
-        <ul>
-            {% for report in reports %}
-                <li><a href="{% url 'report_detail' report.id %}">{{ report.title }}</a></li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <h2>Historique des Rapports</h2>
+    <ul>
+        {% for report in reports %}
+            <li>
+                <a href="{% url 'report_detail' report.id %}">{{ report.title }}</a> |
+                <a href="{% url 'report_detail' report.id %}?export=pdf">Exporter en PDF</a> |
+                <a href="{% url 'report_detail' report.id %}?export=excel">Exporter en Excel</a>
+            </li>
+        {% endfor %}
+    </ul>
+     {% endif %}
+
+
+ 
+
+
 
 </div>
 </body>

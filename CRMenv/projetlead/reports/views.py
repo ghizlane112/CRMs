@@ -1,6 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReportForm
 from .models import Report
+#import pandas as pd
+#import io
+#import openpyxl
+#from reportlab.lib.pagesizes import letter
+#from reportlab.pdfgen import canvas
+
+
+from django.http import HttpResponse
+
+
+
 
 def report_view(request, report_id=None):
     if report_id:
@@ -43,3 +54,14 @@ def report_view(request, report_id=None):
         {'name': 'Voir Historique des Rapports', 'url': '?action=history'},
     ]
     return render(request, 'reports/report_dashboard.html', {'report_options': report_options})
+
+
+
+
+
+
+
+
+
+
+
