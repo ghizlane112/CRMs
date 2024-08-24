@@ -68,7 +68,11 @@ box-shadow:
      {% endif %}
 
 
- 
+     <h2>Exporter les Données</h2>
+     <ul>
+         <li><a href="{% url 'export_data' 'excel' %}">Exporter les Leads en Excel</a></li>
+         <li><a href="{% url 'export_data' 'pdf' %}">Exporter les Leads en PDF</a></li>
+     </ul>
 
 
 

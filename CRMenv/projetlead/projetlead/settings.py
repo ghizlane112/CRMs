@@ -156,6 +156,7 @@ LOGOUT_REDIRECT_URL = 'one'
 #CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Backend des résultats Redis
 
 
+#AUTH_USER_MODEL = 'users.User'
 
 
 

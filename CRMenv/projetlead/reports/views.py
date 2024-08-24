@@ -65,11 +65,13 @@ def export_data(request, format='excel'):
         ws.title = "Leads"
 
         # Ajouter des en-têtes
-        ws.append(["ID", "Nom", "Statut", "Date"])
+        ws.append(["ID", "Prénom", "Nom", "Statut", "Date"])
 
         # Ajouter des données
         for lead in Lead.objects.all():
-            ws.append([lead.id, lead.name, lead.status, lead.date])
+            # Convertir la date en naïve si elle a un fuseau horaire
+            date_naive = lead.date_creation.replace(tzinfo=None) if lead.date_creation else None
+            ws.append([lead.id, lead.prenom, lead.nom, lead.statut, date_naive])
 
         # Préparer la réponse HTTP
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
@@ -87,10 +89,12 @@ def export_data(request, format='excel'):
 
         p.drawString(100, height - 100, "Leads Report")
         y = height - 120
-        
+
         # Ajouter des données
         for lead in Lead.objects.all():
-            p.drawString(100, y, f"ID: {lead.id}, Nom: {lead.name}, Statut: {lead.status}, Date: {lead.date}")
+            # Convertir la date en naïve si elle a un fuseau horaire
+            date_naive = lead.date_creation.replace(tzinfo=None) if lead.date_creation else None
+            p.drawString(100, y, f"ID: {lead.id}, Prénom: {lead.prenom}, Nom: {lead.nom}, Statut: {lead.statut}, Date: {date_naive}")
             y -= 20
 
         p.showPage()
