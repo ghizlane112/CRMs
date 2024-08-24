@@ -2,13 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReportForm
 from .models import Report
 #import pandas as pd
-#import io
-#import openpyxl
-#from reportlab.lib.pagesizes import letter
-#from reportlab.pdfgen import canvas
-
-
+import io
+import openpyxl
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 from django.http import HttpResponse
+from lead.models import Lead
 
 
 
@@ -58,7 +57,52 @@ def report_view(request, report_id=None):
 
 
 
+def export_data(request, format='excel'):
+    if format == 'excel':
+        # Exporter en Excel
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        ws.title = "Leads"
 
+        # Ajouter des en-têtes
+        ws.append(["ID", "Nom", "Statut", "Date"])
+
+        # Ajouter des données
+        for lead in Lead.objects.all():
+            ws.append([lead.id, lead.name, lead.status, lead.date])
+
+        # Préparer la réponse HTTP
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="leads.xlsx"'
+
+        # Écrire le classeur Excel dans la réponse
+        wb.save(response)
+        return response
+
+    elif format == 'pdf':
+        # Exporter en PDF
+        buffer = io.BytesIO()
+        p = canvas.Canvas(buffer, pagesize=letter)
+        width, height = letter
+
+        p.drawString(100, height - 100, "Leads Report")
+        y = height - 120
+        
+        # Ajouter des données
+        for lead in Lead.objects.all():
+            p.drawString(100, y, f"ID: {lead.id}, Nom: {lead.name}, Statut: {lead.status}, Date: {lead.date}")
+            y -= 20
+
+        p.showPage()
+        p.save()
+
+        buffer.seek(0)
+        response = HttpResponse(buffer, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="leads.pdf"'
+        return response
+
+    else:
+        return HttpResponse("Format non supporté", status=400)
 
 
 
