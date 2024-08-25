@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from myapp.models import SomeModel  # Remplacez 'myapp' et 'SomeModel' par votre application et modèle
+from users.models import User # Remplacez 'myapp' et 'SomeModel' par votre application et modèle
 
 class Command(BaseCommand):
     help = 'Créer des groupes et attribuer des permissions'
@@ -14,7 +14,7 @@ class Command(BaseCommand):
         user_group, created = Group.objects.get_or_create(name='Utilisateurs')
 
         # Attribuer des permissions au groupe administrateurs
-        content_type = ContentType.objects.get_for_model(SomeModel)
+        content_type = ContentType.objects.get_for_model(User)
         permissions = Permission.objects.filter(content_type=content_type)
         admin_group.permissions.set(permissions)
 
