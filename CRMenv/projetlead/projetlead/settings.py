@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lead',
+    'profils',
     'analytics',
     'campaigns',
     'Rendez',
@@ -158,6 +159,8 @@ LOGOUT_REDIRECT_URL = 'one'
 
 #AUTH_USER_MODEL = 'users.User'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # settings.py
