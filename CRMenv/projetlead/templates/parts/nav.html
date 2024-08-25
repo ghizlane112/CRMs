@@ -108,6 +108,8 @@
                 <input id="search-input" class="form-control me-2" type="search" placeholder="Rechercher..." aria-label="Rechercher">
             </div>
         </form>
+
+
         <div class="profile-btn" id="profileBtn">
             <!-- Affiche la première lettre du nom d'utilisateur -->
             {{ user.username|slice:":1"|upper }}
@@ -119,6 +121,18 @@
                 </form>
             </div>
         </div>
+
+
+
+
+        <div class="notification-btn" id="notificationBtn">
+          <!-- Affiche une icône de notification, ou la première lettre du nom d'utilisateur si vous préférez -->
+          🔔
+          <div class="notification-menu" id="notificationMenu">
+              <a href="{% url 'notifications' %}">View Notifications</a>
+          </div>
+      </div>
+
     </div>
 </nav>
 

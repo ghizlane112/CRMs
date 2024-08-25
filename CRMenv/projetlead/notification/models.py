@@ -3,14 +3,16 @@ from django.db import models
 # Create your models here.
 # models.py
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class Notification(models.Model):
-    #user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # Pour les utilisateurs authentifiés
-    lead_email = models.EmailField(null=True, blank=True)  # Pour les leads non authentifiés
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications',null=True)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_notifications')
     message = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)  # Pour marquer la notification comme lue
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    #def _str_(self):
-     #   return f'Notification pour {self.user if self.user else self.lead_email}'
+    def __str__(self):
+        return f'Notification for {self.recipient.username} from {self.sender.username}'
