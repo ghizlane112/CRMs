@@ -26,8 +26,16 @@ SECRET_KEY = 'django-insecure-%9j6@tra!s05m7le^5ida6=^@0=sg7tl2oa9y^5cc-(r_7joho
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '3721-196-118-117-183.ngrok-free.app',
+    'localhost',
+    '127.0.0.1',
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://3721-196-118-117-183.ngrok-free.app',
+    # Ajoute d'autres URL si nécessaire
+]
 
 # Application definition
 
@@ -157,7 +165,7 @@ LOGOUT_REDIRECT_URL = 'one'
 #CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'  # Backend des résultats Redis
 
 
-#AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.Member1User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

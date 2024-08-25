@@ -1,0 +1,29 @@
+
+
+{% block content %}
+<h2>{% if form %}Send a Message{% else %}Inbox{% endif %}</h2>
+
+{% if form %}
+    <!-- Formulaire d'envoi de message -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send</button>
+    </form>
+    <a href="{% url 'inbox' %}">Back to Inbox</a>
+{% else %}
+    <!-- Liste des messages reçus -->
+    <ul>
+        {% for message in messages %}
+        <li>
+            <strong>From:</strong> {{ message.sender }}<br>
+            <strong>To:</strong> {{ message.receiver }}<br>
+            <strong>Lead:</strong> {{ message.lead }}<br>
+            <strong>Message:</strong> {{ message.content }}<br>
+            <strong>Sent at:</strong> {{ message.timestamp }}
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'send_message' %}">Send a new message</a>
+{% endif %}
+{% endblock %}
