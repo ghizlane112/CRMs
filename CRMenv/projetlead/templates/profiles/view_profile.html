@@ -1,5 +1,15 @@
 
+<body>
+<div class="left-side">
 
+</div>
+
+
+
+
+ <div class="container-right-side">
+  {%include 'parts/nav.html'%}
+  <div class="right-side">
 {% block content %}
   <h1>{{ profile.user.username }}'s Profile</h1>
   <p><strong>Bio:</strong> {{ profile.bio }}</p>
@@ -9,3 +19,7 @@
   {% endif %}
   <a href="{% url 'edit_profile' %}">Edit Profile</a>
 {% endblock %}
+</div>
+ </div>
+
+</body>

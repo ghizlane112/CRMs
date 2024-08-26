@@ -10,4 +10,8 @@ from .models import Notification
 def notifications(request):
     # Récupère les notifications pour l'utilisateur connecté
     notifications = Notification.objects.filter(recipient=request.user).order_by('-created_at')
-    return render(request, 'notification/notifications.html', {'notifications': notifications})
+    unread_count = notifications.filter(is_read=False).count()  # Compte les notifications non lues
+    return render(request, 'notification/notifications.html', {'notifications': notifications,'unread_count': unread_count})
+
+
+

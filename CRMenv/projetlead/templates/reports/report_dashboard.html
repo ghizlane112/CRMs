@@ -22,6 +22,17 @@ box-shadow:
         4px 4px 10px rgba(0, 0, 0, 0.4), /* Deuxième ombre */
         6px 6px 15px rgba(0, 0, 0, 0.6); /* Troisième ombre */
     }
+    .right-side-desous{
+        position: relative;
+        top:23px;
+        left: 12px;
+    }
+    .right-side-desous li{
+        list-style-type: none;
+    }
+    .right-side-desous a{
+        text-decoration: none;
+    }
     </style>
 </head>
 <body>
@@ -32,6 +43,7 @@ box-shadow:
 
 
     <div class="right-left">
+        <div class="right-side-desous">
     <h1>Tableau de Bord des Rapports</h1>
 
     {% if report_options %}
@@ -74,7 +86,7 @@ box-shadow:
          <li><a href="{% url 'export_data' 'pdf' %}">Exporter les Leads en PDF</a></li>
      </ul>
 
-
+    </div>
 
 </div>
 </body>
