@@ -15,3 +15,13 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Message from {self.sender} to {self.receiver} on {self.timestamp}"
+    
+
+class Note(models.Model):
+    #lead = models.ForeignKey(Lead, related_name='notes')
+    #user = models.ForeignKey(User)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def _str_(self):
+        return f"Note by {self.user.username} on {self.lead.name}"
