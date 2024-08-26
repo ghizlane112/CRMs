@@ -1,72 +1,144 @@
-<!--lead_details----->
-
-{%include 'parts/nav.html'%}
-
-
-
+{% include 'parts/nav.html' %}
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Détails du Lead</title>
     <style>
-.right-side{
-background-color:#F6F2F2; 
-border-radius: 15px;
-height: 100%;
-width: 81%;
-position: absolute;
-top: 131px;
-left:17.5%;
-overflow: hidden;
-box-shadow: 
-        2px 2px 5px rgba(0, 0, 0, 0.2), /* Première ombre */
-        4px 4px 10px rgba(0, 0, 0, 0.4), /* Deuxième ombre */
-        6px 6px 15px rgba(0, 0, 0, 0.6); /* Troisième ombre */
-}
-.right-side-container{
-  
-position: absolute;
-top: 48px;
-left: 22px;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
 
-.right-side-container h1{
+        .right-side {
+            background-color: #F6F2F2; 
+            border-radius: 15px;
+            width: 81%;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 
+                2px 2px 5px rgba(0, 0, 0, 0.2), /* Première ombre */
+                4px 4px 10px rgba(0, 0, 0, 0.4), /* Deuxième ombre */
+                6px 6px 15px rgba(0, 0, 0, 0.6); /* Troisième ombre */
+        }
 
-    color: #3837D3;
-    font-style: Abhaya Libre ExtraBold;
+        .right-side-container {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+        }
 
-}
-.right-side-container p{
-  font-size: 18px;
- margin-top: 15px;
- margin-bottom: 12px;
-  }
-.right-side-container a{
-    color: #007bff;
- text-decoration: none;
- font-size: 18px;
-}
-  
+        .right-side-container h1 {
+            color: #3837D3;
+            font-family: 'Abhaya Libre', serif;
+            font-weight: 800;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .right-side-container p {
+            font-size: 18px;
+            margin-top: 15px;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .right-side-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .right-side-container a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-container {
+            text-align: right;
+            margin-top: 30px;
+        }
+
+        .btn-container a {
+            background-color: #3837D3;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .btn-container a:hover {
+            background-color: #2c2cad;
+        }
+
+        .lead-notes {
+            margin-top: 40px;
+        }
+
+        .lead-notes h2 {
+            font-size: 24px;
+            color: #3837D3;
+            margin-bottom: 15px;
+        }
+
+        .lead-notes ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .lead-notes ul li {
+            background-color: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .lead-notes ul li strong {
+            color: #3837D3;
+        }
+
     </style>
 </head>
 <body>
+
 <div class="left-side">
-{%include 'parts/button.html'%}
+    {% include 'parts/button.html' %}
 </div>
 
-    <div class="right-side">
-        <div class="right-side-container">
-    <h1>Détails du Lead</h1>
-    <p><strong>Nom:</strong> {{ lead.nom }}</p>
-    <p><strong>Prénom:</strong> {{ lead.prenom }}</p>
-    <p><strong>Email:</strong> {{ lead.email }}</p>
-    <p><strong>Téléphone:</strong> {{ lead.telephone }}</p>
-    <p><strong>Source:</strong> {{ lead.source }}</p>
-    <p><strong>Statut:</strong> {{ lead.statut }}</p>
-    <p><strong>Note:</strong> {{ lead.note }}</p>
-    <a href="{% url 'lead_list' %}">Retour à la liste</a>
+<div class="right-side">
+    <div class="right-side-container">
+        <h1>Détails du Lead</h1>
+        <p><strong>Nom:</strong> {{ lead.nom }}</p>
+        <p><strong>Prénom:</strong> {{ lead.prenom }}</p>
+        <p><strong>Email:</strong> {{ lead.email }}</p>
+        <p><strong>Téléphone:</strong> {{ lead.telephone }}</p>
+        <p><strong>Source:</strong> {{ lead.source }}</p>
+        <p><strong>Statut:</strong> {{ lead.statut }}</p>
+        <p><strong>Note:</strong> {{ lead.note }}</p>
+
+        <div class="lead-notes">
+            <h2>Notes Associées</h2>
+            <ul>
+                {% for note in lead.notes.all %}
+                <li>
+                    <p><strong>{{ note.utilisateur.username }}:</strong> {{ note.contenu }}</p>
+                    <p><em>Ajoutée le {{ note.date_creation|date:"d/m/Y H:i" }}</em></p>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
+
+        <div class="btn-container">
+            <a href="{% url 'lead_list' %}">Retour à la liste</a>
+        </div>
+    </div>
 </div>
+
 </body>
 </html>

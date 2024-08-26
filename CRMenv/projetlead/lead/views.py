@@ -149,13 +149,7 @@ class LeadDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-
-
-
-
-
-
-
+# Vue pour ajouter une note à un lead
 def add_note(request, lead_id):
     lead = get_object_or_404(Lead, id=lead_id)
     if request.method == "POST":
@@ -165,10 +159,7 @@ def add_note(request, lead_id):
             note.lead = lead
             note.user = request.user
             note.save()
-            return redirect('lead_detail', lead_id=lead.id)
+            return redirect('lead_detail', pk=lead.id)
     else:
         form = NoteForm()
     return render(request, 'lead/add_note.html', {'form': form, 'lead': lead})
-
-
-

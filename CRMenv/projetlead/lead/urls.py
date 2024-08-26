@@ -19,4 +19,5 @@ urlpatterns = [
 
    path('api/leads/', LeadListCreate.as_view(), name='lead-list-create'),
     path('api/leads/<int:pk>/', LeadDetail.as_view(), name='lead-detail'),
+    path('lead/<int:lead_id>/add_note/', views.add_note, name='add_note'),
     ]
