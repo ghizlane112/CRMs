@@ -133,6 +133,22 @@
 .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
   background-color: #3ecd5e;
 }
+table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 <body>
@@ -159,17 +175,41 @@
         </div>
 
         <div id="past-appointments" class="visible">
-            <h1>Rendez-vous Passés</h1>
-            <ul>
-                {% for event in past_events %}
-                    <li>
-                        <a href="{% url 'event_detail' event.id %}">{{ event.title }} - {{ event.start_date }}</a>
-                    </li>
+             <!-- Table des Rendez-vous Passés -->
+        <!-- Table des Rendez-vous Passés -->
+        <h1>Rendez-vous Passés</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th> Heure</th>
+                    <th>Date de Début</th>
+                    <th>Lieu</th>
+                    <th>Description</th>
+                    <th>Supprimé</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in past_event_data %}
+                <tr>
+                    <td>{{ event.title }}</td>
+                    <td>{{ event.start_date }}</td>
+                    <td>{{ event.heur }}</td>
+                    <td>{{ event.lieu }}</td>
+                    <td>{{ event.description }}</td>
+                    <td>{{ event.deleted }}</td>
+                </tr>
                 {% empty %}
-                    <li>Aucun rendez-vous passé.</li>
+                <tr>
+                    <td colspan="6">Aucun rendez-vous passé.</td>
+                </tr>
                 {% endfor %}
-            </ul>
+            </tbody>
+        </table>
         </div>
+
+
+
 
         <div id="future-appointments" class="hidden">
             <h1>Rendez-vous Futurs</h1>

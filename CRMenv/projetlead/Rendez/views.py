@@ -118,20 +118,31 @@ def event_list(request):
 
 def history_view(request):
     today = timezone.now().date()
+    
+    # Récupérer les événements passés
     past_events = Event.objects.filter(start_date__lt=today)
-    future_events = Event.objects.filter(start_date__gte=today)
-    histories = History.objects.all()  # Inclure les informations de l'historique
+    
+    # Préparer les données pour la table
+    past_event_data = []
+    for event in past_events:
+        # Vérifier si l'événement a été supprimé
+        deleted = History.objects.filter(event=event, action='delete').exists()
+        past_event_data.append({
+            'title': event.title,
+            'start_date': event.start_date,
+            'start_time': event.heur,
+            'location': event.lieu,
+            'description': event.description,
+            'deleted': 'Oui' if deleted else 'Non'
+        })
     
     context = {
-        'past_events': past_events,
-        'future_events': future_events,
-        'histories': histories  # Passer les données d'historique au template
+        'past_event_data': past_event_data,
+        'future_events': Event.objects.filter(start_date__gte=today),
+        'histories': History.objects.all()  # Inclure les informations de l'historique
     }
     
     return render(request, 'events/history.html', context)
-
-
-
 
 
 
