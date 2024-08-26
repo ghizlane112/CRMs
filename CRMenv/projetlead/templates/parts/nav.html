@@ -49,6 +49,14 @@
             border-radius: 20px;
             width: 100%;
         }
+
+
+        /* Container pour les boutons de notification et de profil */
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    margin-right: 23px; /* Espacement à droite du profil */
+}
         /* Style du bouton de profil */
         .profile-btn {
             border-radius: 50%;
@@ -64,12 +72,12 @@
             position: relative;
             text-align: center;
             font-size: 16px;
+            
         }
         .profile-menu {
             display: none;
             position: absolute;
             top: 100%;
-            right: 0;
             min-width: 150px;
             background-color: #fff;
             box-shadow: 0 8px 16px rgba(0,0,0,0.2);
@@ -141,6 +149,9 @@
         </form>
 
 
+
+
+        <div class="nav-buttons">
         <div class="notification-btn" id="notificationBtn">
           <!-- Affiche une icône de notification, ou la première lettre du nom d'utilisateur si vous préférez -->
           🔔<span class="notification-badge" id="notificationCount">{{ unread_count }}</span>
@@ -165,6 +176,7 @@
             </div>
         </div>
 
+        </div>
 
 
 

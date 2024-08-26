@@ -1,14 +1,10 @@
-
-
 {% include 'parts/nav.html' %}
 
-<!-- templates/events/history.html -->
-
-
-
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historique des Rendez-vous</title>
     <style>
         .right-side {
@@ -24,7 +20,6 @@
                         4px 4px 10px rgba(0, 0, 0, 0.4),
                         6px 6px 15px rgba(0, 0, 0, 0.6);
         }
-
 
         .button-return {
             display: inline-block;
@@ -42,69 +37,200 @@
         .button-return:hover {
             background-color: #0056b3;
         }
+
+        /***cards div***/
+        .ag-courses_box {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 50px 0;
+        }
+
+        .ag-courses_item {
+            /*flex-basis: calc(33.33333% - 30px);*/
+            flex-basis: calc(30% - 30px); /* Réduit la largeur des cartes à 25% */
+            margin: 0 15px 30px;
+            overflow: hidden;
+            border-radius: 28px;
+        }
+
+        .ag-courses-item_link {
+            display: block;
+            
+            background-color: #121212;
+            overflow: hidden;
+            position: relative;
+            text-decoration: none;
+            padding: 32px 20px; /* Augmente la hauteur des cartes en ajustant le padding */
+        }
+  
+        .ag-courses-item_title {
+  min-height: 87px;
+  margin: 0 0 25px;
+
+  overflow: hidden;
+
+  font-weight: bold;
+  font-size: 30px;
+  color: #FFF;
+
+  z-index: 2;
+  position: relative;
+}
+        .ag-courses-item_link:hover {
+            color: #FFF;
+            text-decoration: none;
+        }
+  
+        .ag-courses-item_link:hover .ag-courses-item_bg {
+  -webkit-transform: scale(10);
+  -ms-transform: scale(10);
+  transform: scale(10);
+}
+
+        .ag-courses-item_bg {
+            height: 128px;
+            width: 128px;
+            background-color: #f9b234;
+            z-index: 1;
+            position: absolute;
+            top: -75px;
+            right: -75px;
+            border-radius: 50%;
+            transition: all .5s ease;
+        }
+
+        .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
+            background-color: #3ecd5e;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+
+        .ag-courses-item_bg {
+  height: 128px;
+  width: 128px;
+  background-color: #f9b234;
+
+  z-index: 1;
+  position: absolute;
+  top: -75px;
+  right: -75px;
+
+  border-radius: 50%;
+
+  -webkit-transition: all .5s ease;
+  -o-transition: all .5s ease;
+  transition: all .5s ease;
+}
+
+
+.ag-courses_item:nth-child(2n) .ag-courses-item_bg {
+  background-color: #3ecd5e;
+}
     </style>
 </head>
-
-
-
-
-
 <body>
     <div class="left-side">
         {% include 'parts/button.html' %}
     </div>
 
     <div class="right-side">
-    <h1>Rendez-vous Passés</h1>
-    <ul>
-        {% for event in past_events %}
-            <li>
-                <a href="{% url 'event_detail' event.id %}">{{ event.title }} - {{ event.start_date }}</a>
-            </li>
-        {% empty %}
-            <li>Aucun rendez-vous passé.</li>
-        {% endfor %}
-    </ul>
+        <div class="div-card">
+            <div class="ag-courses_box">
+                <div class="ag-courses_item">
+                    <a href="#" class="ag-courses-item_link" id="past-appointments-link">
+                        <div class="ag-courses-item_bg"></div>
+                        <div class="ag-courses-item_title">Rendez-vous Passés</div>
+                    </a>
+                </div>
+                <div class="ag-courses_item">
+                    <a href="#" class="ag-courses-item_link" id="future-appointments-link">
+                        <div class="ag-courses-item_bg"></div>
+                        <div class="ag-courses-item_title">Rendez-vous Futurs</div>
+                    </a>
+                </div>
+            </div>
+        </div>
 
-    <h1>Rendez-vous Futurs</h1>
-    <ul>
-        {% for event in future_events %}
-            <li>
-                <a href="{% url 'event_detail' event.id %}">{{ event.title }} - {{ event.start_date }}</a>
-            </li>
-        {% empty %}
-            <li>Aucun rendez-vous futur.</li>
-        {% endfor %}
-    </ul>
+        <div id="past-appointments" class="visible">
+            <h1>Rendez-vous Passés</h1>
+            <ul>
+                {% for event in past_events %}
+                    <li>
+                        <a href="{% url 'event_detail' event.id %}">{{ event.title }} - {{ event.start_date }}</a>
+                    </li>
+                {% empty %}
+                    <li>Aucun rendez-vous passé.</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    
- <!-- Section Historique des Suppressions -->
- <div class="history-section">
-    <h1>Historique des Suppressions</h1>
-    <ul>
-        {% for history in histories %}
-            <li>
-                <a href="{% url 'event_detail' history.event.id %}">
-                    {{ history.event.title }} - le {{ history.timestamp }}<br>
-                    Raison : {{ history.reason }}
-                </a>
-            </li>
-        {% empty %}
-            <li>Aucune suppression enregistrée.</li>
-        {% endfor %}
-    </ul>
-</div>
+        <div id="future-appointments" class="hidden">
+            <h1>Rendez-vous Futurs</h1>
+            <ul>
+                {% for event in future_events %}
+                    <li>
+                        <a href="{% url 'event_detail' event.id %}">{{ event.title }} - {{ event.start_date }}</a>
+                    </li>
+                {% empty %}
+                    <li>Aucun rendez-vous futur.</li>
+                {% endfor %}
+            </ul>
+        </div>
 
+        <div class="history-section">
+            <h1>Historique des Suppressions</h1>
+            <ul>
+                {% for history in histories %}
+                    <li>
+                        <a href="{% url 'event_detail' history.event.id %}">
+                            {{ history.event.title }} - le {{ history.timestamp }}<br>
+                            Raison : {{ history.reason }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>Aucune suppression enregistrée.</li>
+                {% endfor %}
+            </ul>
+        </div>
 
+        <div>
+            {% load static %}
+            <form method="get" action="{% url 'calendar_view' %}">
+                <button class="button-return">Retour au Calendrier</button>
+            </form>
+        </div>
+    </div>
 
- <!-- Bouton pour revenir au calendrier -->
- <div>
-    {% load static %}<form method="get" action="{%url  'calendar_view'%}"><button class="button-return" >Retour au Calendrier</button></form>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const pastAppointments = document.getElementById('past-appointments');
+            const futureAppointments = document.getElementById('future-appointments');
+            const pastLink = document.getElementById('past-appointments-link');
+            const futureLink = document.getElementById('future-appointments-link');
 
+            pastLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                pastAppointments.classList.remove('hidden');
+                pastAppointments.classList.add('visible');
+                futureAppointments.classList.remove('visible');
+                futureAppointments.classList.add('hidden');
+            });
 
-</div>
-
-
+            futureLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                futureAppointments.classList.remove('hidden');
+                futureAppointments.classList.add('visible');
+                pastAppointments.classList.remove('visible');
+                pastAppointments.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>

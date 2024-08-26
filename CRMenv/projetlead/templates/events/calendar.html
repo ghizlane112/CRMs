@@ -45,8 +45,9 @@
 
 
         .right-side-calendar {
+         
             position: relative;
-            top: 73px;
+            top: 100px;
             left: 15px;
             right: 5px;
         }
@@ -58,15 +59,19 @@
         }
 
         .btn-history {
-           
             display: inline-block;
             float: right;
+            position: relative;
+            right:12px;
+            top:17px;
+            font-family: 'Inter';
+            font-style:  Bold italic;
+            font-weight: 600;
             width: 270px;
-          
             padding-top: 14px;
             padding-bottom: 14px;
             margin: 20px 0;
-            font-size: 16px;
+            font-size: 18px;
             text-decoration: none;
             color: #fff;
             background-color: #3D46F2;
@@ -74,7 +79,7 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
+        
         .btn-history:hover {
             background-color: #0056b3;
         }
@@ -139,7 +144,11 @@
 
         #calendar {
             width: 96%;
+            height: 660px;
             background-color: white;
+            position: relative;
+            left: 12px;
+            bottom: 90px;
         }
         /* Style pour la fenêtre modale */
 
@@ -209,7 +218,7 @@
     <div class="right-side">
     <h1>Appoitement</h1>
 
-    <div>{% load static %}<form method="get" action="{%url  'history_view'%}"><button type="submit" class="btn-history" ><img src="{%static 'images/Rectangle2093.png'%}" alt="calendanr logo"/>   l'Historique des Rendez-vous</button></form></div>
+    <div>{% load static %}<form method="get" action="{%url  'history_view'%}"><button type="submit" class="btn-history" ><img src="{%static 'images/Rectangle2093.png'%}" alt="calendanr logo"/> &nbsp  l'Historique des Rendez-vous</button></form></div>
     
 
 
