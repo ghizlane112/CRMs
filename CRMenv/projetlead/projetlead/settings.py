@@ -27,15 +27,15 @@ SECRET_KEY = 'django-insecure-%9j6@tra!s05m7le^5ida6=^@0=sg7tl2oa9y^5cc-(r_7joho
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '3721-196-118-117-183.ngrok-free.app',
+    '2b1c-196-118-117-183.ngrok-free.app',
     'localhost',
     '127.0.0.1',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://3721-196-118-117-183.ngrok-free.app',
-    # Ajoute d'autres URL si nécessaire
+    'https://2b1c-196-118-117-183.ngrok-free.app',
 ]
+
 
 # Application definition
 

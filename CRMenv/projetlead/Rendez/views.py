@@ -122,12 +122,15 @@ def history_view(request):
     # Récupérer les événements passés
     past_events = Event.objects.filter(start_date__lt=today)
     
-    # Préparer les données pour la table
+    # Récupérer les événements futurs
+    future_events = Event.objects.filter(start_date__gte=today)
+    
+    # Préparer les données pour la table des événements passés
     past_event_data = []
     for event in past_events:
-        # Vérifier si l'événement a été supprimé
         deleted = History.objects.filter(event=event, action='delete').exists()
         past_event_data.append({
+            'id': event.id,
             'title': event.title,
             'start_date': event.start_date,
             'start_time': event.heur,
@@ -136,10 +139,24 @@ def history_view(request):
             'deleted': 'Oui' if deleted else 'Non'
         })
     
+    # Préparer les données pour la table des événements futurs
+    future_event_data = []
+    for event in future_events:
+        deleted = History.objects.filter(event=event, action='delete').exists()
+        future_event_data.append({
+            'id': event.id,
+            'title': event.title,
+            'start_date': event.start_date,
+            'start_time': event.heur,
+            'location': event.lieu,
+            'description': event.description,
+            'deleted': 'Oui' if deleted else 'Non'
+        })
+
     context = {
         'past_event_data': past_event_data,
-        'future_events': Event.objects.filter(start_date__gte=today),
-        'histories': History.objects.all()  # Inclure les informations de l'historique
+        'future_event_data': future_event_data,
+        'histories': History.objects.all()
     }
     
     return render(request, 'events/history.html', context)

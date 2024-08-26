@@ -182,8 +182,8 @@ table {
             <thead>
                 <tr>
                     <th>Titre</th>
-                    <th> Heure</th>
-                    <th>Date de Début</th>
+                    <th>Date de Début </th>
+                    <th>Heure de Début</th>
                     <th>Lieu</th>
                     <th>Description</th>
                     <th>Supprimé</th>
@@ -213,15 +213,35 @@ table {
 
         <div id="future-appointments" class="hidden">
             <h1>Rendez-vous Futurs</h1>
-            <ul>
-                {% for event in future_events %}
-                    <li>
-                        <a href="{% url 'event_detail' event.id %}">{{ event.title }} - {{ event.start_date }}</a>
-                    </li>
-                {% empty %}
-                    <li>Aucun rendez-vous futur.</li>
-                {% endfor %}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Date de Début</th>
+                        <th>Heure</th>
+                        <th>Lieu</th>
+                        <th>Description</th>
+                        <th>Supprimé</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in future_event_data %}
+                    <tr>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.start_date }}</td>
+                        <td>{{ event.start_time }}</td>
+                        <td>{{ event.location }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>{{ event.deleted }}</td>
+                       
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7">Aucun rendez-vous futur.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
         <div class="history-section">
