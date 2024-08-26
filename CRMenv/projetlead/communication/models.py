@@ -17,11 +17,3 @@ class Message(models.Model):
         return f"Message from {self.sender} to {self.receiver} on {self.timestamp}"
     
 
-class Note(models.Model):
-    lead = models.ForeignKey(Lead, on_delete=models.SET_NULL, null=True, related_name='notes')
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def _str_(self):
-        return f"Note by {self.user.username if self.user else 'Unknown User'} on {self.lead.name if self.lead else 'Unknown Lead'}"

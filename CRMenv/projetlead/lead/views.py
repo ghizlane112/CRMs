@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from rest_framework import generics
-from .models import Lead
+from .models import Lead, Note
+from .forms import NoteForm
 from django.views.generic import ListView
 from .forms import LeadSortForm
 from .forms import LeadForm
@@ -147,6 +148,27 @@ class LeadDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+
+
+
+
+
+
+
+
+def add_note(request, lead_id):
+    lead = get_object_or_404(Lead, id=lead_id)
+    if request.method == "POST":
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.lead = lead
+            note.user = request.user
+            note.save()
+            return redirect('lead_detail', lead_id=lead.id)
+    else:
+        form = NoteForm()
+    return render(request, 'lead/add_note.html', {'form': form, 'lead': lead})
 
 
 

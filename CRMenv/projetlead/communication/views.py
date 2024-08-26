@@ -2,17 +2,29 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Message
-from .models import Note
+
 from .forms import MessageForm
 from lead.models import Lead
-from .forms import NoteForm
+
 from notification.models import Notification  # Importer le modèle Notification
+from django.contrib.auth import get_user_model
+
+
+
+
 
 @login_required
 def inbox(request):
     # Récupère les messages reçus par l'utilisateur connecté
     messages = Message.objects.filter(receiver=request.user)
-    return render(request, 'communication/messages.html', {'messages': messages})
+    
+    # Récupère tous les utilisateurs pour la liste de contacts
+    User = get_user_model()
+    users = User.objects.exclude(id=request.user.id)  # Exclure l'utilisateur actuel
+
+    return render(request, 'communication/messages.html', {'messages': messages, 'users': users})
+
+
 
 @login_required
 def send_message(request):
