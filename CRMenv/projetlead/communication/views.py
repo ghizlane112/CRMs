@@ -2,7 +2,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Message
+from .models import Note
 from .forms import MessageForm
+from lead.models import Lead
+from .forms import NoteForm
 from notification.models import Notification  # Importer le modèle Notification
 
 @login_required
@@ -30,3 +33,9 @@ def send_message(request):
     else:
         form = MessageForm()
     return render(request, 'communication/messages.html', {'form': form})
+
+
+
+
+
+
