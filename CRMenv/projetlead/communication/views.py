@@ -8,21 +8,30 @@ from lead.models import Lead
 
 from notification.models import Notification  # Importer le modèle Notification
 from django.contrib.auth import get_user_model
-
-
+from django.db.models import Q
 
 
 
 @login_required
 def inbox(request):
     # Récupère les messages reçus par l'utilisateur connecté
-    messages = Message.objects.filter(receiver=request.user)
+    user_id = request.GET.get('user')
+    if user_id:
+        messages = Message.objects.filter(
+            (Q(sender_id=user_id) & Q(receiver=request.user)) |
+            (Q(sender=request.user) & Q(receiver_id=user_id))
+        ).order_by('timestamp')
+    else:
+        messages = Message.objects.filter(receiver=request.user).order_by('timestamp')
     
     # Récupère tous les utilisateurs pour la liste de contacts
     User = get_user_model()
     users = User.objects.exclude(id=request.user.id)  # Exclure l'utilisateur actuel
 
     return render(request, 'communication/messages.html', {'messages': messages, 'users': users})
+
+
+
 
 
 
