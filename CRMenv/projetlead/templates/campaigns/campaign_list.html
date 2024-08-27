@@ -5,26 +5,27 @@
 </head>
 <body>
     <h1>Liste des Campagnes</h1>
+    <a href="{% url 'add_campaign' %}">Ajouter une Campagne</a>
     <table>
         <thead>
             <tr>
-                <th>Nom de l'Entreprise</th>
-                <th>Email de Contact</th>
+                <th>Nom de la Campagne</th>
                 <th>Date de Début</th>
                 <th>Date de Fin</th>
                 <th>Budget</th>
-                <th>Nom de l'Entreprise (Optionnel)</th>
+                <th>Nom de l'Entreprise</th>
+                <th>Nombre de Leads</th>
             </tr>
         </thead>
         <tbody>
             {% for campaign in campaigns %}
                 <tr>
                     <td>{{ campaign.name }}</td>
-                    <td>{{ campaign.contact_email }}</td>
                     <td>{{ campaign.start_date }}</td>
                     <td>{{ campaign.end_date }}</td>
                     <td>{{ campaign.budget }}</td>
                     <td>{{ campaign.nom_entreprise|default:"Non spécifié" }}</td>
+                    <td>{{ campaign.num_leads }}</td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajouter une Campagne</title>
+</head>
+<body>
+    <h1>Ajouter une Nouvelle Campagne</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Ajouter la Campagne</button>
+    </form>
+    <a href="{% url 'campaign_list' %}">Retour à la Liste des Campagnes</a>
+</body>
+</html>
