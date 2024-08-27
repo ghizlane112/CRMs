@@ -1,11 +1,28 @@
 # member_management/forms.py
 from django import forms
+from users.models import Member1User
 from django.contrib.auth.forms import UserCreationForm
-from users.models import Member1User  # Importez le modèle User depuis l'application users
 
 class MemberCreationForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    user_type = forms.ChoiceField(
+        choices=[('user', 'Utilisateur Normal'), ('admin', 'Administrateur')],
+        required=True,
+        label='Type d\'utilisateur'
+    )
 
     class Meta:
         model = Member1User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2', 'user_type')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user_type = self.cleaned_data['user_type']
+        if user_type == 'admin':
+            user.is_superuser = True
+            user.is_staff = True
+        else:
+            user.is_superuser = False
+            user.is_staff = False
+        if commit:
+            user.save()
+        return user

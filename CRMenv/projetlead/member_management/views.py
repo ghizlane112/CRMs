@@ -11,7 +11,7 @@ def add_member(request):
     if request.method == 'POST':
         form = MemberCreationForm(request.POST)
         if form.is_valid():
-            form.save()  # Sauvegarde le membre avec l'email et le mot de passe saisis
+            form.save()  # Sauvegarde le membre avec les attributs choisis
             return redirect('dashboard')  # Redirige vers le tableau de bord ou une autre page
     else:
         form = MemberCreationForm()
