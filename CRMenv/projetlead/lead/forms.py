@@ -2,11 +2,20 @@ from django import forms
 from .models import Lead
 import csv
 from io import StringIO
+from .models import Interaction
 #from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 #from .models import Interaction
+
+
+# lead/forms.py
+
+
+
+
+
 
 class LeadForm(forms.ModelForm):
     class Meta:
@@ -68,4 +77,11 @@ class CSVImportForm(forms.Form):
    #     fields = ['type', 'date', 'description', 'lead', 'user']
 
 
+class InteractionForm(forms.ModelForm):
+    class Meta:
+        model = Interaction
+        fields = ['lead', 'type_interaction', 'date_interaction', 'note']
+        widgets = {
+            'date_interaction': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
 

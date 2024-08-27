@@ -1,15 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from rest_framework import generics
-from .models import Lead
+from .models import Lead, Interaction
+from .forms import InteractionForm
 from django.views.generic import ListView
 from .forms import LeadSortForm
 from .forms import LeadForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import LeadSerializer
-#from .models import Interaction, Lead
-#from .forms import InteractionForm
 from django.db.models import Q
 
 # Create your views here.
@@ -133,10 +132,6 @@ def lead_import(request):
 
 
 
-#def interaction_list(request):
- #   interactions = Interaction.objects.all()
-  #  return render(request, 'leadfile/interaction_list.html', {'interactions': interactions})
-
 class LeadListCreate(generics.ListCreateAPIView):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
@@ -148,5 +143,22 @@ class LeadDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+def interaction_list(request, lead_id):
+    lead = get_object_or_404(Lead, id=lead_id)
+    interactions = lead.interactions.all()
+    return render(request, 'lead/interaction_list.html', {'lead': lead, 'interactions': interactions})
 
+def add_interaction(request, lead_id):
+    lead = get_object_or_404(Lead, id=lead_id)
+    if request.method == 'POST':
+        form = InteractionForm(request.POST)
+        if form.is_valid():
+            interaction = form.save(commit=False)
+            interaction.lead = lead
+            interaction.utilisateur = request.user
+            interaction.save()
+            return redirect('interaction_list', lead_id=lead.id)
+    else:
+        form = InteractionForm()
+    return render(request, 'lead/add_interaction.html', {'form': form, 'lead': lead})
 

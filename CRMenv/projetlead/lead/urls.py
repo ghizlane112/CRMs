@@ -15,6 +15,10 @@ urlpatterns = [
     path('lead/new/', views.lead_create, name='lead_create'),
     path('lead/import/', views.lead_import, name='lead_import'),
 
+
+    path('lead/<int:lead_id>/interactions/', views.interaction_list, name='interaction_list'),
+    path('lead/<int:lead_id>/interactions/add/', views.add_interaction, name='add_interaction'),
+
    # path('interaction_list/', views.interaction_list, name='interaction_list'),
 
    path('api/leads/', LeadListCreate.as_view(), name='lead-list-create'),

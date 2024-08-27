@@ -31,24 +31,25 @@ class Lead(models.Model):
     def __str__(self):
         return f"{self.prenom} {self.nom}"
     
-#class Interaction(models.Model):
-    #TYPE_CHOICES = [
-       # ('Appel', 'Appel'),
-      #  ('SMS','SMS'),
-     #   ('Email', 'Email'),
-    #    ('Autre', 'Autre'),
-    #]
+class Interaction(models.Model):
+    INTERACTION_TYPE_CHOICES = [
+        ('appel', 'Appel'),
+        ('email', 'Email'),
+        ('sms','SMS'),
+        ('autre', 'Autre'),
+    ]
 
-   # id = models.AutoField(primary_key=True)
-   # type = models.CharField(max_length=10, choices=TYPE_CHOICES)
-  #  date = models.DateTimeField(default=timezone.now)
-   # description = models.TextField(blank=True, null=True)
-    #lead = models.ForeignKey(Lead, on_delete=models.PROTECT)
-    #user = models.ForeignKey(User, on_delete=models.PROTECT)
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE, related_name='interactions')
+    utilisateur = models.ForeignKey(User, on_delete=models.CASCADE)
+    type_interaction = models.CharField(max_length=10, choices=INTERACTION_TYPE_CHOICES)
+    date_interaction = models.DateTimeField()
+    note = models.TextField()
+    
+    def _str_(self):
+        return f"{self.get_type_interaction_display()} avec {self.lead.nom} le {self.date_interaction}"
 
-   # def __str__(self):
-     #   return f"Interaction avec {self.lead} le {self.date}"
-
+    class Meta:
+        ordering = ['-date_interaction']
 
 
 
