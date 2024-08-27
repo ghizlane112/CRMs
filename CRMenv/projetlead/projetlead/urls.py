@@ -31,11 +31,8 @@ urlpatterns = [
     path('',include('notification.urls')),
     path('',include('member_management.urls')),
     path('',include('campaigns.urls')),
-
     #path('',include('django.contrib.auth.urls')),
     path('login/', auth_views.LoginView.as_view(), name='login'),
-
-    
     path('logout/', LogoutView.as_view(), name='logout'),  
 ]
 # Serve les fichiers médias durant le développement

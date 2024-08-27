@@ -3,10 +3,11 @@ from django.http import HttpResponse
 from django.template import loader
 from rest_framework import generics
 from .models import Lead, Interaction
+import csv
 from .forms import InteractionForm
 from django.views.generic import ListView
 from .forms import LeadSortForm
-from .forms import LeadForm
+from .forms import LeadForm, NoteForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import LeadSerializer
 from django.db.models import Q
@@ -131,6 +132,25 @@ def lead_import(request):
 
 
 
+def lead_delete(request, pk):
+    lead = get_object_or_404(Lead, pk=pk)
+    lead.delete()
+    return redirect('lead_list')
+
+
+
+
+def lead_edit(request, id):
+    lead = get_object_or_404(Lead, id=id)
+    if request.method == 'POST':
+        form = LeadForm(request.POST, instance=lead)
+        if form.is_valid():
+            form.save()
+            return redirect('lead_list')
+    else:
+        form = LeadForm(instance=lead)
+    return render(request, 'leadfile/lead_edit.html', {'form': form})
+
 
 class LeadListCreate(generics.ListCreateAPIView):
     queryset = Lead.objects.all()
@@ -162,3 +182,28 @@ def add_interaction(request, lead_id):
         form = InteractionForm()
     return render(request, 'lead/add_interaction.html', {'form': form, 'lead': lead})
 
+
+
+
+def add_note(request, pk):
+    lead = get_object_or_404(Lead, pk=pk)
+    
+    if request.method == 'POST':
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.lead = lead
+            note.user = request.user  # Associe la note à l'utilisateur actuel
+            note.save()
+            return redirect('lead_detail', pk=pk)  # Redirige vers les détails du lead
+    else:
+        form = NoteForm()  # Formulaire vide pour GET ou après une soumission réussie
+    
+    # Récupère les notes associées au lead pour l'affichage
+    notes = lead.notes.all()
+    
+    return render(request, 'leadfile/ajouter-note.html', {
+        'lead': lead,
+        'notes': notes,
+        'form': form
+    })

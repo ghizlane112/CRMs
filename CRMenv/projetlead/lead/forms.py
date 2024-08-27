@@ -1,5 +1,5 @@
 from django import forms
-from .models import Lead
+from .models import Lead, Note
 import csv
 from io import StringIO
 from .models import Interaction
@@ -85,3 +85,9 @@ class InteractionForm(forms.ModelForm):
             'date_interaction': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
 
+
+
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ['content']

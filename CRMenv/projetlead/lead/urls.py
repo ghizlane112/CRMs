@@ -1,6 +1,9 @@
 from django.urls import path
 from . import views
 from .views import LeadListCreate, LeadDetail
+from .views import lead_delete
+
+
 
 urlpatterns = [
     path('', views.one, name='one'),
@@ -20,7 +23,10 @@ urlpatterns = [
     path('lead/<int:lead_id>/interactions/add/', views.add_interaction, name='add_interaction'),
 
    # path('interaction_list/', views.interaction_list, name='interaction_list'),
-
+   path('lead/<int:pk>/delete/', lead_delete, name='lead_delete'),
    path('api/leads/', LeadListCreate.as_view(), name='lead-list-create'),
+   path('lead/<int:id>/edit/', views.lead_edit, name='lead_edit'),
+   #path('lead/<int:id>/add-note/', views.add_note, name='add_note'),
+   path('lead/<int:pk>/add-note/', views.add_note, name='add_note'),
    path('api/leads/<int:pk>/', LeadDetail.as_view(), name='lead-detail'),
     ]
