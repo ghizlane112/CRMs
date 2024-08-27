@@ -101,12 +101,13 @@ box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.5),
     </div>
 
 
-    
+     <!-- Afficher le lien pour ajouter un membre uniquement pour les administrateurs -->
+     {% if user.is_superuser %}
     <div class="div-container1">
         {% load static %}
-        <a href="#" class="button"><img src="{% static 'images/Rectangle_367.png' %}" alt="Ajouter member icon">Ajouter member</a>
+        <a href="{% url 'add_member'%}" class="button"><img src="{% static 'images/Rectangle_367.png' %}" alt="Ajouter member icon">Ajouter member</a>
     </div>
-    
+    {% endif %}
 
 
 </div>

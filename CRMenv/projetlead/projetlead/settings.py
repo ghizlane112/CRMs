@@ -27,13 +27,14 @@ SECRET_KEY = 'django-insecure-%9j6@tra!s05m7le^5ida6=^@0=sg7tl2oa9y^5cc-(r_7joho
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '2b1c-196-118-117-183.ngrok-free.app',
+    '02c9-196-118-117-183.ngrok-free.app',
     'localhost',
     '127.0.0.1',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://2b1c-196-118-117-183.ngrok-free.app',
+    
+    'https://02c9-196-118-117-183.ngrok-free.app',
 ]
 
 
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'reports',
     'users',
     'notification',
+    'member_management',
 ]
 
 MIDDLEWARE = [
