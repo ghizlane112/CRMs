@@ -1,0 +1,37 @@
+<!--member_management/templates/member_management/member_list.html -->
+
+
+{% block content %}
+    <h1>Liste des Membres</h1>
+
+    {% if user.is_superuser %}
+        <a href="{% url 'add_member' %}">Ajouter un membre</a>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Type d'utilisateur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+                <tr>
+                    <td>{{ member.username }}</td>
+                    <td>{{ member.first_name }}</td>
+                    <td>{{ member.last_name }}</td>
+                    <td>{{ member.email }}</td>
+                    <td>{{ member.is_superuser|yesno:"Administrateur,Utilisateur Normal" }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Aucun membre trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

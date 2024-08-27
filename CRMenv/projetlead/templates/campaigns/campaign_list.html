@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste des Campagnes</title>
+</head>
+<body>
+    <h1>Liste des Campagnes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom de l'Entreprise</th>
+                <th>Email de Contact</th>
+                <th>Date de Début</th>
+                <th>Date de Fin</th>
+                <th>Budget</th>
+                <th>Nom de l'Entreprise (Optionnel)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campaign in campaigns %}
+                <tr>
+                    <td>{{ campaign.name }}</td>
+                    <td>{{ campaign.contact_email }}</td>
+                    <td>{{ campaign.start_date }}</td>
+                    <td>{{ campaign.end_date }}</td>
+                    <td>{{ campaign.budget }}</td>
+                    <td>{{ campaign.nom_entreprise|default:"Non spécifié" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
