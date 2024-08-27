@@ -64,3 +64,21 @@ class Note(models.Model):
     def _str_(self):
         return f"Note for {self.lead.nom} {self.lead.prenom} by {self.user.username}"
 
+
+
+
+class LeadHistory(models.Model):
+    ACTION_CHOICES = (
+        ('created', 'Created'),
+        ('updated', 'Updated'),
+        ('deleted', 'Deleted'),
+    )
+    
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    action = models.CharField(max_length=10, choices=ACTION_CHOICES)
+    timestamp = models.DateTimeField(default=timezone.now)
+    details = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.get_action_display()} by {self.user} on {self.timestamp}"
