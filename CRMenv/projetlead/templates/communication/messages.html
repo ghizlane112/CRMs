@@ -51,11 +51,11 @@
                   <!-- <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">-->
                 </a>
                 <div class="chat-about">
-                    <h6 class="m-b-0">Aiden Chavez</h6>
-                    <small>Last seen: 2 hours ago</small>
+                    <h6 class="m-b-0">{{ current_user.username }}</h6>
+                    <small>Last seen: {{ current_user.last_seen }}</small>
                 </div>
             </div>
-
+        </div>
 
 
 <h2>{% if form %}Send a Message{% else %}Inbox{% endif %}</h2>
