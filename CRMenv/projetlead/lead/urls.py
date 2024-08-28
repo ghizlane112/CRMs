@@ -25,8 +25,11 @@ urlpatterns = [
    # path('interaction_list/', views.interaction_list, name='interaction_list'),
    path('lead/<int:pk>/delete/', lead_delete, name='lead_delete'),
    path('api/leads/', LeadListCreate.as_view(), name='lead-list-create'),
-   path('lead/<int:id>/edit/', views.lead_edit, name='lead_edit'),
+   path('lead/<int:pk>/edit/', views.lead_edit, name='lead_edit'),
    #path('lead/<int:id>/add-note/', views.add_note, name='add_note'),
    path('lead/<int:pk>/add-note/', views.add_note, name='add_note'),
+  # path('lead/<int:pk>/history/', views.lead_history, name='lead_history'),
+  path('lead/history/', views.lead_history, name='lead_history'),
+    #path('lead/<int:pk>/history/', views.lead_history, name='lead_history'),
    path('api/leads/<int:pk>/', LeadDetail.as_view(), name='lead-detail'),
     ]

@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from rest_framework import generics
-from .models import Lead, Interaction
+from .models import Lead, Interaction,LeadHistory
 import csv
+from users.models import Member1User
+from django.utils import timezone
 from .forms import InteractionForm
 from django.views.generic import ListView
 from .forms import LeadSortForm
@@ -91,11 +93,21 @@ def lead_detail(request, pk):
     lead = Lead.objects.get(pk=pk)
     return render(request, 'leadfile/lead_detail.html', {'lead': lead})
 
+
+
+
+# Optionnel: ajouter une vue pour la création si vous avez besoin de suivre les créations
 def lead_create(request):
     if request.method == 'POST':
         form = LeadForm(request.POST)
         if form.is_valid():
-            form.save()
+            lead = form.save()
+            LeadHistory.objects.create(
+                lead=lead,
+                user=request.user,
+                action='created',
+                details=f"Lead {lead.nom} {lead.prenom} créé."
+            )
             return redirect('lead_list')
     else:
         form = LeadForm()
@@ -134,22 +146,49 @@ def lead_import(request):
 
 def lead_delete(request, pk):
     lead = get_object_or_404(Lead, pk=pk)
-    lead.delete()
-    return redirect('lead_list')
+    if request.method == 'POST':
+        # Enregistrez l'historique avant de supprimer
+        LeadHistory.objects.create(
+            lead=lead,
+            user=request.user,
+            action='deleted',
+            details=f"Lead {lead.nom} {lead.prenom} supprimé."
+        )
+        lead.delete()
+        return redirect('lead_list')
+     # Pour GET et autres méthodes, redirigez vers la liste des leads ou affichez une erreur
+    return redirect('lead_list')  # Redirection pour toutes les requêtes non POST
 
 
 
 
-def lead_edit(request, id):
-    lead = get_object_or_404(Lead, id=id)
+def lead_edit(request, pk):
+    lead = get_object_or_404(Lead, pk=pk)
     if request.method == 'POST':
         form = LeadForm(request.POST, instance=lead)
         if form.is_valid():
+            old_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}"
             form.save()
+            new_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}"
+            LeadHistory.objects.create(
+                lead=lead,
+                user=request.user,
+                action='updated',
+                details=f"Modifié de {old_data} à {new_data}"
+            )
             return redirect('lead_list')
     else:
         form = LeadForm(instance=lead)
     return render(request, 'leadfile/lead_edit.html', {'form': form})
+
+
+
+
+
+
+def lead_history(request):
+    histories = LeadHistory.objects.all().order_by('-timestamp')
+    return render(request, 'leadfile/LeadHistory.html', {'histories': histories})
 
 
 class LeadListCreate(generics.ListCreateAPIView):

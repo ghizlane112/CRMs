@@ -80,5 +80,9 @@ class LeadHistory(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
     details = models.TextField(blank=True, null=True)
 
+
     def __str__(self):
         return f"{self.get_action_display()} by {self.user} on {self.timestamp}"
+    
+    class Meta:
+        ordering = ['-timestamp']  # Pour trier par date décroissante par défaut
