@@ -4,7 +4,8 @@ from django.template import loader
 from rest_framework import generics
 from .models import Lead, Interaction,LeadHistory
 import csv
-from users.models import Member1User
+from django.db import transaction
+from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .forms import InteractionForm
 from django.views.generic import ListView
@@ -144,20 +145,34 @@ def lead_import(request):
 
 
 
+@login_required
+
 def lead_delete(request, pk):
     lead = get_object_or_404(Lead, pk=pk)
     if request.method == 'POST':
-        # Enregistrez l'historique avant de supprimer
-        LeadHistory.objects.create(
-            lead=lead,
-            user=request.user,
-            action='deleted',
-            details=f"Lead {lead.nom} {lead.prenom} supprimé."
-        )
-        lead.delete()
-        return redirect('lead_list')
-     # Pour GET et autres méthodes, redirigez vers la liste des leads ou affichez une erreur
-    return redirect('lead_list')  # Redirection pour toutes les requêtes non POST
+        try:
+            # Enregistrer l'action de suppression dans l'historique
+            LeadHistory.objects.create(
+                lead=lead,
+                user=request.user,
+                action='deleted',
+                details=f"Lead {lead.nom} {lead.prenom} supprimé."
+            )
+            # Supprimer le lead
+            lead.delete()
+            return redirect('lead_list')
+        except Exception as e:
+            # Optionnel: Enregistrer l'erreur ou effectuer une autre action
+            print(f"Une erreur est survenue : {e}")
+            # Retourner une réponse d'erreur appropriée
+    return render(request, 'leadfile/lead_confirm_delete.html', {'lead': lead})
+
+
+
+
+
+
+
 
 
 
