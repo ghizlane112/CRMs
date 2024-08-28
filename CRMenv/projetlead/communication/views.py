@@ -1,20 +1,14 @@
-# Create your views here.
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Message
-
 from .forms import MessageForm
 from lead.models import Lead
-
-from notification.models import Notification  # Importer le modèle Notification
+from notification.models import Notification
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 
-
-
 @login_required
 def inbox(request):
-    # Récupère les messages reçus par l'utilisateur connecté
     user_id = request.GET.get('user')
     if user_id:
         messages = Message.objects.filter(
@@ -24,16 +18,12 @@ def inbox(request):
     else:
         messages = Message.objects.filter(receiver=request.user).order_by('timestamp')
     
-    # Récupère tous les utilisateurs pour la liste de contacts
     User = get_user_model()
-    users = User.objects.exclude(id=request.user.id)  # Exclure l'utilisateur actuel
-
-    return render(request, 'communication/messages.html', {'messages': messages, 'users': users})
-
-
-
-
-
+    users = User.objects.exclude(id=request.user.id)
+    
+    # Passer les leads au contexte
+    leads = Lead.objects.all()
+    return render(request, 'communication/messages.html', {'messages': messages, 'users': users, 'leads': leads})
 
 @login_required
 def send_message(request):
@@ -53,10 +43,5 @@ def send_message(request):
             return redirect('inbox')
     else:
         form = MessageForm()
-    return render(request, 'communication/messages.html', {'form': form})
-
-
-
-
-
-
+    leads = Lead.objects.all()  # Assurez-vous de passer les leads ici aussi
+    return render(request, 'communication/messages.html', {'form': form, 'leads': leads})

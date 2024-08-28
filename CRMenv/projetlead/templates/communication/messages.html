@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inbox</title>
     <style>
+        /* Ajoutez vos styles CSS ici */
+        /* ... (styles fournis précédemment) ... */
+
         :root {
             --body-bg: #f5f5f5;
             --msger-bg: #fff;
@@ -193,14 +196,18 @@
         .msger-send-btn:hover {
             background: var(--send-btn-hover-bg);
         }
+
     </style>
 </head>
 <body>
     <!-- Include Navigation -->
     <div class="nav-container">
-        
+      
     </div>
-
+  <!-- Left-side buttons -->
+  <div class="left-side">
+    {% include 'parts/button.html' %}
+</div>
     <!-- Main container -->
     <div class="right-left">
         <!-- Liste d'utilisateurs -->
@@ -250,15 +257,22 @@
             <form class="msger-inputarea" method="POST" action="{% url 'send_message' %}">
                 {% csrf_token %}
                 <input type="text" name="content" class="msger-input" placeholder="Enter your message..." required>
+
+                <select name="lead" class="msger-lead-select">
+                    <option value="">Select a lead (optional)</option>
+                    {% for lead in leads %}
+                        <option value="{{ lead.id }}">{{ lead.name }}</option>
+                    {% empty %}
+                        <option value="">No leads available</option>
+                    {% endfor %}
+                </select>
+
                 <button type="submit" class="msger-send-btn">Send</button>
             </form>
         </div>
     </div>
 
-    <!-- Left-side buttons -->
-    <div class="left-side">
-        {% include 'parts/button.html' %}
-    </div>
+  
 
     <script>
         document.querySelectorAll('.user-item').forEach(item => {
