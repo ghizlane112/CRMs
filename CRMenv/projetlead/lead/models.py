@@ -31,6 +31,10 @@ class Lead(models.Model):
     def __str__(self):
         return f"{self.prenom} {self.nom}"
     
+
+
+
+    
 class Interaction(models.Model):
     INTERACTION_TYPE_CHOICES = [
         ('appel', 'Appel'),

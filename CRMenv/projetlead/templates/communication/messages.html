@@ -1,287 +1,209 @@
 {% include 'parts/nav.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inbox</title>
-    <style>
-        /* Ajoutez vos styles CSS ici */
-        /* ... (styles fournis précédemment) ... */
+<style>
+ :root {
+    --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --msger-bg: #fff;
+    --border: 2px solid #ddd;
+    --left-msg-bg: #ececec;
+    --right-msg-bg: #579ffb;
+    --header-bg: #eee;
+    --header-text-color: #666;
+    --input-bg: #ddd;
+    --send-btn-bg: #00c441;
+    --send-btn-hover-bg: #00b431;
+}
 
-        :root {
-            --body-bg: #f5f5f5;
-            --msger-bg: #fff;
-            --border: 2px solid #ddd;
-            --left-msg-bg: #ececec;
-            --right-msg-bg: #579ffb;
-            --header-bg: #eee;
-            --header-text-color: #666;
-            --input-bg: #ddd;
-            --send-btn-bg: #00c441;
-            --send-btn-hover-bg: #00b431;
-        }
+/* Container principal avec deux colonnes */
+.right-side {
+    display: flex;
+    height: calc(100vh - 131px); /* Ajuster la hauteur en fonction de la nav */
+    width: 81%;
+    height: auto;
+    position: absolute;
+    top: 131px;
+    left: 17.5%;
+    background-color: #F6F2F2;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 
+        2px 2px 5px rgba(0, 0, 0, 0.2),
+        4px 4px 10px rgba(0, 0, 0, 0.4),
+        6px 6px 15px rgba(0, 0, 0, 0.6);
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: var(--body-bg);
-            margin: 0;
-            padding: 0;
-        }
+/* Style pour la colonne de gauche avec la liste d'utilisateurs */
+.user-list {
+    flex: 1 0 35%; /* Largeur initiale de 35%, flexible avec possibilité d'ajustement */
+    border-right: var(--border);
+    background: #fff;
+    overflow-y: auto;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
 
-        /* Style pour la nav incluse */
-        .nav-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-        }
+/* Style pour la partie chat */
+.chat-area {
+    flex: 1 0 65%; /* Largeur initiale de 65%, flexible avec possibilité d'ajustement */
+    display: flex;
+    flex-direction: column;
+    background: var(--msger-bg);
+    overflow: hidden;
+}
 
-        /* Container principal avec deux colonnes */
-        .right-left {
-            display: flex;
-            height: calc(100vh - 131px); /* Ajuster la hauteur en fonction de la nav */
-            width: 81%;
-            position: absolute;
-            top: 131px;
-            left: 17.5%;
-            background-color: #F6F2F2;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 
-                2px 2px 5px rgba(0, 0, 0, 0.2),
-                4px 4px 10px rgba(0, 0, 0, 0.4),
-                6px 6px 15px rgba(0, 0, 0, 0.6);
-        }
+/* Header de chat */
+.msger-header {
+    background: var(--header-bg);
+    padding: 10px;
+    border-bottom: var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        /* Style pour la colonne de gauche avec la liste d'utilisateurs */
-        .user-list {
-            width: 30%;
-            border-right: var(--border);
-            background: #fff;
-            overflow-y: auto;
-            padding: 10px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        }
+.msger-header-title {
+    font-size: 16px;
+}
 
-        .user-item {
-            padding: 10px;
-            border-bottom: var(--border);
-            cursor: pointer;
-        }
+/* Liste des utilisateurs dans la colonne de gauche */
+.people-list {
+    padding: 10px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
 
-        .user-item:hover {
-            background: #f0f0f0;
-        }
+.people-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Supprimer la marge pour éviter le débordement */
+}
 
-        .user-item.active {
-            background: #e0e0e0;
-            font-weight: bold;
-        }
+.people-list li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    overflow: hidden; /* Assurer que le texte ne déborde */
+    word-break: break-word; /* Éviter les débordements de texte */
+}
 
-        .user-list h3 {
-            margin-top: 0;
-        }
+/* Zone de chat */
+.chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow-y: auto;
+    background: #F6F2F2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 
+                0px 4px 4px rgba(0, 0, 0, 0.25), 
+                0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 21px;
+}
 
-        /* Style pour la partie chat */
-        .chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: var(--msger-bg);
-        }
+.chat ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* Supprimer la marge pour éviter le débordement */
+}
 
-        .msger-header {
-            background: var(--header-bg);
-            padding: 10px;
-            border-bottom: var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.chat li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #448AF7;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
 
-        .msger-header-title {
-            font-size: 16px;
-        }
+.chat-form {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
 
-        .msger-chat {
-            flex: 1;
-            padding: 10px;
-            overflow-y: auto;
-            background-color: #fafafa;
-        }
+.chat-form textarea {
+    resize: none;
+    margin-bottom: 10px;
+}
 
-        .msg {
-            display: flex;
-            margin-bottom: 10px;
-        }
+</style>
 
-        .left-msg {
-            justify-content: flex-start;
-        }
-
-        .right-msg {
-            justify-content: flex-end;
-        }
-
-        .msg-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #ccc;
-            background-size: cover;
-            background-position: center;
-            margin: 0 10px;
-        }
-
-        .msg-bubble {
-            max-width: 60%;
-            padding: 10px;
-            border-radius: 5px;
-            position: relative;
-        }
-
-        .left-msg .msg-bubble {
-            background: var(--left-msg-bg);
-        }
-
-        .right-msg .msg-bubble {
-            background: var(--right-msg-bg);
-            color: #fff;
-        }
-
-        .msg-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #999;
-        }
-
-        .msg-info-name {
-            font-weight: bold;
-        }
-
-        .msg-text {
-            margin-top: 5px;
-            font-size: 14px;
-        }
-
-        .msger-inputarea {
-            display: flex;
-            padding: 10px;
-            border-top: var(--border);
-            background: var(--msger-bg);
-        }
-
-        .msger-input {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: var(--input-bg);
-        }
-
-        .msger-send-btn {
-            margin-left: 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background: var(--send-btn-bg);
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .msger-send-btn:hover {
-            background: var(--send-btn-hover-bg);
-        }
-
-    </style>
-</head>
 <body>
-    <!-- Include Navigation -->
-    <div class="nav-container">
-      
+    <div class="left-side">
+        {% include 'parts/button.html' %}
     </div>
-  <!-- Left-side buttons -->
-  <div class="left-side">
-    {% include 'parts/button.html' %}
-</div>
-    <!-- Main container -->
-    <div class="right-left">
-        <!-- Liste d'utilisateurs -->
-        <div class="user-list">
-            <h3>Contacts</h3>
-            {% for user in users %}
-                <div class="user-item {% if user.id == selected_user_id %}active{% endif %}" data-user-id="{{ user.id }}">
-                    {{ user.username }}
-                </div>
-            {% empty %}
-                <p>No users</p>
-            {% endfor %}
-        </div>
 
-        <!-- Chat Area -->
-        <div class="chat-area">
-            <header class="msger-header">
-                <div class="msger-header-title">
-                    <i class="fas fa-comment-alt"></i> SimpleChat
-                </div>
-                <div class="msger-header-options">
-                    <span><i class="fas fa-cog"></i></span>
-                </div>
-            </header>
-
-            <main class="msger-chat">
-                {% for message in messages %}
-                    <div class="msg {% if message.sender == user %}right-msg{% else %}left-msg{% endif %}">
-                        <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
-
-                        <div class="msg-bubble">
-                            <div class="msg-info">
-                                <div class="msg-info-name">{{ message.sender }}</div>
-                                <div class="msg-info-time">{{ message.timestamp|date:"H:i" }}</div>
-                            </div>
-
-                            <div class="msg-text">
-                                {{ message.content }}
-                            </div>
-                        </div>
-                    </div>
-                {% empty %}
-                    <p>No messages</p>
+    {% block content %}
+    <div class="right-side">
+        <div id="plist" class="people-list">
+            <!-- Liste des utilisateurs ou contacts -->
+            <div class="user-list">
+                <h3>Contacts</h3>
+            <ul>
+                {% for user in users %}
+                <li>
+                    <a href="{% url 'inbox' %}?user={{ user.id }}">{{ user.username }}</a>
+                </li>
                 {% endfor %}
-            </main>
+            </ul>
+            </div>
+        </div>
 
-            <form class="msger-inputarea" method="POST" action="{% url 'send_message' %}">
-                {% csrf_token %}
-                <input type="text" name="content" class="msger-input" placeholder="Enter your message..." required>
 
-                <select name="lead" class="msger-lead-select">
-                    <option value="">Select a lead (optional)</option>
-                    {% for lead in leads %}
-                        <option value="{{ lead.id }}">{{ lead.name }}</option>
-                    {% empty %}
-                        <option value="">No leads available</option>
+<div class="chat-area">
+    <header class="msger-header">
+        <div class="msger-header-title">
+            <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                <!-- Avatar ou image de l'utilisateur -->
+              </a>
+              <div class="chat-about">
+                  <h6 class="m-b-0">{{ request.user.username }}</h6>
+                  <small>Last seen: {{ request.user.last_login }}</small>
+              </div>
+
+        </div>
+    </header>
+
+
+
+        <div class="chat">
+            <div class="chat-header clearfix">
+                <div class="row">
+                    <div class="col-lg-6">
+                       
+                    </div>
+                </div>
+            </div>
+
+            <h2>{% if form %}Send a Message{% else %}Inbox{% endif %}</h2>
+
+            {% if form %}
+                <!-- Formulaire d'envoi de message -->
+                <form method="post" class="chat-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Send</button>
+                </form>
+                <a href="{% url 'inbox' %}">Back to Inbox</a>
+            {% else %}
+                <!-- Liste des messages reçus -->
+                <ul>
+                    {% for message in messages %}
+                    <li>
+                        <strong>From:</strong> {{ message.sender }}<br>
+                        <strong>To:</strong> {{ message.receiver }}<br>
+                        <strong>Lead:</strong> {{ message.lead }}<br>
+                        <strong>Message:</strong> {{ message.content }}<br>
+                        <strong>Sent at:</strong> {{ message.timestamp }}
+                    </li>
                     {% endfor %}
-                </select>
-
-                <button type="submit" class="msger-send-btn">Send</button>
-            </form>
+                </ul>
+                <a href="{% url 'send_message' %}">Send a new message</a>
+            {% endif %}
         </div>
     </div>
-
-  
-
-    <script>
-        document.querySelectorAll('.user-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const userId = item.getAttribute('data-user-id');
-                // TODO: Implement user selection and reload messages based on selected user
-                window.location.href = `{% url 'inbox' %}?user=${userId}`;
-            });
-        });
-    </script>
+</div>
 </body>
-</html>
+{%endblock%}
