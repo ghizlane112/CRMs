@@ -9,68 +9,127 @@
 
 
 <style>
-#first-card{
-width: 592px;
-height: 187px;
-color: white;
-background-color: #3D46F2;
-border-radius: 17px;
-font-style: Inter;
-position: relative;
-top:9px;
-left:23px;
+/* Styles de base pour les cartes */
+.card {
+    border-radius: 17px;
+    padding: 20px;
+    box-sizing: border-box;
+    position: absolute; /* Conserve la position fixe */
 }
-#first-card h2{
-  
+
+/* Premier card */
+#first-card {
+    width: 598px;
+    height: 187px;
+    color: white;
+    background-color: #3D46F2;
+    font-style: Inter;
+    top: 9px;
+    left: 23px;
+    /* Positionnement et dimensions fixes */
+}
+
+#first-card h2 {
     margin-left: 11px;
 }
-#first-card img{
-width: 242px;
-float: right;
-position: relative;
-bottom: 100px;
-margin-right: -19px;
+
+#first-card img {
+    width: 242px;
+    float: right;
+    position: relative;
+    bottom: 100px;
+    margin-right: -19px;
 }
 
-#first-card .card-text{
-width: 269px;
-margin-left: 11px;
-font-size: 14px;
-
+#first-card .card-text {
+    width: 269px;
+    margin-left: 11px;
+    font-size: 14px;
 }
-#second-card{
-border-radius: 17px;
-/*border-color: rgba(71, 71, 71, 0.721);
-border-style: dotted;*/
-width: 359px;
-height: 312px;
-float: right;
-position: relative;
-top:-300px;
-right: 30px;
 
+/* Deuxième card */
+#second-card {
+    width: 349px;
+    height: 312px;
+    border-radius: 17px;
+    /* Positionnement fixe */
+    top: -9px;
+    right: 48px;
 }
+
 #calendar {
-            width: 349px; /* Largeur du calendrier */
-            height: 312px; /* Hauteur du calendrier */
-            background-color: #ffffff; /* Fond blanc */
-            margin: 0 auto; /* Centre le calendrier horizontalement */
-            border: 1px solid #ddd; /* Bordure légère pour mieux voir le calendrier */
-            border-radius: 8px; /* Coins arrondis */
-            border-radius: 17px;
-        }
-        .fc-toolbar-title {
-            font-size: 1em; /* Taille du titre du calendrier, ajustez si nécessaire */
-        }
-        .fc-daygrid-day-number {
-            font-size: 0.8em; /* Taille du texte des jours, ajustez si nécessaire */
-        }
+    width: 349px; 
+    height: 312px;/* Hauteur complète du conteneur */
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 17px;
+}
 
-#second-card   .card-body{
- position: relative;
- right: 85px;
- 
-}     
+.fc-toolbar-title {
+    font-size: 1em;
+}
+
+.fc-daygrid-day-number {
+    font-size: 0.8em;
+}
+
+/* Ajustements pour les écrans plus petits */
+@media (max-width: 1200px) {
+    #first-card {
+        width: 90%; /* Réduit la largeur pour les écrans plus petits */
+        left: 5%; /* Ajuste la position horizontale */
+    }
+
+    #second-card {
+        width: 90%; /* Réduit la largeur pour les écrans plus petits */
+        top: 10px; /* Ajuste la position verticale */
+        right: 5%; /* Ajuste la position horizontale */
+    }
+}
+
+@media (max-width: 992px) {
+    #first-card {
+        width: 100%; /* Réduit la largeur à 100% pour les écrans encore plus petits */
+        left: 0; /* Ajuste la position horizontale */
+    }
+
+    #second-card {
+        width: 100%; /* Réduit la largeur à 100% pour les écrans encore plus petits */
+        top: 20px; /* Ajuste la position verticale */
+        right: 0; /* Ajuste la position horizontale */
+    }
+}
+
+@media (max-width: 768px) {
+    #first-card {
+        width: 349px; /* Largeur pleine pour les petits écrans */
+        left: 0; /* Centre la carte horizontalement */
+        margin-left: 12px;
+        
+    }
+    
+#first-card img {
+    width: 200px;
+     float: left;
+    position: relative;
+   
+    margin-left: 4px;
+}
+
+    #second-card {
+        width: 50%; /* Largeur pleine pour les petits écrans */
+        top: 10px; /* Ajuste la position verticale */
+        right: 10; /* Centre la carte horizontalement */
+    }
+    #calendar {
+    width: 50%;
+    height: 300px;/* Hauteur complète du conteneur */
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 17px;
+}
+}
+
 </style>
 </head>
 <body>
