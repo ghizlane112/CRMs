@@ -102,13 +102,18 @@ def lead_create(request):
     if request.method == 'POST':
         form = LeadForm(request.POST)
         if form.is_valid():
-            lead = form.save()
+            lead = form.save(commit=False)
+            lead.statut = 'Nouveau'  # Définir le statut à "Nouveau" par défaut
+            lead.save()
+            
+            # Enregistrer l'action dans l'historique
             LeadHistory.objects.create(
                 lead=lead,
                 user=request.user,
                 action='created',
-                details=f"Lead {lead.nom} {lead.prenom} créé."
+                details=f"Lead créé avec le statut '{lead.statut}'."
             )
+            
             return redirect('lead_list')
     else:
         form = LeadForm()
@@ -261,6 +266,3 @@ def add_note(request, pk):
         'notes': notes,
         'form': form
     })
-
-
-

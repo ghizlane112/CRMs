@@ -20,14 +20,14 @@ User = get_user_model()
 class LeadForm(forms.ModelForm):
     class Meta:
         model = Lead
-        fields = ['nom', 'prenom', 'email', 'telephone', 'source', 'statut', 'note','responsable']
+        fields = ['nom', 'prenom', 'email', 'telephone', 'source', 'note']  # Exclure 'statut' par défaut
 
-        
     def __init__(self, *args, **kwargs):
-          super().__init__(*args, **kwargs)
-          self.fields['responsable'].queryset = User.objects.all()
-          if not self.instance.pk:
-           self.fields['statut'].widget = forms.HiddenInput()
+        # Appelle le constructeur parent
+        super().__init__(*args, **kwargs)
+        # Si c'est une instance existante (modification), on ajoute le champ 'statut'
+        if self.instance and self.instance.pk:
+            self.fields['statut'] = forms.ChoiceField(choices=Lead.STATUTS)
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
