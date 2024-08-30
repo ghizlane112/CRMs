@@ -34,7 +34,7 @@ class Lead(models.Model):
 
 
 
-    
+
 class Interaction(models.Model):
     INTERACTION_TYPE_CHOICES = [
         ('appel', 'Appel'),
@@ -90,3 +90,8 @@ class LeadHistory(models.Model):
     
     class Meta:
         ordering = ['-timestamp']  # Pour trier par date décroissante par défaut
+
+
+
+
+        
