@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
     'reports',
     'users',
     'notification',
+    'django_q',
     'member_management',
 ]
 
@@ -96,19 +98,19 @@ WSGI_APPLICATION = 'projetlead.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-   # 'default': {
-    #   'ENGINE': 'django.db.backends.sqlite3',
-    #    'NAME': BASE_DIR / 'db.sqlite3',
-    #}
-
-     'default':{
-       'ENGINE': 'django.db.backends.mysql',
-      'NAME':'django',
-     'USER':'root',
-     'PASSWORD':'',
-     'HOST':'localhost',
-     'PORT':'3306'
+    'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+
+   #  'default':{
+    #   'ENGINE': 'django.db.backends.mysql',
+     # 'NAME':'django',
+     #'USER':'root',
+   #  'PASSWORD':'',
+   #  'HOST':'localhost',
+     #'PORT':'3306'
+    #}
     
 
 }
@@ -154,6 +156,20 @@ GOOGLE_ADS_API_KEY = 'AIzaSyBuczTLadYXrFfOGl0gjIdO3sh47jiJxJc'
 #CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 #CRISPY_TEMPLATE_PACK = "bootstrap5"
 
+Q_CLUSTER = {
+    'name': 'Django Q',
+    'orm': 'default',
+    'timeout': 90,
+    'compress': True,
+    'save_limit': 100,
+    'retry': 120,
+    'schedule': {
+        'check_reminders': {
+            'task': 'notification.tasks.check_reminders',
+            'schedule': timedelta(minutes=1),  # Exécuter toutes les minutes
+        }
+    }
+}
 
 
 

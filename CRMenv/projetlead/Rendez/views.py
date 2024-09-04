@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-
 from .models import Event, History  # Ajoutez History ici
-
 import logging
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required

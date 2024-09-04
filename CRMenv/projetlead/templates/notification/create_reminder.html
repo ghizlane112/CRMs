@@ -1,0 +1,12 @@
+<!-- notification/templates/notification/create_reminder.html -->
+
+
+{% block content %}
+    <h1>Create Reminder</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Create Reminder">
+    </form>
+{% endblock %}
+

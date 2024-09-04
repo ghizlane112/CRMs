@@ -14,20 +14,23 @@ User = get_user_model()
 
 
 
-
-
-
 class LeadForm(forms.ModelForm):
     class Meta:
         model = Lead
-        fields = ['nom', 'prenom', 'email', 'telephone', 'source', 'note']  # Exclure 'statut' par défaut
+        fields = ['nom', 'prenom', 'email', 'telephone', 'source', 'note', 'responsable']  # Inclure 'responsable'
 
     def __init__(self, *args, **kwargs):
-        # Appelle le constructeur parent
+        user = kwargs.pop('user', None)  # Retirer l'utilisateur des kwargs
         super().__init__(*args, **kwargs)
-        # Si c'est une instance existante (modification), on ajoute le champ 'statut'
-        if self.instance and self.instance.pk:
-            self.fields['statut'] = forms.ChoiceField(choices=Lead.STATUTS)
+        
+        # Si l'utilisateur est un admin, on affiche le champ 'responsable'
+        if user and user.is_superuser:
+            self.fields['responsable'].queryset = User.objects.filter(is_staff=True)  # Filtrer pour les utilisateurs normaux
+        else:
+            # Si ce n'est pas un admin, on masque le champ 'responsable' et on l'affecte automatiquement
+            self.fields['responsable'].widget = forms.HiddenInput()  # Masquer le champ
+            if self.instance and self.instance.pk is None:  # Si c'est une création
+                self.initial['responsable'] = user  # Affecter l'utilisateur connecté
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
