@@ -32,8 +32,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-       
+CSRF_TRUSTED_ORIGINS = [  
        'https://aeb3-196-118-117-183.ngrok-free.app',
         
 ]
@@ -97,19 +96,19 @@ WSGI_APPLICATION = 'projetlead.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-       'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-
-    # 'default':{
-    #   'ENGINE': 'django.db.backends.mysql',
-    #  'NAME':'django',
-    # 'USER':'root',
-    # 'PASSWORD':'',
-    # 'HOST':'localhost',
-     #'PORT':'3306'
+   # 'default': {
+    #   'ENGINE': 'django.db.backends.sqlite3',
+    #    'NAME': BASE_DIR / 'db.sqlite3',
     #}
+
+     'default':{
+       'ENGINE': 'django.db.backends.mysql',
+      'NAME':'django',
+     'USER':'root',
+     'PASSWORD':'',
+     'HOST':'localhost',
+     'PORT':'3306'
+    }
     
 
 }
@@ -169,6 +168,7 @@ LOGOUT_REDIRECT_URL = 'one'
 
 
 AUTH_USER_MODEL = 'users.Member1User'
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
