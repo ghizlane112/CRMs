@@ -12,7 +12,8 @@ class Notification(models.Model):
 
     recipient_type = models.CharField(max_length=10, choices=RECIPIENT_TYPE_CHOICES, default='user')
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='notifications')
+    sender = models.ForeignKey(User, related_name='sent_notifications', on_delete=models.CASCADE)  # Ajoutez ce champ
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='notifications', null=True, blank=True)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
