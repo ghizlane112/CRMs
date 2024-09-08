@@ -205,40 +205,62 @@
             </table>
         </div>
 
-        <!-- Section Historique des Suppressions -->
-        <div id="deletion-history" class="history-section hidden">
-            <h1>Historique des Suppressions</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Titre</th>
-                        <th>Date de Suppression</th>
-                        <th>Raison</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for history in histories %}
-                    <tr>
-                        <td>
-                            {% if history.event and history.event.id %}
-                                <a href="{% url 'event_detail' history.event.id %}">
-                                    {{ history.event.title }}
-                                </a>
-                            {% else %}
-                                Événement supprimé inconnu
-                            {% endif %}
-                        </td>
-                        <td>{{ history.timestamp|date:"d/m/Y H:i" }}</td>
-                        <td>{{ history.reason }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="3">Aucune suppression enregistrée.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+       <!-- Section Historique des Actions -->
+<!-- Section Historique des Actions -->
+<div id="deletion-history" class="history-section hidden">
+    <h1>Historique des Actions</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Date de l'Action</th>
+                <th>Action</th>
+                <th>Raison</th>
+                <th>Utilisateur</th> <!-- Nouvelle colonne pour afficher l'utilisateur -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for history in histories %}
+            <tr>
+                <td>
+                    {% if history.event and history.event.id %}
+                        <a href="{% url 'event_detail' history.event.id %}">
+                            {{ history.event.title }}
+                        </a>
+                    {% else %}
+                        Événement inconnu
+                    {% endif %}
+                </td>
+                <td>{{ history.timestamp|date:"d/m/Y H:i" }}</td>
+                <td>
+                    {% if history.action == 'add' %}
+                        Ajouté
+                    {% elif history.action == 'update' %}
+                        Modifié
+                    {% elif history.action == 'delete' %}
+                        Supprimé
+                    {% else %}
+                        Aucune action
+                    {% endif %}
+                </td>
+                <td>{{ history.reason }}</td>
+                <td>
+                    {% if history.user %}
+                        {{ history.user.username }}
+                    {% else %}
+                        Utilisateur inconnu
+                    {% endif %}
+                </td> <!-- Affichage de l'utilisateur -->
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Aucune action enregistrée.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
         <!-- Bouton retour au calendrier -->
         <div>

@@ -152,12 +152,16 @@ def event_list(request):
 def history_view(request):
     today = timezone.now().date()
 
+    # Récupérer les événements passés et futurs (non supprimés)
     past_events = Event.objects.filter(start_date__lt=today, deleted_at__isnull=True)
     future_events = Event.objects.filter(start_date__gte=today, deleted_at__isnull=True)
 
+    # Récupérer l'historique complet (ajout, modification, suppression)
+    histories = History.objects.filter(action__in=['add', 'update', 'delete']).order_by('-timestamp')
+
     past_event_data = []
     for event in past_events:
-        deleted = History.objects.filter(event=event, action='delete').exists()
+        action_history = History.objects.filter(event=event).last()
         past_event_data.append({
             'id': event.id,
             'title': event.title,
@@ -165,12 +169,13 @@ def history_view(request):
             'start_time': event.heur,
             'location': event.lieu,
             'description': event.description,
-            'deleted': 'Oui' if deleted else 'Non'
+            'action': action_history.action if action_history else 'Aucune action',
+            'user': action_history.user.username if action_history and action_history.user else 'Inconnu'
         })
 
     future_event_data = []
     for event in future_events:
-        deleted = History.objects.filter(event=event, action='delete').exists()
+        action_history = History.objects.filter(event=event).last()
         future_event_data.append({
             'id': event.id,
             'title': event.title,
@@ -178,13 +183,14 @@ def history_view(request):
             'start_time': event.heur,
             'location': event.lieu,
             'description': event.description,
-            'deleted': 'Oui' if deleted else 'Non'
+            'action': action_history.action if action_history else 'Aucune action',
+            'user': action_history.user.username if action_history and action_history.user else 'Inconnu'
         })
 
     context = {
         'past_event_data': past_event_data,
         'future_event_data': future_event_data,
-        'histories': History.objects.all()
+        'histories': histories,  # Historique des actions (ajout, modification, suppression)
     }
 
     return render(request, 'events/history.html', context)
