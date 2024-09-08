@@ -189,22 +189,19 @@ def history_view(request):
 
     return render(request, 'events/history.html', context)
 
+
+
+
 @login_required
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     
-    try:
-        deletion_history = History.objects.get(event=event, action='delete')
-        is_deleted = True
-    except History.DoesNotExist:
-        deletion_history = None
-        is_deleted = False
+    # Récupérer tout l'historique lié à cet événement
+    histories = History.objects.filter(event=event).order_by('-timestamp')
 
     context = {
         'event': event,
-        'deletion_history': deletion_history,
-        'is_deleted': is_deleted
+        'histories': histories,
     }
 
     return render(request, 'events/event_detail.html', context)
-
