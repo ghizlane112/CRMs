@@ -39,8 +39,6 @@
     padding: 10px;
 }
 
-
-
 /* Style pour la zone de chat */
 .chat-area {
     width: 75%;
@@ -139,14 +137,13 @@
    
     <div class="user-list">
         <h3>Contacts</h3>
-       
+      
             <form method="post" action="?user={{ user_id }}">
-        <ul>
        {% csrf_token %}
        {{ form.lead }}
                
-     <li> {{ form.receiver }}</li>
-        </ul>
+<label> {{ form.receiver }}</label>
+       
     </div>
     <!-- Zone de chat à droite -->
     <div class="chat-area">

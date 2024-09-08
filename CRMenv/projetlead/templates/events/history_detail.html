@@ -1,0 +1,98 @@
+{% include 'parts/nav.html %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des Suppressions</title>
+    <style>
+        .history-container {
+            margin: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        .button-return {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .button-return:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="history-container">
+        <h1>Historique des Suppressions</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Date de Début</th>
+                    <th>Heure</th>
+                    <th>Description</th>
+                    <th>Date de Suppression</th>
+                    <th>Raison de la Suppression</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in deleted_events %}
+                <tr>
+                    <td>{{ event.id }}</td>
+                    <td>{{ event.title }}</td>
+                    <td>{{ event.start_date }}</td>
+                    <td>{{ event.heur }}</td>
+                    <td>{{ event.description }}</td>
+                    <td>{{ event.deletion_date }}</td>
+                    <td>{{ event.deletion_reason }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">Aucun événement supprimé.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{% url 'calendar_view' %}" class="button-return">Retour au Calendrier</a>
+    </div>
+</body>
+</html>

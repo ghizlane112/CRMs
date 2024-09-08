@@ -12,18 +12,37 @@ class Event(models.Model):
     lieu=models.CharField(max_length=50,null=True,blank=True)
     description = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
+    deleted = models.BooleanField(default=False)  # Champ pour savoir si l'événement a été supprimé
+    deleted_at = models.DateTimeField(null=True, blank=True)  # Champ pour la date de suppression
 
     def __str__(self):
         return self.title
 
 
 class History(models.Model):
-    event = models.ForeignKey(Event,on_delete=models.CASCADE,null=True, blank=True)
-    action = models.CharField(max_length=50)  # e.g., 'delete'
+    ACTION_CHOICES = [
+        ('add', 'Add'),
+        ('update', 'Update'),
+        ('delete', 'Delete'),
+    ]
+
+
+
+    event = models.ForeignKey(Event,on_delete=models.CASCADE)
+    action = models.CharField(max_length=10, choices=ACTION_CHOICES)
     reason = models.TextField(blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)  # Enregistrement de l'utilisateur
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)  # Enregistrement de l'utilisateur
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.event.title} -  le {self.timestamp}"
 
+
+
+class DeletedEvent(models.Model):
+    title = models.CharField(max_length=255)
+    start_date = models.DateTimeField()
+    heur = models.TimeField()
+    description = models.TextField()
+    deletion_date = models.DateTimeField(auto_now_add=True)
+    deletion_reason = models.TextField()

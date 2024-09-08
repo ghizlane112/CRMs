@@ -27,11 +27,17 @@ class Lead(models.Model):
     note=models.TextField(blank=True,null=True)
     date_creation=models.DateTimeField(auto_now_add=True)
     responsable = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='leads')
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, blank=True)
+
 
     def __str__(self):
         return f"{self.prenom} {self.nom}"
     
-
+    
+    def delete(self, *args, **kwargs):
+        self.is_deleted = True
+        self.save()
 
 
 

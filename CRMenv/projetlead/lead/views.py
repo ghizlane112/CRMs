@@ -1,7 +1,9 @@
+# Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from rest_framework import generics
+from django.views.decorators.http import require_POST
 from .models import Lead, Interaction,LeadHistory
 import csv
 from django.db import transaction
@@ -14,6 +16,7 @@ from .forms import LeadForm, NoteForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import LeadSerializer
 from django.db.models import Q
+from campaigns.models import CompanyPublicitaire
 
 # Create your views here.
 def one(request):
@@ -27,8 +30,57 @@ def two(request):
 def three(request):
     return render(request,'parts/button.html')
 
+#def dashboard(request):
+ #   return render(request,'dashboard.html')
+
+
+#def lead_list_view(request):
+   # leads = Lead.objects.all()  # Vous pouvez ajouter des filtres et de la pagination ici
+   # return render(request, 'parts/lead_list_partial.html', {'leads': leads})
+
+
+
 def dashboard(request):
-    return render(request,'dashboard.html')
+    leads = Lead.objects.all()[:5]  # Limiter le nombre de leads affichés
+    return render(request, 'dashboard.html', {
+        'leads': leads
+    })
+
+
+
+
+
+
+
+
+
+def search_view(request):
+    query = request.GET.get('q')
+    lead_results = []
+    campagne_results = []
+
+    if query:
+        # Rechercher dans le modèle Lead
+        lead_results = Lead.objects.filter(
+            Q(nom__icontains=query) |  # Remplacez par les champs pertinents
+            Q(email__icontains=query)
+        )
+
+        # Rechercher dans le modèle Campagne
+        campagne_results = CompanyPublicitaire.objects.filter(
+            Q(titre__icontains=query) |  # Remplacez par les champs pertinents
+            Q(description__icontains=query)
+        )
+
+    # Combinez les résultats pour les envoyer au template
+    context = {
+        'query': query,
+        'lead_results': lead_results,
+        'campagne_results': campagne_results,
+    }
+
+    return render(request, 'nav.html', context)
+
 
 
 
@@ -37,14 +89,12 @@ def four(request):
 
 
 def lead_list(request):
-    leads = Lead.objects.all()
+    # Filtrer les leads pour exclure les archivés
+    leads = Lead.objects.filter(is_deleted=False)
 
-    #return render(request, 'leadfile/lead_list.html', {'leads': leads})
     search_text = request.GET.get('search', '')
     sort_field = request.GET.get('sort', '')
 
-
-    # Appliquer les filtres si le texte de recherche est présent
     if search_text:
         leads = leads.filter(
             Q(nom__icontains=search_text) |
@@ -56,24 +106,18 @@ def lead_list(request):
             Q(note__icontains=search_text)
         )
 
-
-     # Appliquer le tri si un champ de tri est sélectionné
     if sort_field:
         leads = leads.order_by(sort_field)
-    # Rendre les options de filtre disponibles pour le template
 
-    # Pagination
-    paginator = Paginator(leads, 8)  # 5 leads par page
-    page_number = request.GET.get('page')  # Utiliser 1 comme page par défaut
+    paginator = Paginator(leads, 8)  # 8 leads par page
+    page_number = request.GET.get('page')
 
     try:
         leads = paginator.get_page(page_number)
     except PageNotAnInteger:
-        leads = paginator.get_page(1)  # Page 1 si la page demandée n'est pas un entier
+        leads = paginator.get_page(1)
     except EmptyPage:
-        leads = paginator.get_page(paginator.num_pages)  # Dernière page si la page demandée est vide
-
-
+        leads = paginator.get_page(paginator.num_pages)
 
     return render(request, 'leadfile/lead_list.html', {
         'leads': leads,
@@ -98,26 +142,33 @@ def lead_detail(request, pk):
 
 
 # Optionnel: ajouter une vue pour la création si vous avez besoin de suivre les créations
+@login_required
 def lead_create(request):
     if request.method == 'POST':
-        form = LeadForm(request.POST)
+        form = LeadForm(request.POST, user=request.user)
         if form.is_valid():
             lead = form.save(commit=False)
-            lead.statut = 'Nouveau'  # Définir le statut à "Nouveau" par défaut
+            if request.user.is_superuser:
+                lead.responsable = form.cleaned_data['responsable']
+            else:
+                lead.responsable = request.user
             lead.save()
             
-            # Enregistrer l'action dans l'historique
+            # Enregistrer l'historique
             LeadHistory.objects.create(
                 lead=lead,
                 user=request.user,
                 action='created',
-                details=f"Lead créé avec le statut '{lead.statut}'."
+                details=f'Lead créé avec les informations: {lead}'
             )
-            
             return redirect('lead_list')
     else:
-        form = LeadForm()
+        form = LeadForm(user=request.user)
+    
     return render(request, 'leadfile/lead_form.html', {'form': form})
+
+
+
 
 
 
@@ -150,45 +201,24 @@ def lead_import(request):
 
 
 
+
+
+
+
+
+
+
+
+
+
 @login_required
-
-def lead_delete(request, pk):
-    lead = get_object_or_404(Lead, pk=pk)
-    if request.method == 'POST':
-        try:
-            # Enregistrer l'action de suppression dans l'historique
-            LeadHistory.objects.create(
-                lead=lead,
-                user=request.user,
-                action='deleted',
-                details=f"Lead {lead.nom} {lead.prenom} supprimé."
-            )
-            # Supprimer le lead
-            lead.delete()
-            return redirect('lead_list')
-        except Exception as e:
-            # Optionnel: Enregistrer l'erreur ou effectuer une autre action
-            print(f"Une erreur est survenue : {e}")
-            # Retourner une réponse d'erreur appropriée
-    return render(request, 'leadfile/lead_confirm_delete.html', {'lead': lead})
-
-
-
-
-
-
-
-
-
-
-
 def lead_edit(request, pk):
     lead = get_object_or_404(Lead, pk=pk)
     if request.method == 'POST':
-        form = LeadForm(request.POST, instance=lead)
+        form = LeadForm(request.POST, instance=lead, user=request.user)
         if form.is_valid():
             old_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}"
-            form.save()
+            lead = form.save()  # Mettez à jour l'instance du lead
             new_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}"
             LeadHistory.objects.create(
                 lead=lead,
@@ -198,9 +228,8 @@ def lead_edit(request, pk):
             )
             return redirect('lead_list')
     else:
-        form = LeadForm(instance=lead)
+        form = LeadForm(instance=lead, user=request.user)
     return render(request, 'leadfile/lead_edit.html', {'form': form})
-
 
 
 
@@ -209,7 +238,40 @@ def lead_edit(request, pk):
 def lead_history(request):
     histories = LeadHistory.objects.all().order_by('-timestamp')
     return render(request, 'leadfile/LeadHistory.html', {'histories': histories})
+#def lead_history(request, pk):
+ #   lead = get_object_or_404(Lead, pk=pk)
+  #  histories = LeadHistory.objects.filter(lead=lead).order_by('-timestamp')
+   # return render(request, 'leadfile/lead_history.html', {'lead': lead, 'histories': histories})
 
+@login_required
+@require_POST
+def lead_delete(request, pk):
+    lead = get_object_or_404(Lead, pk=pk)
+
+    # Enregistrez l'action dans l'historique
+    LeadHistory.objects.create(
+        lead=lead,
+        user=request.user,
+        action='deleted',
+        details=f'Lead archivé avec les informations: {lead}'
+    )
+
+    # Archiver le lead au lieu de le supprimer
+    lead.is_deleted = True
+    lead.deleted_at = timezone.now()
+    lead.save()
+
+    return redirect('lead_list')  # Redirige vers la liste des leads
+
+
+
+
+def archive_lead(request, lead_id):
+    lead = get_object_or_404(Lead, id=lead_id)
+    lead.is_deleted = True
+    lead.deleted_at = timezone.now()
+    lead.save()
+    return redirect('LeadHistory')
 
 class LeadListCreate(generics.ListCreateAPIView):
     queryset = Lead.objects.all()

@@ -242,7 +242,7 @@
     <h1>Appoitement</h1>
 
     <div>{%load static%}<form method="post"  action="{%url 'create_reminder'  %}">   {% csrf_token %}<button type="submit" class="btn-rappels">Ajouter Rappele</button></form></div>
-    <div>{% load static %}<form method="get" action="{%url  'history_view'%}"><button type="submit" class="btn-history" ><img src="{%static 'images/Rectangle2093.png'%}" alt="calendanr logo"/> &nbsp  l'Historique des Rendez-vous</button></form></div>
+    <div>{% load static %}<form method="get" action="{%url  'history_view'%}"><button type="submit" class="btn-history" ><img src="{%static 'images/Rectangle2093.png'%}" alt="calendanr logo"/> &nbsp  liste des Rendez-vous</button></form></div>
     
 
 
@@ -336,6 +336,7 @@
                 e.preventDefault();
                 const title = document.getElementById('title').value;
                 const heur = document.getElementById('heur').value;
+                const lieu=document.getElementById('lieu').value;
                 const description = document.getElementById('description').value;
                 const action = form.dataset.action;
                 const url = action === 'add' ? '/add-event/' : '/update-event/';
@@ -352,6 +353,7 @@
                             title: title,
                             start_date: info.dateStr,
                             heur: heur,
+                            lieu:lieu,
                             description: description
                         })
                     })
@@ -380,6 +382,7 @@
 
             document.getElementById('title').value = info.event.title;
             document.getElementById('heur').value = info.event.extendedProps.heur;
+            document.getElementById('lieu').value=info.event.extendedProps.lieu;
             document.getElementById('description').value = info.event.extendedProps.description;
 
             saveEventBtn.textContent = 'Modifier';

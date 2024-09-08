@@ -10,18 +10,18 @@
         .right-side {
             background-color: #F6F2F2;
             border-radius: 15px;
-            height: auto;
+            height:100vh;
             width: 81%;
             position: absolute;
             top: 131px;
             left: 17.5%;
-            overflow: hidden;
+            overflow-y: auto;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2),
                         4px 4px 10px rgba(0, 0, 0, 0.4),
                         6px 6px 15px rgba(0, 0, 0, 0.6);
         }
 
-        .button-return {
+        .button-return, .button-history {
             display: inline-block;
             padding: 10px 20px;
             margin: 20px 0;
@@ -34,11 +34,18 @@
             transition: background-color 0.3s;
         }
 
-        .button-return:hover {
+        .button-return:hover, .button-history:hover {
             background-color: #0056b3;
         }
 
-        /***cards div***/
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
         .ag-courses_box {
             display: flex;
             flex-wrap: wrap;
@@ -46,8 +53,7 @@
         }
 
         .ag-courses_item {
-            /*flex-basis: calc(33.33333% - 30px);*/
-            flex-basis: calc(30% - 30px); /* Réduit la largeur des cartes à 25% */
+            flex-basis: calc(30% - 30px);
             margin: 0 15px 30px;
             overflow: hidden;
             border-radius: 28px;
@@ -55,37 +61,28 @@
 
         .ag-courses-item_link {
             display: block;
-            
             background-color: #121212;
             overflow: hidden;
             position: relative;
             text-decoration: none;
-            padding: 25px 20px; /* Augmente la hauteur des cartes en ajustant le padding */
+            padding: 25px 20px;
         }
-  
+
         .ag-courses-item_title {
-  min-height: 87px;
-  margin: 0 0 25px;
+            min-height: 87px;
+            margin: 0 0 25px;
+            overflow: hidden;
+            font-weight: bold;
+            font-size: 30px;
+            color: #FFF;
+            z-index: 2;
+            position: relative;
+        }
 
-  overflow: hidden;
-
-  font-weight: bold;
-  font-size: 30px;
-  color: #FFF;
-
-  z-index: 2;
-  position: relative;
-}
         .ag-courses-item_link:hover {
             color: #FFF;
             text-decoration: none;
         }
-  
-        .ag-courses-item_link:hover .ag-courses-item_bg {
-  -webkit-transform: scale(10);
-  -ms-transform: scale(10);
-  transform: scale(10);
-}
 
         .ag-courses-item_bg {
             height: 128px;
@@ -103,37 +100,7 @@
             background-color: #3ecd5e;
         }
 
-        .hidden {
-            display: none;
-        }
-
-        .visible {
-            display: block;
-        }
-
-
-        .ag-courses-item_bg {
-  height: 128px;
-  width: 128px;
-  background-color: #f9b234;
-
-  z-index: 1;
-  position: absolute;
-  top: -75px;
-  right: -75px;
-
-  border-radius: 50%;
-
-  -webkit-transition: all .5s ease;
-  -o-transition: all .5s ease;
-  transition: all .5s ease;
-}
-
-
-.ag-courses_item:nth-child(2n) .ag-courses-item_bg {
-  background-color: #3ecd5e;
-}
-table {
+        table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
@@ -150,69 +117,51 @@ table {
             background-color: #f2f2f2;
         }
     </style>
+  
 </head>
 <body>
     <div class="left-side">
-        {% include 'parts/button.html' %}
+        {%include 'parts/button.html'%}
     </div>
-
     <div class="right-side">
-        <div class="div-card">
-            <div class="ag-courses_box">
-                <div class="ag-courses_item">
-                    <a href="#" class="ag-courses-item_link" id="past-appointments-link">
-                        <div class="ag-courses-item_bg"></div>
-                        <div class="ag-courses-item_title">Rendez-vous Passés</div>
-                    </a>
-                </div>
-                <div class="ag-courses_item">
-                    <a href="#" class="ag-courses-item_link" id="future-appointments-link">
-                        <div class="ag-courses-item_bg"></div>
-                        <div class="ag-courses-item_title">Rendez-vous Futurs</div>
-                    </a>
-                </div>
-            </div>
+        <button id="show_past_events">Afficher les événements passés</button>
+        <button id="show_future_events">Afficher les événements futurs</button>
+        <button id="show_history">Afficher l'historique des suppressions</button>
+
+        <div id="past_events" class="hidden">
+            <h1>Événements Passés</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Date de Début</th>
+                        <th>Heure</th>
+                        <th>Lieu</th>
+                        <th>Description</th>
+                        <th>Supprimé</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in past_event_data %}
+                    <tr>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.start_date }}</td>
+                        <td>{{ event.start_time }}</td>
+                        <td>{{ event.location }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>{{ event.deleted }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">Aucun événement passé.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
-        <div id="past-appointments" class="visible">
-             <!-- Table des Rendez-vous Passés -->
-        <!-- Table des Rendez-vous Passés -->
-        <h1>Rendez-vous Passés</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Titre</th>
-                    <th>Date de Début </th>
-                    <th>Heure de Début</th>
-                    <th>Lieu</th>
-                    <th>Description</th>
-                    <th>Supprimé</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for event in past_event_data %}
-                <tr>
-                    <td>{{ event.title }}</td>
-                    <td>{{ event.start_date }}</td>
-                    <td>{{ event.heur }}</td>
-                    <td>{{ event.lieu }}</td>
-                    <td>{{ event.description }}</td>
-                    <td>{{ event.deleted }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6">Aucun rendez-vous passé.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        </div>
-
-
-
-
-        <div id="future-appointments" class="hidden">
-            <h1>Rendez-vous Futurs</h1>
+        <div id="future_events" class="hidden">
+            <h1>Événements Futurs</h1>
             <table>
                 <thead>
                     <tr>
@@ -233,64 +182,72 @@ table {
                         <td>{{ event.location }}</td>
                         <td>{{ event.description }}</td>
                         <td>{{ event.deleted }}</td>
-                       
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="7">Aucun rendez-vous futur.</td>
+                        <td colspan="6">Aucun événement futur.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <div class="history-section">
+        <div id="history" class="hidden">
             <h1>Historique des Suppressions</h1>
-            <ul>
-                {% for history in histories %}
-                    <li>
-                        <a href="{% url 'event_detail' history.event.id %}">
-                            {{ history.event.title }} - le {{ history.timestamp }}<br>
-                            Raison : {{ history.reason }}
-                        </a>
-                    </li>
-                {% empty %}
-                    <li>Aucune suppression enregistrée.</li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div>
-            {% load static %}
-            <form method="get" action="{% url 'calendar_view' %}">
-                <button class="button-return">Retour au Calendrier</button>
-            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Date de Début</th>
+                        <th>Heure</th>
+                        <th>Lieu</th>
+                        <th>Description</th>
+                        <th>Raison de la Suppression</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in deleted_events %}
+                    <tr>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.start_date }}</td>
+                        <td>{{ event.heur }}</td>
+                        <td>{{ event.lieu }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>{{ event.deletion_reason }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">Aucun événement supprimé.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const pastAppointments = document.getElementById('past-appointments');
-            const futureAppointments = document.getElementById('future-appointments');
-            const pastLink = document.getElementById('past-appointments-link');
-            const futureLink = document.getElementById('future-appointments-link');
-
-            pastLink.addEventListener('click', function (e) {
-                e.preventDefault();
-                pastAppointments.classList.remove('hidden');
-                pastAppointments.classList.add('visible');
-                futureAppointments.classList.remove('visible');
-                futureAppointments.classList.add('hidden');
+        function showSection(sectionId) {
+            var sections = document.querySelectorAll('.right-side > div');
+            sections.forEach(function(section) {
+                section.classList.add('hidden');
             });
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
 
-            futureLink.addEventListener('click', function (e) {
-                e.preventDefault();
-                futureAppointments.classList.remove('hidden');
-                futureAppointments.classList.add('visible');
-                pastAppointments.classList.remove('visible');
-                pastAppointments.classList.add('hidden');
+        function setupEventListeners() {
+            document.getElementById('show_past_events').addEventListener('click', function() {
+                showSection('past_events');
             });
-        });
+            document.getElementById('show_future_events').addEventListener('click', function() {
+                showSection('future_events');
+            });
+            document.getElementById('show_history').addEventListener('click', function() {
+                showSection('history');
+            });
+        }
+
+        window.onload = setupEventListeners;
     </script>
 </body>
 </html>
