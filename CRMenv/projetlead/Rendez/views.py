@@ -43,7 +43,7 @@ def add_event(request):
         return JsonResponse({'status': 'success'})
     
 
-    
+
 @login_required
 @csrf_exempt
 def update_event(request):
@@ -147,6 +147,7 @@ def event_list(request):
     
     return JsonResponse(events_data, safe=False)
 
+
 @login_required
 def history_view(request):
     today = timezone.now().date()
@@ -207,7 +208,3 @@ def event_detail(request, event_id):
 
     return render(request, 'events/event_detail.html', context)
 
-@login_required
-def history_viewD(request):
-    deleted_events = DeletedEvent.objects.all().order_by('-deletion_date')
-    return render(request, 'events/history_detail.html', {'deleted_events': deleted_events})
