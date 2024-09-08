@@ -5,8 +5,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historique des Rendez-vous</title>
+    <title>Historique des Rendez-vous et Suppressions</title>
     <style>
+        /* Style général */
         .right-side {
             background-color: #F6F2F2;
             border-radius: 15px;
@@ -38,102 +39,7 @@
             background-color: #0056b3;
         }
 
-        /***cards div***/
-        .ag-courses_box {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 50px 0;
-        }
-
-        .ag-courses_item {
-            /*flex-basis: calc(33.33333% - 30px);*/
-            flex-basis: calc(30% - 30px); /* Réduit la largeur des cartes à 25% */
-            margin: 0 15px 30px;
-            overflow: hidden;
-            border-radius: 28px;
-        }
-
-        .ag-courses-item_link {
-            display: block;
-            
-            background-color: #121212;
-            overflow: hidden;
-            position: relative;
-            text-decoration: none;
-            padding: 25px 20px; /* Augmente la hauteur des cartes en ajustant le padding */
-        }
-  
-        .ag-courses-item_title {
-  min-height: 87px;
-  margin: 0 0 25px;
-
-  overflow: hidden;
-
-  font-weight: bold;
-  font-size: 30px;
-  color: #FFF;
-
-  z-index: 2;
-  position: relative;
-}
-        .ag-courses-item_link:hover {
-            color: #FFF;
-            text-decoration: none;
-        }
-  
-        .ag-courses-item_link:hover .ag-courses-item_bg {
-  -webkit-transform: scale(10);
-  -ms-transform: scale(10);
-  transform: scale(10);
-}
-
-        .ag-courses-item_bg {
-            height: 128px;
-            width: 128px;
-            background-color: #f9b234;
-            z-index: 1;
-            position: absolute;
-            top: -75px;
-            right: -75px;
-            border-radius: 50%;
-            transition: all .5s ease;
-        }
-
-        .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
-            background-color: #3ecd5e;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .visible {
-            display: block;
-        }
-
-
-        .ag-courses-item_bg {
-  height: 128px;
-  width: 128px;
-  background-color: #f9b234;
-
-  z-index: 1;
-  position: absolute;
-  top: -75px;
-  right: -75px;
-
-  border-radius: 50%;
-
-  -webkit-transition: all .5s ease;
-  -o-transition: all .5s ease;
-  transition: all .5s ease;
-}
-
-
-.ag-courses_item:nth-child(2n) .ag-courses-item_bg {
-  background-color: #3ecd5e;
-}
-table {
+        table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
@@ -149,6 +55,65 @@ table {
         table th {
             background-color: #f2f2f2;
         }
+
+        .ag-courses_box {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 50px 0;
+        }
+
+        .ag-courses_item {
+            flex-basis: calc(30% - 30px);
+            margin: 0 15px 30px;
+            overflow: hidden;
+            border-radius: 28px;
+        }
+
+        .ag-courses-item_link {
+            display: block;
+            background-color: #121212;
+            overflow: hidden;
+            position: relative;
+            text-decoration: none;
+            padding: 25px 20px;
+            color: #FFF;
+        }
+
+        .ag-courses-item_title {
+            min-height: 87px;
+            margin: 0 0 25px;
+            font-weight: bold;
+            font-size: 30px;
+            color: #FFF;
+        }
+
+        .ag-courses-item_bg {
+            height: 128px;
+            width: 128px;
+            background-color: #f9b234;
+            position: absolute;
+            top: -75px;
+            right: -75px;
+            border-radius: 50%;
+            transition: all .5s ease;
+        }
+
+        .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
+            background-color: #3ecd5e;
+        }
+
+        .history-section, .appointments-section {
+            margin: 20px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
     </style>
 </head>
 <body>
@@ -171,47 +136,46 @@ table {
                         <div class="ag-courses-item_title">Rendez-vous Futurs</div>
                     </a>
                 </div>
+                <div class="ag-courses_item">
+                    <a href="#" class="ag-courses-item_link" id="deletion-history-link">
+                        <div class="ag-courses-item_bg"></div>
+                        <div class="ag-courses-item_title">Historique des Suppressions</div>
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div id="past-appointments" class="visible">
-             <!-- Table des Rendez-vous Passés -->
-        <!-- Table des Rendez-vous Passés -->
-        <h1>Rendez-vous Passés</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Titre</th>
-                    <th>Date de Début </th>
-                    <th>Heure de Début</th>
-                    <th>Lieu</th>
-                    <th>Description</th>
-                  
-                </tr>
-            </thead>
-            <tbody>
-                {% for event in past_event_data %}
-                <tr>
-                    <td>{{ event.title }}</td>
-                    <td>{{ event.start_date }}</td>
-                    <td>{{ event.heur }}</td>
-                    <td>{{ event.lieu }}</td>
-                    <td>{{ event.description }}</td>
-                
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6">Aucun rendez-vous passé.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div id="past-appointments" class="appointments-section visible">
+            <h1>Rendez-vous Passés</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Date de Début</th>
+                        <th>Heure de Début</th>
+                        <th>Lieu</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in past_event_data %}
+                    <tr>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.start_date }}</td>
+                        <td>{{ event.heur }}</td>
+                        <td>{{ event.lieu }}</td>
+                        <td>{{ event.description }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">Aucun rendez-vous passé.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
-
-
-
-        <div id="future-appointments" class="hidden">
+        <div id="future-appointments" class="appointments-section hidden">
             <h1>Rendez-vous Futurs</h1>
             <table>
                 <thead>
@@ -221,7 +185,6 @@ table {
                         <th>Heure</th>
                         <th>Lieu</th>
                         <th>Description</th>
-                 
                     </tr>
                 </thead>
                 <tbody>
@@ -232,35 +195,53 @@ table {
                         <td>{{ event.start_time }}</td>
                         <td>{{ event.location }}</td>
                         <td>{{ event.description }}</td>
-                      
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="7">Aucun rendez-vous futur.</td>
+                        <td colspan="5">Aucun rendez-vous futur.</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <div class="history-section">
+        <!-- Section Historique des Suppressions -->
+        <div id="deletion-history" class="history-section hidden">
             <h1>Historique des Suppressions</h1>
-            <ul>
-                {% for history in histories %}
-                    <li>
-                        <a href="{% url 'event_detail' history.event.id %}">
-                            {{ history.event.title }} - le {{ history.timestamp }}<br>
-                            Raison : {{ history.reason }}
-                        </a>
-                    </li>
-                {% empty %}
-                    <li>Aucune suppression enregistrée.</li>
-                {% endfor %}
-            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Date de Suppression</th>
+                        <th>Raison</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for history in histories %}
+                    <tr>
+                        <td>
+                            {% if history.event and history.event.id %}
+                                <a href="{% url 'event_detail' history.event.id %}">
+                                    {{ history.event.title }}
+                                </a>
+                            {% else %}
+                                Événement supprimé inconnu
+                            {% endif %}
+                        </td>
+                        <td>{{ history.timestamp|date:"d/m/Y H:i" }}</td>
+                        <td>{{ history.reason }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">Aucune suppression enregistrée.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
+        <!-- Bouton retour au calendrier -->
         <div>
-            {% load static %}
             <form method="get" action="{% url 'calendar_view' %}">
                 <button class="button-return">Retour au Calendrier</button>
             </form>
@@ -271,8 +252,11 @@ table {
         document.addEventListener('DOMContentLoaded', function () {
             const pastAppointments = document.getElementById('past-appointments');
             const futureAppointments = document.getElementById('future-appointments');
+            const deletionHistory = document.getElementById('deletion-history');
+
             const pastLink = document.getElementById('past-appointments-link');
             const futureLink = document.getElementById('future-appointments-link');
+            const deletionHistoryLink = document.getElementById('deletion-history-link');
 
             pastLink.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -280,6 +264,8 @@ table {
                 pastAppointments.classList.add('visible');
                 futureAppointments.classList.remove('visible');
                 futureAppointments.classList.add('hidden');
+                deletionHistory.classList.remove('visible');
+                deletionHistory.classList.add('hidden');
             });
 
             futureLink.addEventListener('click', function (e) {
@@ -288,6 +274,18 @@ table {
                 futureAppointments.classList.add('visible');
                 pastAppointments.classList.remove('visible');
                 pastAppointments.classList.add('hidden');
+                deletionHistory.classList.remove('visible');
+                deletionHistory.classList.add('hidden');
+            });
+
+            deletionHistoryLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                deletionHistory.classList.remove('hidden');
+                deletionHistory.classList.add('visible');
+                pastAppointments.classList.remove('visible');
+                pastAppointments.classList.add('hidden');
+                futureAppointments.classList.remove('visible');
+                futureAppointments.classList.add('hidden');
             });
         });
     </script>
