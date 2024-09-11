@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from Rendez.models import Event
+from home.models import Appointment
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -12,11 +13,14 @@ class Notification(models.Model):
 
     recipient_type = models.CharField(max_length=10, choices=RECIPIENT_TYPE_CHOICES, default='user')
     recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
-    sender = models.ForeignKey(User, related_name='sent_notifications', on_delete=models.CASCADE)  # Ajoutez ce champ
+    #sender = models.ForeignKey(User, related_name='sent_notifications', on_delete=models.CASCADE)  # Ajoutez ce champ
+    sender = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='sent_notifications')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='notifications', null=True, blank=True)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name='notifications',default=1)
+   
 
     def _str_(self):
         return f"Notification for {self.recipient_user.username} about event {self.event}"

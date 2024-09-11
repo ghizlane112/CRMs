@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from .views import LeadListCreate, LeadDetail
 from .views import lead_delete
+from .views import update_lead_status
 
 
 
@@ -30,5 +31,5 @@ urlpatterns = [
     path('lead/archive/<int:lead_id>/', views.archive_lead, name='archive_lead'),
     #path('lead/delete/<int:pk>/', views.lead_delete, name='lead_delete'),
     path('api/leads/<int:pk>/', LeadDetail.as_view(), name='lead-detail'),
-
+    path('lead/<int:lead_id>/update-status/', update_lead_status, name='update_lead_status'),
     ]

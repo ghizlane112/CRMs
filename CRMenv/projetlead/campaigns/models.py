@@ -17,6 +17,7 @@ class CompanyPublicitaire(models.Model):
     #    default='Google Ads'
     #)  # Plateforme publicitaire
 
+    leads = models.ManyToManyField('lead.Lead', blank=True, related_name='campaigns')
 
 
     def __str__(self):

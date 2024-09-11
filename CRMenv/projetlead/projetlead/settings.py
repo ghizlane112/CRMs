@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'notification',
     'django_q',
     'member_management',
+    'home',
 ]
 
 MIDDLEWARE = [
@@ -157,6 +158,23 @@ GOOGLE_ADS_API_KEY = 'AIzaSyBuczTLadYXrFfOGl0gjIdO3sh47jiJxJc'
 
 #CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 #CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
+# settings.py
+# settings.py
+
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+SENDGRID_API_KEY = 'your_sendgrid_api_key'  # Remplacez par votre clé API SendGrid
+
+
+
+
+
+
+
 
 Q_CLUSTER = {
     'name': 'Django Q',

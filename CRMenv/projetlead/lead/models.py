@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 #from django.contrib.auth.models import User
+from campaigns.models import CompanyPublicitaire
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -29,6 +30,7 @@ class Lead(models.Model):
     responsable = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='leads')
     is_deleted = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True, blank=True)
+    campaign = models.ForeignKey(CompanyPublicitaire, on_delete=models.SET_NULL, null=True, blank=True, related_name='lead_campaigns')  # Changed related_name
 
 
     def __str__(self):

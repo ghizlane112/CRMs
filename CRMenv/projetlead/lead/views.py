@@ -2,6 +2,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from django.views.decorators.http import require_POST
 from .models import Lead, Interaction,LeadHistory
@@ -86,10 +90,7 @@ def search_view(request):
 
 def four(request):
     return render(request,'parts/state.html')
-
-
 def lead_list(request):
-    # Filtrer les leads pour exclure les archivés
     leads = Lead.objects.filter(is_deleted=False)
 
     search_text = request.GET.get('search', '')
@@ -109,7 +110,7 @@ def lead_list(request):
     if sort_field:
         leads = leads.order_by(sort_field)
 
-    paginator = Paginator(leads, 8)  # 8 leads par page
+    paginator = Paginator(leads, 8)  # 8 leads per page
     page_number = request.GET.get('page')
 
     try:
@@ -142,19 +143,16 @@ def lead_detail(request, pk):
 
 
 # Optionnel: ajouter une vue pour la création si vous avez besoin de suivre les créations
+# Création d'un lead
 @login_required
 def lead_create(request):
     if request.method == 'POST':
         form = LeadForm(request.POST, user=request.user)
         if form.is_valid():
             lead = form.save(commit=False)
-            if request.user.is_superuser:
-                lead.responsable = form.cleaned_data['responsable']
-            else:
-                lead.responsable = request.user
+            lead.responsable = request.user if not request.user.is_superuser else form.cleaned_data['responsable']
             lead.save()
             
-            # Enregistrer l'historique
             LeadHistory.objects.create(
                 lead=lead,
                 user=request.user,
@@ -209,8 +207,7 @@ def lead_import(request):
 
 
 
-
-
+# Modification d'un lead
 @login_required
 def lead_edit(request, pk):
     lead = get_object_or_404(Lead, pk=pk)
@@ -218,7 +215,7 @@ def lead_edit(request, pk):
         form = LeadForm(request.POST, instance=lead, user=request.user)
         if form.is_valid():
             old_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}"
-            lead = form.save()  # Mettez à jour l'instance du lead
+            lead = form.save()
             new_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}"
             LeadHistory.objects.create(
                 lead=lead,
@@ -229,19 +226,31 @@ def lead_edit(request, pk):
             return redirect('lead_list')
     else:
         form = LeadForm(instance=lead, user=request.user)
+    
     return render(request, 'leadfile/lead_edit.html', {'form': form})
-
-
 
 
 
 def lead_history(request):
     histories = LeadHistory.objects.all().order_by('-timestamp')
-    return render(request, 'leadfile/LeadHistory.html', {'histories': histories})
-#def lead_history(request, pk):
- #   lead = get_object_or_404(Lead, pk=pk)
-  #  histories = LeadHistory.objects.filter(lead=lead).order_by('-timestamp')
-   # return render(request, 'leadfile/lead_history.html', {'lead': lead, 'histories': histories})
+    
+    # Pagination
+    paginator = Paginator(histories, 10)  # 10 éléments par page
+    page_number = request.GET.get('page')
+    
+    try:
+        histories_page = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        histories_page = paginator.get_page(1)
+    except EmptyPage:
+        histories_page = paginator.get_page(paginator.num_pages)
+    
+    return render(request, 'leadfile/LeadHistory.html', {'histories': histories_page})
+
+
+
+
+
 
 @login_required
 @require_POST
@@ -262,8 +271,6 @@ def lead_delete(request, pk):
     lead.save()
 
     return redirect('lead_list')  # Redirige vers la liste des leads
-
-
 
 
 def archive_lead(request, lead_id):
@@ -328,3 +335,17 @@ def add_note(request, pk):
         'notes': notes,
         'form': form
     })
+
+@csrf_protect
+@require_POST
+def update_lead_status(request, lead_id):
+    try:
+        lead = Lead.objects.get(id=lead_id)
+        new_status = request.POST.get('statut')
+        if new_status:
+            lead.statut = new_status
+            lead.save()
+            return JsonResponse({'status': 'success', 'new_status': new_status})
+        return JsonResponse({'status': 'error', 'message': 'Statut non fourni.'})
+    except Lead.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Lead non trouvé.'})

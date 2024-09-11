@@ -19,6 +19,7 @@ from django.urls import path,include
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
 from django.conf import settings
+from home import views as home_views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -31,9 +32,12 @@ urlpatterns = [
     path('',include('notification.urls')),
     path('',include('member_management.urls')),
     path('',include('campaigns.urls')),
+    path('',include('home.urls')),
     #path('',include('django.contrib.auth.urls')),
     path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),  
+    path('logout/', LogoutView.as_view(), name='logout'),
+     path('book-appointment/', home_views.book_appointment, name='book_appointment'),
+    path('appointment-success/', home_views.appointment_success, name='appointment_success'),  
 ]
 # Serve les fichiers médias durant le développement
 if settings.DEBUG:

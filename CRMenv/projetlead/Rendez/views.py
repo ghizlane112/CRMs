@@ -89,6 +89,9 @@ def update_event(request):
 
 
 
+
+
+
 @login_required
 @csrf_exempt
 def delete_event(request):
@@ -211,3 +214,8 @@ def event_detail(request, event_id):
     }
 
     return render(request, 'events/event_detail.html', context)
+
+
+
+
+

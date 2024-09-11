@@ -10,6 +10,7 @@
 
 <style>
 /* Styles de base pour les cartes */
+
 .card {
     border-radius: 17px;
     padding: 20px;
@@ -37,7 +38,7 @@
     width: 242px;
     float: right;
     position: relative;
-    bottom: 100px;
+    bottom: 130px;
     margin-right: -19px;
 }
 
@@ -54,12 +55,12 @@
     border-radius: 17px;
     /* Positionnement fixe */
     top: -9px;
-    right: 48px;
+    right: 40px;
 }
-
+/**troisieme card**/
 #calendar {
     width: 349px; 
-    height: 312px;/* Hauteur complète du conteneur */
+    height: 323px;/* Hauteur complète du conteneur */
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 17px;
@@ -73,18 +74,207 @@
     font-size: 0.8em;
 }
 
-/* Ajustements pour les écrans plus petits */
-@media (max-width: 1200px) {
-    #first-card {
-        width: 90%; /* Réduit la largeur pour les écrans plus petits */
-        left: 5%; /* Ajuste la position horizontale */
-    }
+#thrid-card{
+    width: 590px;
+    height: 120px;
 
-    #second-card {
-        width: 90%; /* Réduit la largeur pour les écrans plus petits */
-        top: 10px; /* Ajuste la position verticale */
-        right: 5%; /* Ajuste la position horizontale */
+    top: 219px;
+    left:19px;
+  overflow: hidden;
+    display: inline;
+}
+
+/* Styles pour les sous-cartes */
+#thrid-card-desous1 {
+  position: relative;
+  top: -16px;
+  left: -18px;
+   max-width: 173px;
+    height: 109px;
+    border-radius:none ;
+    background-color: white;
+  
+}
+#thrid-card-desous2{
+    max-width: 175px;
+    height: 110px;
+    border-radius:none ;
+    background-color: white;
+    position: relative;
+  top: -124px;
+  left: 174px;
+}
+#thrid-card-desous3{
+    max-width: 180px;
+    height: 110px;
+    position: relative;
+  top: -234px;
+ left:375px;
+ border-radius:none ;
+ background-color: white;
+}
+
+
+#forth-card{
+    width: 590px;
+    height: 190px;
+    position: relative;
+    top: 329px;
+    left:19px;
+    background-color: white;
+}
+#forth-card canvas {
+    height: 150px !important; /* Ajuster la hauteur */
+    width: 300px !important;  /* Ajuster la largeur */
+    margin: 0 auto;           /* Centrer le graphique */
+}
+#cinquieme-card canvas {
+    
+    height: 150px !important; /* Ajuster la hauteur */
+    width: 300px !important;  /* Ajuster la largeur */
+    margin: 0 auto;   
+    position: relative;
+   right: 50px;
+}
+
+#cinquieme-card{
+    width: 340px;
+    height: 190px;
+    top: 347px;
+    right:38px;
+    background-color: white;
+}
+#cinquieme-card .info {
+    width: 35%; /* Ajuster la largeur pour les informations */
+    text-align: left; /* Alignement du texte à gauche */
+    margin-right: 20px; /* Espacement entre les informations et le graphique */
+}
+#six-card{
+    width: 94.5%;
+    height: 370px;
+    left: 19px;
+    background-color: rgba(255, 255, 255, 0.868);
+    position: relative;
+    top: 340px;
+  
+
+}
+#six-card a{
+text-decoration: none;
+}
+/* styles.css */
+
+.lead-list-item {
+    color: #333;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.lead-list-item:hover {
+    background-color: #f9f9f9;
+}
+#six-card ul li{
+    list-style-type: none;
+}
+
+
+#six-card .ul1 li{
+    color: rgb(119, 163, 195);
+    float: right;
+    margin-left: 12px;
+}
+.input1 .button-desous{
+    position: relative;
+    top: 34px;
+    left :500px;
+    width: 120px;
+height: 30px;
+color: white;
+border-color: #333;
+border-style:groove;
+background-color: #b9b8b8;
+}
+.input1 .input-desous{
+width: 300px;
+height: 30px;
+position: relative;
+left :152px;
+background-color: #ffffffe6;
+color: rgba(0, 0, 0, 0.808);
+border-color: #333333ee;
+border-style:groove;
+}
+
+
+@media only screen and (min-width: 1440px){
+    #first-card {
+       margin-top: 3px;
+        width: 60%; 
+      
     }
+    #second-card {
+    width: 400px;
+    }
+    #calendar {
+        width: 399px;  
+     }
+     #thrid-card-desous1 {
+   max-width: 212px;
+   position: relative;
+  left: -16px;
+  top: -15px;
+  
+}
+#thrid-card-desous2 {
+    max-width: 212px;
+    position: relative;
+  left: 210px;
+}
+#thrid-card-desous3 {
+    max-width: 212px;position: relative; left:440px;
+}
+
+#thrid-card{
+    width: 60%;left:23px;
+}
+#forth-card{
+    width: 60%;
+}
+#cinquieme-card{
+    width: 373px;
+    right:48px;
+}
+}
+
+
+
+@media (max-width: 1366px) {
+    #first-card {
+       margin-top: 3px;
+        width: 59%; 
+      
+    }
+    #second-card {
+    width: 365px;
+    }
+  
+}
+
+
+
+
+
+
+/* Ajustements pour les écrans plus petits */
+@media (max-width: 1280px) {
+    #first-card {
+       margin-top: 3px;
+        width: 58%; 
+      
+    }
+    #second-card {
+    width: 360px;
+}
 }
 
 @media (max-width: 992px) {
@@ -178,9 +368,112 @@
         <div class="card-body" style="width: 33rem;">
           
            
-        
-        </div>
+
+ <!----troisieme card-desous1-->
+ <div class="card text-center text-white mb-3" id="thrid-card-desous1">
+    <div class="card-body" >
+        <h4>Total Leads</h4>
+        <p id="total_leads">{{ total_leads}}</p>
     </div>
+</div>
+
+
+
+<!----troisieme card-desous2-->
+<div class="card text-center text-white mb-3" id="thrid-card-desous2">
+    <div class="card-body" >
+      
+        <h4>Total Conversions</h4>
+        <p id="total-conversions">{{ total_conversions }}</p>
+    
+    </div>
+</div>
+
+
+
+<!----troisieme card-desous3-->
+<div class="card text-center text-white mb-3" id="thrid-card-desous3">
+    <div class="card-body" >
+        <h4>Total Campaigns</h4>
+        <p id="total-campaigns">{{ total_campaigns }}</p>
+    </div>
+    </div>
+        
+
+
+    </div>
+    </div>
+
+
+
+
+ <!-- Quatrième card - Taux de Conversion par Campagne -->
+ <div class="card text-center text-white mb-3" id="forth-card">
+    <div class="card-body" style="width: 33rem;">
+        <h3>Taux de Conversion par Campagne</h3>
+        <canvas id="forthCardChart"></canvas>
+    </div>
+</div>
+
+
+
+
+
+<!-- Cinquième card - Répartition des Leads par Source -->
+<div class="card text-center text-white mb-3" id="cinquieme-card">
+    <div class="card-body" style="width: 33rem;">
+        <h3>Répartition des Leads par Source</h3>
+        <canvas id="fifthCardChart"></canvas>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+ <!----six card-->
+  <!-- Sixième card -->
+  <div class="card text-center text-white  " id="six-card" >
+    <a href="{% url 'lead_list' %}" class="text-decoration-none">
+    <div class="card-body" >
+           <!-- Card avec la liste des leads -->
+                    <h3 class="card-title" style="font-size: 32px;">Liste des Leads</h3>
+                    <ul class="ul1"><li><h4 class="lien-a1">Ajouter Lead</h4> </li>
+                    <li> <h4 class="lien-a1">Importer Lead</h4></li>
+                <li> <h4 class="lien-a">voir l'hitorique</h4></li></ul>
+                   <br>
+                   <br>
+                   <div class="input1">
+                    <div class="button-desous">Recherche</div>
+                   <div class="input-desous"> Recherche:Nom...</div>
+                   
+                    <div></div>
+                   </div>
+                    <div class="lead-list-container">
+                        <!-- Liste des leads statiques -->
+                        <ul class="list-unstyled">
+                            {% for lead in leads %}
+                                <li class="lead-list-item">
+                                    {{ lead.prenom }} {{ lead.nom }}
+                                </li>
+                            {% empty %}
+                                <li class="lead-list-item">Aucun lead disponible.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+            </div>
+    </div>
+</a>
+</div>
+
+
+
+
+
 
 
 
@@ -200,6 +493,7 @@
 
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.2/main.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
@@ -214,6 +508,156 @@
 
         calendar.render();
     });
+
+
+
+
+
+    /***********************************************************/
+
+    document.addEventListener('DOMContentLoaded', function() {
+            // Graphique des conversions par campagne dans le quatrième card
+            fetch('{% url "lead_conversion_data" %}')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data || data.length === 0) {
+                        console.error('Aucune donnée disponible pour le graphique des conversions par campagne.');
+                        return;
+                    }
+
+                    const labels = data.map(item => item.campaign);
+                    const counts = data.map(item => item.conversions);
+
+                    const backgroundColors = counts.map(() => 
+                        'rgba(' + [Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256)].join(',') + ', 0.2)'
+                    );
+                    const borderColors = counts.map(() => 
+                        'rgba(' + [Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256)].join(',') + ', 1)'
+                    );
+
+                    const ctxForthCard = document.getElementById('forthCardChart').getContext('2d');
+                    if (!ctxForthCard) {
+                        console.error('Contexte du canvas non trouvé pour le quatrième card.');
+                        return;
+                    }
+
+                    new Chart(ctxForthCard, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Conversions par Campagne',
+                                data: counts,
+                                backgroundColor: backgroundColors,
+                                borderColor: borderColors,
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Erreur lors du chargement des données pour le graphique des conversions par campagne :', error));
+
+        // Graphique de répartition des leads par source dans le cinquième card
+        fetch('{% url "lead_source_data" %}')
+            .then(response => response.json())
+            .then(data => {
+                if (!data || data.length === 0) {
+                    console.error('Aucune donnée disponible pour le graphique de répartition des leads par source.');
+                    return;
+                }
+
+                const labels = data.map(item => item.source);
+                const counts = data.map(item => item.count);
+
+                const backgroundColors = counts.map(() => 
+                    'rgba(' + [Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256)].join(',') + ', 0.2)'
+                );
+                const borderColors = counts.map(() => 
+                    'rgba(' + [Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256)].join(',') + ', 1)'
+                );
+
+                const ctxFifthCard = document.getElementById('fifthCardChart').getContext('2d');
+                if (!ctxFifthCard) {
+                    console.error('Contexte du canvas non trouvé pour le cinquième card.');
+                    return;
+                }
+
+                new Chart(ctxFifthCard, {
+                    type: 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Répartition des Leads par Source',
+                            data: counts,
+                            backgroundColor: backgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            })
+            .catch(error => console.error('Erreur lors du chargement des données pour le graphique de répartition des leads par source :', error));
+
+
+
+
+            /*****************************************************************************************/
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        function animateNumber(id, endValue) {
+            const element = document.getElementById(id);
+            if (!element) return;
+
+            if (isNaN(endValue) || endValue < 0) {
+                console.error(`Valeur non valide pour ${id}: ${endValue}`);
+                return;
+            }
+
+            let startValue = 0;
+            const duration = 1500;
+            const stepTime = Math.abs(Math.floor(duration / endValue));
+            const timer = setInterval(() => {
+                startValue += Math.ceil(endValue / (duration / stepTime));
+                if (startValue >= endValue) {
+                    startValue = endValue;
+                    clearInterval(timer);
+                }
+                element.textContent = startValue;
+            }, stepTime);
+        }
+
+        // Lire les valeurs directement à partir des éléments HTML
+        const totalLeadsElement = document.getElementById('total_leads');
+        const totalConversionsElement = document.getElementById('total-conversions');
+        const totalCampaignsElement = document.getElementById('total-campaigns');
+
+        console.log('Contenu de total-leads:', totalLeadsElement.textContent.trim());
+        console.log('Contenu de total-conversions:', totalConversionsElement.textContent.trim());
+        console.log('Contenu de total-campaigns:', totalCampaignsElement.textContent.trim());
+
+        const totalLeads = parseInt(totalLeadsElement.textContent.trim(), 10);
+        const totalConversions = parseInt(totalConversionsElement.textContent.trim(), 10);
+        const totalCampaigns = parseInt(totalCampaignsElement.textContent.trim(), 10);
+
+        // Animer les nombres des cartes
+        animateNumber('total-leads', totalLeads);
+        animateNumber('total-conversions', totalConversions);
+        animateNumber('total-campaigns', totalCampaigns);
+    });
+
+
 </script>
 
 </body>
