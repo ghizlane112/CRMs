@@ -20,12 +20,12 @@ from .forms import LeadForm, NoteForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .serializers import LeadSerializer
 from django.db.models import Q
+from django.http import HttpResponseForbidden
 from campaigns.models import CompanyPublicitaire
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def one(request):
     return render(request,'principale.html')
-
 
 
 def two(request):
@@ -33,16 +33,6 @@ def two(request):
 
 def three(request):
     return render(request,'parts/button.html')
-
-#def dashboard(request):
- #   return render(request,'dashboard.html')
-
-
-#def lead_list_view(request):
-   # leads = Lead.objects.all()  # Vous pouvez ajouter des filtres et de la pagination ici
-   # return render(request, 'parts/lead_list_partial.html', {'leads': leads})
-
-
 
 def dashboard(request):
     leads = Lead.objects.all()[:5]  # Limiter le nombre de leads affichés
@@ -290,14 +280,16 @@ class LeadDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
+from django.contrib import messages
 
-def interaction_list(request, lead_id):
-    lead = get_object_or_404(Lead, id=lead_id)
-    interactions = lead.interactions.all()
-    return render(request, 'lead/interaction_list.html', {'lead': lead, 'interactions': interactions})
-
-def add_interaction(request, lead_id):
-    lead = get_object_or_404(Lead, id=lead_id)
+@login_required
+def add_interaction(request, pk):
+    lead = get_object_or_404(Lead, pk=pk)
+    
+    if request.user != lead.responsable and not request.user.is_superuser:
+        messages.error(request, "Vous n'avez pas l'autorisation d'ajouter une interaction à ce lead.")
+        return redirect('lead_detail', pk=lead.pk)
+    
     if request.method == 'POST':
         form = InteractionForm(request.POST)
         if form.is_valid():
@@ -305,12 +297,16 @@ def add_interaction(request, lead_id):
             interaction.lead = lead
             interaction.utilisateur = request.user
             interaction.save()
-            return redirect('interaction_list', lead_id=lead.id)
+            return redirect('lead_detail', pk=lead.pk)
     else:
         form = InteractionForm()
-    return render(request, 'lead/add_interaction.html', {'form': form, 'lead': lead})
-
-
+    
+    interactions = Interaction.objects.filter(lead=lead)
+    return render(request, 'leadfile/add_interaction.html', {
+        'form': form,
+        'lead': lead,
+        'interactions': interactions
+    })
 
 
 def add_note(request, pk):

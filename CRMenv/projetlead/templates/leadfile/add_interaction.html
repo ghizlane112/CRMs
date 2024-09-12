@@ -2,14 +2,63 @@
 <html>
 <head>
     <title>Ajouter une Interaction</title>
+    <style>
+        .alert {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .alert-info {
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+            color: #31708f;
+        }
+        .alert-success {
+            background-color: #dff0d8;
+            border-color: #d0e9c6;
+            color: #3c763d;
+        }
+        .alert-warning {
+            background-color: #fcf8e3;
+            border-color: #faf2cc;
+            color: #8a6d3b;
+        }
+        .alert-danger {
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            color: #a94442;
+        }
+    </style>
 </head>
 <body>
-    <h1>Ajouter une Interaction pour {{ lead.nom }}</h1>
+    <h1>Ajouter une Interaction pour {{ lead.prenom }} {{ lead.nom }}</h1>
+
+    <!-- Affichage des messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Enregistrer</button>
+        <button type="submit">Ajouter</button>
     </form>
-    <a href="{% url 'interaction_list' lead_id=lead.id %}">Retour à l'historique des interactions</a>
+
+    <!-- Liste des interactions existantes -->
+    <h2>Interactions existantes</h2>
+    <ul>
+        {% for interaction in interactions %}
+            <li>{{ interaction.date_interaction }} - {{ interaction.get_type_interaction_display }} - {{ interaction.content}}</li>
+        {% empty %}
+            <li>Aucune interaction trouvée.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'lead_list'  %}">Retour aux détails du lead</a>
+
 </body>
 </html>
