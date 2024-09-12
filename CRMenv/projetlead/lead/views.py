@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
@@ -127,7 +128,8 @@ def lead_list(request):
 #### pour details
 def lead_detail(request, pk):
     lead = Lead.objects.get(pk=pk)
-    return render(request, 'leadfile/lead_detail.html', {'lead': lead})
+    interactions = Interaction.objects.filter(lead=lead)
+    return render(request, 'leadfile/lead_detail.html', {'lead': lead,'interactions': interactions})
 
 
 
@@ -280,7 +282,6 @@ class LeadDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-from django.contrib import messages
 
 @login_required
 def add_interaction(request, pk):
@@ -297,6 +298,7 @@ def add_interaction(request, pk):
             interaction.lead = lead
             interaction.utilisateur = request.user
             interaction.save()
+            print(f"Interaction sauvegardée: {interaction}")  # Débogage pour vérifier si l'interaction est sauvegardée
             return redirect('lead_detail', pk=lead.pk)
     else:
         form = InteractionForm()
@@ -307,6 +309,7 @@ def add_interaction(request, pk):
         'lead': lead,
         'interactions': interactions
     })
+
 
 
 def add_note(request, pk):

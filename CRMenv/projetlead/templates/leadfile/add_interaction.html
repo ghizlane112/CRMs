@@ -33,30 +33,11 @@
 <body>
     <h1>Ajouter une Interaction pour {{ lead.prenom }} {{ lead.nom }}</h1>
 
-    <!-- Affichage des messages -->
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Ajouter</button>
     </form>
-
-    <!-- Liste des interactions existantes -->
-    <h2>Interactions existantes</h2>
-    <ul>
-        {% for interaction in interactions %}
-            <li>{{ interaction.date_interaction }} - {{ interaction.get_type_interaction_display }} - {{ interaction.content}}</li>
-        {% empty %}
-            <li>Aucune interaction trouvée.</li>
-        {% endfor %}
-    </ul>
 
     <a href="{% url 'lead_list'  %}">Retour aux détails du lead</a>
 
