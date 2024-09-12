@@ -81,6 +81,11 @@
         <p><strong>Statut:</strong> {{ lead.statut }}</p>
         <p><strong>Note:</strong> {{ lead.note }}</p>
 
+        <!-- Affichage conditionnel du champ raison -->
+        {% if lead.statut == 'Perdu' %}
+            <p><strong>Raison:</strong> {{ lead.raison }}</p>
+        {% endif %}
+
         <!-- Affichage des messages -->
         {% if messages %}
             {% for message in messages %}

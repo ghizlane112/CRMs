@@ -200,15 +200,17 @@ def lead_import(request):
 
 
 # Modification d'un lead
+# views.py
+
 @login_required
 def lead_edit(request, pk):
     lead = get_object_or_404(Lead, pk=pk)
     if request.method == 'POST':
         form = LeadForm(request.POST, instance=lead, user=request.user)
         if form.is_valid():
-            old_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}"
+            old_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}, Raison: {lead.raison}"
             lead = form.save()
-            new_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}"
+            new_data = f"Nom: {lead.nom}, Prénom: {lead.prenom}, Email: {lead.email}, Téléphone: {lead.telephone}, Source: {lead.source}, Statut: {lead.statut}, Note: {lead.note}, Raison: {lead.raison}"
             LeadHistory.objects.create(
                 lead=lead,
                 user=request.user,
