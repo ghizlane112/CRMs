@@ -10,7 +10,9 @@ from datetime import timedelta
 from .models import Reminder, Event
 from .forms import ReminderForm
 from django.http import JsonResponse
-
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -31,13 +33,36 @@ def notifications(request):
         notifications_data = list(notifications.values('id', 'sender', 'message', 'created_at', 'is_read'))
         return JsonResponse({'unread_count': unread_count, 'notifications': notifications_data})
 
-    return render(request, 'notification/notifications.html', {'notifications': notifications, 'unread_count': unread_count})
+    return render(request, 'parts/nav.html', {'notifications': notifications, 'unread_count': unread_count})
 
 
 @login_required
 def list_reminders(request):
     reminders = Reminder.objects.filter(user=request.user)  # Filtre les rappels pour l'utilisateur connecté
     return render(request, 'notification/list_reminders.html', {'reminders': reminders})
+
+
+
+@login_required
+def notifications_view(request):
+    notifications = Notification.objects.filter(user=request.user)
+    notification_data = [{
+        'id': n.id,
+        'sender': n.sender.username,
+        'message': n.message,
+        'timestamp': n.timestamp.isoformat(),
+        'is_read': n.is_read
+    } for n in notifications]
+    unread_count = notifications.filter(is_read=False).count()
+    return JsonResponse({'notifications': notification_data, 'unread_count': unread_count})
+
+@login_required
+@require_POST
+def mark_notifications_as_read(request):
+    notification_ids = request.POST.getlist('notification_ids[]')
+    notifications = Notification.objects.filter(id__in=notification_ids, user=request.user)
+    notifications.update(is_read=True)
+    return JsonResponse({'status': 'success'})
 
 
 
@@ -79,7 +104,7 @@ def viewD(request):
     # Marquer les notifications comme lues après affichage
     notifications.update(is_read=True)
     
-    return render(request, 'notification/notifications.html', {'notifications': notifications})
+    return render(request, 'parts/nav.html', {'notifications': notifications})
 
 
 

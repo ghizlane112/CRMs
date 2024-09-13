@@ -9,21 +9,20 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 
 from django.core.exceptions import PermissionDenied
-
 @login_required
 def inbox(request):
     user_id = request.GET.get('user')
-    
-    # Vérifier si user_id est un nombre entier et non None
+
     if user_id and user_id.isdigit():
         user_id = int(user_id)
         messages = Message.objects.filter(
             Q(sender_id=user_id, receiver=request.user) |
             Q(sender=request.user, receiver_id=user_id)
         ).order_by('timestamp')
+        selected_user = get_user_model().objects.get(id=user_id)
     else:
-        # Si aucun user_id valide, utilisez une valeur par défaut ou faites une autre action
         messages = Message.objects.filter(receiver=request.user).order_by('timestamp')
+        selected_user = None
 
     User = get_user_model()
     users = User.objects.exclude(id=request.user.id)
@@ -50,5 +49,6 @@ def inbox(request):
         'messages': messages,
         'users': users,
         'form': form,
-        'leads': leads
+        'leads': leads,
+        'selected_user': selected_user
     })
