@@ -33,6 +33,7 @@ urlpatterns = [
     path('',include('member_management.urls')),
     path('',include('campaigns.urls')),
     path('',include('home.urls')),
+  #  path('',include('analytics.urls')),
     #path('',include('django.contrib.auth.urls')),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),

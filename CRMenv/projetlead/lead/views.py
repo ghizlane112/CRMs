@@ -48,45 +48,48 @@ def dashboard(request):
 
 
 
-
 def search_view(request):
-    query = request.GET.get('q')
-    lead_results = []
-    campagne_results = []
+    query = request.GET.get('q', '').strip()
 
     if query:
-        # Rechercher dans le modèle Lead
-        lead_results = Lead.objects.filter(
-            Q(nom__icontains=query) |  # Remplacez par les champs pertinents
-            Q(email__icontains=query)
-        )
+        # Définir les termes de recherche et les URL correspondantes
+        search_routes = {
+           
+            'lead': 'lead_list',
+            'dashboard':'dashboard',
+            # Ajoutez d'autres termes de recherche ici
+        }
 
-        # Rechercher dans le modèle Campagne
-        campagne_results = CompanyPublicitaire.objects.filter(
-            Q(titre__icontains=query) |  # Remplacez par les champs pertinents
-            Q(description__icontains=query)
-        )
+        # Chercher l'URL correspondant au terme de recherche
+        url = search_routes.get(query.lower())
 
-    # Combinez les résultats pour les envoyer au template
-    context = {
+        if url:
+            # Rediriger vers l'URL trouvée
+            return redirect(url)
+
+        # Si aucune URL n'est trouvée, vous pouvez afficher une page de résultats ou un message d'erreur
+        return render(request, 'parts/nav.html', {
+            'query': query,
+            'message': 'Aucun résultat trouvé pour votre recherche.'
+        })
+    
+    return render(request, 'parts/nav.html', {
         'query': query,
-        'lead_results': lead_results,
-        'campagne_results': campagne_results,
-    }
-
-    return render(request, 'nav.html', context)
-
+        'message': 'Veuillez entrer un terme de recherche.'
+    })
 
 
 
 def four(request):
     return render(request,'parts/state.html')
 def lead_list(request):
+    # Filtrer les leads qui ne sont pas supprimés
     leads = Lead.objects.filter(is_deleted=False)
 
-    search_text = request.GET.get('search', '')
-    sort_field = request.GET.get('sort', '')
+    search_text = request.GET.get('search', '').strip()
+    sort_field = request.GET.get('sort', '').strip()
 
+    # Filtrer par texte de recherche
     if search_text:
         leads = leads.filter(
             Q(nom__icontains=search_text) |
@@ -98,24 +101,32 @@ def lead_list(request):
             Q(note__icontains=search_text)
         )
 
-    if sort_field:
+    # Validation et application du tri
+    valid_sort_fields = ['nom', 'prenom', 'email', 'telephone', 'source', 'statut', 'note']
+    if sort_field in valid_sort_fields:
         leads = leads.order_by(sort_field)
+    else:
+        # Par défaut, trier par nom si le champ de tri est invalide
+        leads = leads.order_by('nom')
 
-    paginator = Paginator(leads, 8)  # 8 leads per page
-    page_number = request.GET.get('page')
+    # Pagination
+    paginator = Paginator(leads, 8)  # 8 leads par page
+    page_number = request.GET.get('page', 1)  # Default to page 1
 
     try:
-        leads = paginator.get_page(page_number)
+        leads_page = paginator.get_page(page_number)
     except PageNotAnInteger:
-        leads = paginator.get_page(1)
+        leads_page = paginator.get_page(1)
     except EmptyPage:
-        leads = paginator.get_page(paginator.num_pages)
+        leads_page = paginator.get_page(paginator.num_pages)
 
+    # Rendre la page avec les leads paginés et les informations de recherche
     return render(request, 'leadfile/lead_list.html', {
-        'leads': leads,
+        'leads': leads_page,
         'search_text': search_text,
         'sort_field': sort_field
     })
+
 
 
 

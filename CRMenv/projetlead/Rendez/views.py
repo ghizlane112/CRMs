@@ -1,17 +1,32 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
+
+# Create your views here.
+from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Event, History, DeletedEvent
+from .models import Event, History,DeletedEvent  # Ajoutez History ici
+import logging
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.dateparse import parse_date, parse_time
+from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.utils.dateparse import parse_date, parse_time
+#logger = logging.getLogger(__name__)
+
 
 @login_required
 def calendar_view(request):
-    if request.method == 'GET':
-        return render(request, 'events/calendar.html')
+    if request.user.is_superuser:
+        events = Event.objects.filter(deleted_at__isnull=True)
+    else:
+        events = Event.objects.filter(user=request.user, deleted_at__isnull=True)
+
+    context = {
+        'events': events
+    }
+    return render(request, 'events/calendar.html', context)
+
 
 @login_required
 @csrf_exempt
@@ -28,7 +43,8 @@ def add_event(request):
             start_date=start_date,
             heur=heur,
             lieu=lieu,
-            description=description
+            description=description,
+            user=request.user  # Associer l'événement à l'utilisateur actuel
         )
         event.save()
 
@@ -41,7 +57,12 @@ def add_event(request):
         )
 
         return JsonResponse({'status': 'success'})
-    
+    return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée'})
+
+
+
+
+
 
 
 @login_required
@@ -64,6 +85,11 @@ def update_event(request):
                 return JsonResponse({'status': 'error', 'message': 'Date ou heure invalide'})
 
             event = get_object_or_404(Event, id=event_id)
+
+            # Vérifier si l'utilisateur a le droit de modifier l'événement
+            if not request.user.is_superuser and event.user != request.user:
+                return JsonResponse({'status': 'error', 'message': 'Accès non autorisé'})
+
             event.title = title
             event.start_date = start_date
             event.heur = heur
@@ -88,10 +114,6 @@ def update_event(request):
 
 
 
-
-
-
-
 @login_required
 @csrf_exempt
 def delete_event(request):
@@ -100,8 +122,12 @@ def delete_event(request):
         reason = request.POST.get('reason')
         
         try:
-            event = Event.objects.get(id=event_id)
-            
+            event = get_object_or_404(Event, id=event_id)
+
+            # Vérifier si l'utilisateur a le droit de supprimer l'événement
+            if not request.user.is_superuser and event.user != request.user:
+                return JsonResponse({'status': 'error', 'message': 'Accès non autorisé'})
+
             DeletedEvent.objects.create(
                 title=event.title,
                 start_date=event.start_date,
@@ -130,41 +156,42 @@ def delete_event(request):
 
 
 
-@login_required
 def dashboard_view(request):
     return render(request, 'dashboard.html')
 
 @login_required
 def event_list(request):
-    events = Event.objects.filter(deleted_at__isnull=True)
-    
+    user = request.user
+    if user.is_superuser:
+        events = Event.objects.filter(deleted_at__isnull=True)
+    else:
+        events = Event.objects.filter(user=user, deleted_at__isnull=True)
+
     events_data = [{
         'id': event.id,
         'title': event.title,
         'start': f"{event.start_date}T{event.heur}",
-        'extendedProps': {
-            'lieu': event.lieu,
-            'description': event.description
-        }
+        'description': event.description,
     } for event in events]
     
     return JsonResponse(events_data, safe=False)
 
 
-@login_required
+
+
 def history_view(request):
     today = timezone.now().date()
-
-    # Récupérer les événements passés et futurs (non supprimés)
-    past_events = Event.objects.filter(start_date__lt=today, deleted_at__isnull=True)
-    future_events = Event.objects.filter(start_date__gte=today, deleted_at__isnull=True)
-
-    # Récupérer l'historique complet (ajout, modification, suppression)
-    histories = History.objects.filter(action__in=['add', 'update', 'delete']).order_by('-timestamp')
-
+    
+    # Récupérer les événements passés
+    past_events = Event.objects.filter(start_date__lt=today)
+    
+    # Récupérer les événements futurs
+    future_events = Event.objects.filter(start_date__gte=today)
+    
+    # Préparer les données pour la table des événements passés
     past_event_data = []
     for event in past_events:
-        action_history = History.objects.filter(event=event).last()
+        deleted = History.objects.filter(event=event, action='delete').exists()
         past_event_data.append({
             'id': event.id,
             'title': event.title,
@@ -172,13 +199,13 @@ def history_view(request):
             'start_time': event.heur,
             'location': event.lieu,
             'description': event.description,
-            'action': action_history.action if action_history else 'Aucune action',
-            'user': action_history.user.username if action_history and action_history.user else 'Inconnu'
+            'deleted': 'Oui' if deleted else 'Non'
         })
-
+    
+    # Préparer les données pour la table des événements futurs
     future_event_data = []
     for event in future_events:
-        action_history = History.objects.filter(event=event).last()
+        deleted = History.objects.filter(event=event, action='delete').exists()
         future_event_data.append({
             'id': event.id,
             'title': event.title,
@@ -186,21 +213,19 @@ def history_view(request):
             'start_time': event.heur,
             'location': event.lieu,
             'description': event.description,
-            'action': action_history.action if action_history else 'Aucune action',
-            'user': action_history.user.username if action_history and action_history.user else 'Inconnu'
+            'deleted': 'Oui' if deleted else 'Non'
         })
 
     context = {
         'past_event_data': past_event_data,
         'future_event_data': future_event_data,
-        'histories': histories,  # Historique des actions (ajout, modification, suppression)
+        'histories': History.objects.all()
     }
-
+    
     return render(request, 'events/history.html', context)
 
 
-
-
+  
 @login_required
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
@@ -214,8 +239,5 @@ def event_detail(request, event_id):
     }
 
     return render(request, 'events/event_detail.html', context)
-
-
-
 
 

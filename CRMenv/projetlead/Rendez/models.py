@@ -12,6 +12,7 @@ class Event(models.Model):
     lieu=models.CharField(max_length=50,null=True,blank=True)
     description = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  # Champ pour associer un événement à un utilisateur
     deleted = models.BooleanField(default=False)  # Champ pour savoir si l'événement a été supprimé
     deleted_at = models.DateTimeField(null=True, blank=True)  # Champ pour la date de suppression
 
